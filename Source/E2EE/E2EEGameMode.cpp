@@ -9,10 +9,9 @@
 
 AE2EEGameMode::AE2EEGameMode()
 {
-	DefaultPawnClass = APlayerView::StaticClass();
-
-
-
+	// Set default pawn.
+	static ConstructorHelpers::FClassFinder<APawn> ThirdPersonCharacterAssetFinder( TEXT( "/Game/ThirdPersonCPP/Blueprints/ThirdPersonCharacter" ) );
+	DefaultPawnClass = ThirdPersonCharacterAssetFinder.Class;
 }
 
 void AE2EEGameMode::BeginPlay()

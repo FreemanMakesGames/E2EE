@@ -3,7 +3,8 @@
 #include "PlayerView.h"
 
 #include "Engine/Classes/Camera/CameraComponent.h"
-
+#include "Engine/World.h"
+#include "GameFramework/PlayerController.h"
 // Sets default values
 APlayerView::APlayerView()
 {
@@ -18,7 +19,7 @@ APlayerView::APlayerView()
 void APlayerView::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 }
 
 // Called every frame
