@@ -2,8 +2,6 @@
 
 #include "E2EEGameMode.h"
 
-#include "PlayerView.h"
-
 #include "UObject/ConstructorHelpers.h"
 #include "Engine/World.h"
 
