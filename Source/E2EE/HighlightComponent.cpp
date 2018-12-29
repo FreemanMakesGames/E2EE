@@ -11,11 +11,9 @@
 // Sets default values for this component's properties
 UHighlightComponent::UHighlightComponent()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
 	//PrimaryComponentTick.bCanEverTick = true;
 
-	TArray<UStaticMeshComponent*> StaticMeshComponents;
+	/*TArray<UStaticMeshComponent*> StaticMeshComponents;
 	if ( GetOwner() )
 	{
 		GetOwner()->GetComponents<UStaticMeshComponent>( StaticMeshComponents );
@@ -25,6 +23,15 @@ UHighlightComponent::UHighlightComponent()
 		{
 			StaticMeshComponent = StaticMeshComponents[ 0 ];
 
+			StaticMeshComponent->OnBeginCursorOver.AddDynamic( this, &UHighlightComponent::Highlight );
+			StaticMeshComponent->OnEndCursorOver.AddDynamic( this, &UHighlightComponent::EndHighlight );
+		}
+	}*/
+	if ( GetOwner() )
+	{
+		UStaticMeshComponent* StaticMeshComponent = Cast<UStaticMeshComponent>( GetOwner()->GetComponentByClass( UStaticMeshComponent::StaticClass() ) );
+		if ( StaticMeshComponent )
+		{
 			StaticMeshComponent->OnBeginCursorOver.AddDynamic( this, &UHighlightComponent::Highlight );
 			StaticMeshComponent->OnEndCursorOver.AddDynamic( this, &UHighlightComponent::EndHighlight );
 		}
@@ -43,7 +50,7 @@ void UHighlightComponent::BeginPlay()
 
 void UHighlightComponent::Highlight( UPrimitiveComponent* TouchedComponent )
 {
-	UE_LOG( LogTemp, Warning, TEXT( "Cursor on %s" ), *TouchedComponent->GetName() );
+	UE_LOG( LogTemp, Warning, TEXT( "UHighlightComponent: Cursor on %s" ), *TouchedComponent->GetName() );
 
 	//GetWorld()->GetFirstPlayerController()->SetMouseCursorWidget( EMouseCursor::Hand, CursorWidget );
 
@@ -53,7 +60,7 @@ void UHighlightComponent::Highlight( UPrimitiveComponent* TouchedComponent )
 
 void UHighlightComponent::EndHighlight( UPrimitiveComponent* TouchedComponent )
 {
-	UE_LOG( LogTemp, Warning, TEXT( "Cursor off %s" ), *TouchedComponent->GetName() );
+	UE_LOG( LogTemp, Warning, TEXT( "UHighlightComponent: Cursor off %s" ), *TouchedComponent->GetName() );
 
 	//GetWorld()->GetFirstPlayerController()->SetMouseCursorWidget( EMouseCursor::Hand, CursorWidget );
 

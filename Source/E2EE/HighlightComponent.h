@@ -1,4 +1,6 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+/* This component finds the first static mesh component of the owner.
+ * If the static mesh is moused over, it will be highlighted.
+ */
 
 #pragma once
 
@@ -8,7 +10,7 @@
 
 class UUserWidget;
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS( ClassGroup=(Custom), meta=( BlueprintSpawnableComponent ) )
 class E2EE_API UHighlightComponent : public UActorComponent
 {
 	GENERATED_BODY()

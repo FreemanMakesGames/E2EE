@@ -1,4 +1,6 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+/* This component finds the first primitive component of the owner.
+ * If the primitive is clicked, the view target is set to this camera.
+ */
 
 #pragma once
 
@@ -23,5 +25,5 @@ protected:
 
 	UFUNCTION()
 	void ZoomIn( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed );
-	
+
 };
