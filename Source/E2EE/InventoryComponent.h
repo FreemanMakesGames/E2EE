@@ -8,6 +8,8 @@
 #include "Components/ActorComponent.h"
 #include "InventoryComponent.generated.h"
 
+class UUserWidget;
+
 UCLASS( ClassGroup = ( Custom ), meta = ( BlueprintSpawnableComponent ) )
 class E2EE_API UInventoryComponent : public UActorComponent
 {
@@ -21,12 +23,22 @@ protected:
 
 	virtual void BeginPlay() override;
 
+	AActor* MyOwner;
+
 	TArray<FItem> Items;
+
+	UPROPERTY( EditAnywhere, BlueprintReadWrite )
+	TSubclassOf<class UUserWidget> InventoryWidgetClass;
+
+	UPROPERTY()
+	UUserWidget* InventoryWidget;
 
 public:
 
 	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
 
 	void AddItem( FItem NewItem );
+
+	void DisplayInventory();
 
 };
