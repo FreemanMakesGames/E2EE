@@ -2,11 +2,11 @@
 
 #pragma once
 
+#include "Item.h"
+
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "InventoryComponent.generated.h"
-
-#include "FItem.generated.h"
 
 UCLASS( ClassGroup = ( Custom ), meta = ( BlueprintSpawnableComponent ) )
 class E2EE_API UInventoryComponent : public UActorComponent

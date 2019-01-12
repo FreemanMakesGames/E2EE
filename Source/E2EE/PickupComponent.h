@@ -1,4 +1,7 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+/* This component finds the first primitive component of the owner.
+ * If the primitive is clicked, the actor is destroyed, and an item is picked up.
+ */
+
 
 #pragma once
 
@@ -19,9 +22,15 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
+	UFUNCTION()
+	void Pickup( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed );
+
+	UPROPERTY( EditAnywhere )
+	AActor* ItemReceiver;
+
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-		
+
 };
