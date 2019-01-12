@@ -80,3 +80,5 @@ DerivedDataCache/*
 Content/StarterContent
 Content/ToolShedVOL1
 ToolShed_VOL1.png
+
+enc_temp_folder/*

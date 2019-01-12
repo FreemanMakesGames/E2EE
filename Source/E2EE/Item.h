@@ -9,7 +9,7 @@ struct FItem
 	GENERATED_BODY()
 
 public:
-	UPROPERTY()
+	UPROPERTY( EditAnywhere )
 	FString Name;
 
 };

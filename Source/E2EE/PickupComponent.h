@@ -2,8 +2,9 @@
  * If the primitive is clicked, the actor is destroyed, and an item is picked up.
  */
 
-
 #pragma once
+
+#include "Item.h"
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
@@ -14,22 +15,27 @@ class E2EE_API UPickupComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
-	// Sets default values for this component's properties
+public:
+
 	UPickupComponent();
 
 protected:
-	// Called when the game starts
+
 	virtual void BeginPlay() override;
 
 	UFUNCTION()
 	void Pickup( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed );
 
 	UPROPERTY( EditAnywhere )
+	FItem MyItem;
+
+	UPROPERTY( EditAnywhere )
 	AActor* ItemReceiver;
 
+	AActor* MyOwner;
+
 public:	
-	// Called every frame
+
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 
