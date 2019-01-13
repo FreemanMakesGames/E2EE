@@ -1,6 +1,8 @@
 // Copyright 1998-2018 Epic Games, Inc. All Rights Reserved.
 
 #include "E2EECharacter.h"
+#include "MyPlayerController.h"
+
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -8,6 +10,9 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "GameFramework/PlayerController.h"
+#include "Components/SkeletalMeshComponent.h"
+#include "Runtime/UMG/Public/Blueprint/UserWidget.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AE2EECharacter
@@ -34,6 +39,13 @@ AE2EECharacter::AE2EECharacter()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
+
+	// Setup OnClicked event for the skeletal mesh component.
+	SkeletalMeshComponent = Cast<USkeletalMeshComponent>( GetComponentByClass( USkeletalMeshComponent::StaticClass() ) );
+	SkeletalMeshComponent->OnClicked.AddDynamic( this, &AE2EECharacter::Activate );
+
+	// Setup widget.
+	Widget_Selected = CreateWidget<Widget_Selected_Class>( this, Widget_Selected_Class::StaticClass() );
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -64,7 +76,6 @@ void AE2EECharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInpu
 	// VR headset functionality
 	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &AE2EECharacter::OnResetVR);
 }
-
 
 void AE2EECharacter::OnResetVR()
 {
@@ -120,4 +131,13 @@ void AE2EECharacter::MoveRight(float Value)
 		// add movement in that direction
 		AddMovementInput(Direction, Value);
 	}
+}
+
+void AE2EECharacter::Activate( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed )
+{
+	UE_LOG( LogTemp, Display, TEXT( "%s is clicked." ), *GetName() );
+
+	AMyPlayerController* MyPlayerController = Cast<AMyPlayerController>( GetWorld()->GetFirstPlayerController() );
+
+	MyPlayerController->SetActiveCharacter( this );
 }

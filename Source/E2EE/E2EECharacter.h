@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "E2EECharacter.generated.h"
 
+class UUserWidget;
+
 UCLASS(config=Game)
 class AE2EECharacter : public ACharacter
 {
@@ -55,6 +57,20 @@ protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	// End of APawn interface
+
+protected:
+
+	USkeletalMeshComponent* SkeletalMeshComponent;
+
+	UPROPERTY( EditAnywhere )
+	class Widget_Selected_Class;
+
+	UUserWidget* Widget_Selected;
+
+public:
+
+	UFUNCTION()
+	void Activate( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed );
 
 };
 

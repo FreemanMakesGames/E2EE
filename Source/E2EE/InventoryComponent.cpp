@@ -18,29 +18,9 @@ void UInventoryComponent::BeginPlay()
 	InventoryWidget = CreateWidget<UUserWidget>( GetWorld()->GetFirstPlayerController(), InventoryWidgetClass );
 }
 
-void UInventoryComponent::TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction )
-{
-	Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
-}
-
 void UInventoryComponent::AddItem( FItem NewItem )
 {
 	Items.Add( NewItem );
 
-	UE_LOG( LogTemp, Warning, TEXT( "Item added" ) );
-
-	// Testing. It should be called from a keyboard event.
-	DisplayInventory();
-}
-
-void UInventoryComponent::DisplayInventory()
-{
-	if ( InventoryWidget )
-	{
-		InventoryWidget->AddToViewport();
-	}
-	else
-	{
-		UE_LOG( LogTemp, Warning, TEXT( "No inventory widget!" ) );
-	}
+	UE_LOG( LogTemp, Display, TEXT( "%s is picked up." ), *NewItem.Name );
 }

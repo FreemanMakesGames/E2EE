@@ -28,7 +28,7 @@ void UPickupComponent::BeginPlay()
 
 void UPickupComponent::Pickup( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed )
 {
-	UE_LOG( LogTemp, Warning, TEXT( "Item clicked" ) );
+	UE_LOG( LogTemp, Display, TEXT( "%s is clicked." ), *MyOwner->GetFName().ToString() );
 
 	if ( ItemReceiver )
 	{
@@ -40,9 +40,4 @@ void UPickupComponent::Pickup( UPrimitiveComponent* TouchedComponent, FKey Butto
 			MyOwner->Destroy();
 		}
 	}
-}
-
-void UPickupComponent::TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction )
-{
-	Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
 }
