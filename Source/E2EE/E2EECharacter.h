@@ -72,5 +72,11 @@ public:
 	UFUNCTION( BlueprintImplementableEvent )
 	void ToggleWidget( bool On );
 
+	UPROPERTY( EditAnywhere )
+	AActor* MyCamera;
+
+	UPROPERTY( EditAnywhere )
+	AActor* OverviewCamera;
+
 };
 

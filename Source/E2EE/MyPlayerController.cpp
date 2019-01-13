@@ -5,6 +5,14 @@
 
 #include "UObject/ConstructorHelpers.h"
 
+void AMyPlayerController::SetupInputComponent()
+{
+	Super::SetupInputComponent();
+
+	InputComponent->BindKey( FKey( "Z" ), IE_Released, this, &AMyPlayerController::ZoomIn );
+	InputComponent->BindKey( FKey( "Q" ), IE_Released, this, &AMyPlayerController::ZoomOut );
+}
+
 void AMyPlayerController::SetActiveCharacter( AE2EECharacter* Character )
 {
 	// Turn off previous character's Widget_Selected.
@@ -23,4 +31,20 @@ void AMyPlayerController::SetActiveCharacter( AE2EECharacter* Character )
 
 	// Turn on Widget_Selected.
 	Character->ToggleWidget( true );
+}
+
+void AMyPlayerController::ZoomIn()
+{
+	if ( ActiveCharacter && ActiveCharacter->MyCamera )
+	{
+		SetViewTargetWithBlend( ActiveCharacter->MyCamera, 0.5f, EViewTargetBlendFunction::VTBlend_Cubic );
+	}
+}
+
+void AMyPlayerController::ZoomOut()
+{
+	if ( ActiveCharacter && ActiveCharacter->OverviewCamera )
+	{
+		SetViewTargetWithBlend( ActiveCharacter->OverviewCamera, 0.5f, EViewTargetBlendFunction::VTBlend_Cubic );
+	}
 }

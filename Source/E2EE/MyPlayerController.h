@@ -17,7 +17,15 @@ public:
 
 protected:
 
+	virtual void SetupInputComponent() override;
+
+protected:
+
 	AE2EECharacter* ActiveCharacter;
+
+	void ZoomIn();
+
+	void ZoomOut();
 
 public:
 
