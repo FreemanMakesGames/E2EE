@@ -15,12 +15,12 @@ class E2EE_API AMyPlayerController : public APlayerController
 
 public:
 
-	void SetActiveCharacter( AE2EECharacter* Character );
-
 protected:
 
 	AE2EECharacter* ActiveCharacter;
 
-	TSubclassOf<AE2EECharacter> CharacterClass;
+public:
+
+	void SetActiveCharacter( AE2EECharacter* Character );
 	
 };

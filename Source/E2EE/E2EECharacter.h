@@ -58,19 +58,19 @@ protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	// End of APawn interface
 
+	virtual void BeginPlay() override;
+
 protected:
 
 	USkeletalMeshComponent* SkeletalMeshComponent;
-
-	UPROPERTY( EditAnywhere )
-	class Widget_Selected_Class;
-
-	UUserWidget* Widget_Selected;
 
 public:
 
 	UFUNCTION()
 	void Activate( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed );
+
+	UFUNCTION( BlueprintImplementableEvent )
+	void ToggleWidget( bool On );
 
 };
 

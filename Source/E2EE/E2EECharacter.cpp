@@ -44,8 +44,6 @@ AE2EECharacter::AE2EECharacter()
 	SkeletalMeshComponent = Cast<USkeletalMeshComponent>( GetComponentByClass( USkeletalMeshComponent::StaticClass() ) );
 	SkeletalMeshComponent->OnClicked.AddDynamic( this, &AE2EECharacter::Activate );
 
-	// Setup widget.
-	Widget_Selected = CreateWidget<Widget_Selected_Class>( this, Widget_Selected_Class::StaticClass() );
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -131,6 +129,11 @@ void AE2EECharacter::MoveRight(float Value)
 		// add movement in that direction
 		AddMovementInput(Direction, Value);
 	}
+}
+
+void AE2EECharacter::BeginPlay()
+{
+	Super::BeginPlay();
 }
 
 void AE2EECharacter::Activate( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed )

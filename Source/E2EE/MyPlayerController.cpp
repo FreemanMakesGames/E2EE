@@ -7,9 +7,20 @@
 
 void AMyPlayerController::SetActiveCharacter( AE2EECharacter* Character )
 {
+	// Turn off previous character's Widget_Selected.
+	// Do nothing if there's no previous character.
+	if ( ActiveCharacter )
+	{
+		ActiveCharacter->ToggleWidget( false );
+	}
+
+	// Update ActiveCharacter.
 	ActiveCharacter = Character;
 
-	Possess( ActiveCharacter );
-
+	// Possess and adjust rotation.
+	Possess( Character );
 	SetControlRotation( FVector::ZeroVector.ToOrientationRotator() );
+
+	// Turn on Widget_Selected.
+	Character->ToggleWidget( true );
 }
