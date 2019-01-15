@@ -20,7 +20,7 @@ UZoomCameraComponent::UZoomCameraComponent()
 
 void UZoomCameraComponent::ZoomIn( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed )
 {
-	UE_LOG( LogTemp, Warning, TEXT( "UZoomCameraComponent: Mouse click on %s" ), *TouchedComponent->GetName() );
+	//UE_LOG( LogTemp, Display, TEXT( "UZoomCameraComponent: Mouse click on %s" ), *TouchedComponent->GetName() );
 
 	GetWorld()->GetFirstPlayerController()->SetViewTargetWithBlend( GetOwner(), 0.5f, EViewTargetBlendFunction::VTBlend_Cubic );
 }

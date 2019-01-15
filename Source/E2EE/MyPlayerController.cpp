@@ -2,6 +2,7 @@
 
 #include "MyPlayerController.h"
 #include "E2EECharacter.h"
+#include "InventoryComponent.h"
 
 #include "UObject/ConstructorHelpers.h"
 
@@ -13,6 +14,8 @@ void AMyPlayerController::SetupInputComponent()
 	InputComponent->BindKey( FKey( "Q" ), IE_Released, this, &AMyPlayerController::ZoomOut );
 	InputComponent->BindKey( FKey( "Tab" ), IE_Released, this, &AMyPlayerController::DisplayInventory );
 }
+
+AE2EECharacter* AMyPlayerController::GetActiveCharacter() { return ActiveCharacter; }
 
 void AMyPlayerController::SetActiveCharacter( AE2EECharacter* Character )
 {
@@ -52,5 +55,17 @@ void AMyPlayerController::ZoomOut()
 
 void AMyPlayerController::DisplayInventory()
 {
-	UE_LOG( LogTemp, Warning, TEXT( "TAB" ) );
+	if ( !ActiveCharacter ) { return; }
+
+	UE_LOG( LogTemp, Warning, TEXT( "Showing inventory of %s" ), *ActiveCharacter->GetName() );
+
+	UInventoryComponent* ActiveInventory = Cast<UInventoryComponent>( ActiveCharacter->GetComponentByClass( UInventoryComponent::StaticClass() ) );
+	if ( ActiveInventory )
+	{
+		TArray<FItem>* Items = ActiveInventory->GetItems();
+		for ( int i = 0; i < Items->Num(); i++ )
+		{
+			UE_LOG( LogTemp, Warning, TEXT( "%s has item: %s" ), *ActiveCharacter->GetName(), *( *Items )[i].Name );
+		}
+	}
 }

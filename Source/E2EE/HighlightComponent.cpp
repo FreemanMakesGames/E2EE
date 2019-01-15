@@ -23,7 +23,7 @@ UHighlightComponent::UHighlightComponent()
 
 void UHighlightComponent::Highlight( UPrimitiveComponent* TouchedComponent )
 {
-	UE_LOG( LogTemp, Warning, TEXT( "UHighlightComponent: Cursor on %s" ), *TouchedComponent->GetName() );
+	//UE_LOG( LogTemp, Display, TEXT( "HighlightComponent: Cursor on %s" ), *TouchedComponent->GetName() );
 
 	//GetWorld()->GetFirstPlayerController()->SetMouseCursorWidget( EMouseCursor::Hand, CursorWidget );
 
@@ -32,7 +32,7 @@ void UHighlightComponent::Highlight( UPrimitiveComponent* TouchedComponent )
 
 void UHighlightComponent::EndHighlight( UPrimitiveComponent* TouchedComponent )
 {
-	UE_LOG( LogTemp, Warning, TEXT( "UHighlightComponent: Cursor off %s" ), *TouchedComponent->GetName() );
+	//UE_LOG( LogTemp, Display, TEXT( "HighlightComponent: Cursor off %s" ), *TouchedComponent->GetName() );
 
 	//GetWorld()->GetFirstPlayerController()->SetMouseCursorWidget( EMouseCursor::Hand, CursorWidget );
 

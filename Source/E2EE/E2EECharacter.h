@@ -7,6 +7,7 @@
 #include "E2EECharacter.generated.h"
 
 class UUserWidget;
+class UInventoryComponent;
 class UHighlightComponent;
 
 UCLASS(config=Game)
@@ -66,7 +67,11 @@ protected:
 	USkeletalMeshComponent* SkeletalMeshComponent;
 
 	UPROPERTY( EditAnywhere )
+	UInventoryComponent* InventoryComponent;
+
+	UPROPERTY( EditAnywhere )
 	UHighlightComponent* HighlightComponent;
+
 
 public:
 

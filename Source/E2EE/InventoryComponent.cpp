@@ -15,8 +15,10 @@ void UInventoryComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	InventoryWidget = CreateWidget<UUserWidget>( GetWorld()->GetFirstPlayerController(), InventoryWidgetClass );
+	//InventoryWidget = CreateWidget<UUserWidget>( GetWorld()->GetFirstPlayerController(), InventoryWidgetClass );
 }
+
+TArray<FItem>* UInventoryComponent::GetItems() { return &Items; }
 
 void UInventoryComponent::AddItem( FItem NewItem )
 {

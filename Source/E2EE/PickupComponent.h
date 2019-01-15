@@ -21,16 +21,11 @@ public:
 
 protected:
 
-	virtual void BeginPlay() override;
-
 	UFUNCTION()
 	void Pickup( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed );
 
 	UPROPERTY( EditAnywhere )
 	FItem MyItem;
-
-	UPROPERTY( EditAnywhere )
-	AActor* ItemReceiver;
 
 	AActor* MyOwner;
 

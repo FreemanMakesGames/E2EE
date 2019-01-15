@@ -2,6 +2,8 @@
 
 #include "PickupComponent.h"
 #include "InventoryComponent.h"
+#include "MyPlayerController.h"
+#include "E2EECharacter.h"
 
 #include "Components/PrimitiveComponent.h"
 #include "Engine/Classes/GameFramework/PlayerController.h"
@@ -21,14 +23,13 @@ UPickupComponent::UPickupComponent()
 
 }
 
-void UPickupComponent::BeginPlay()
-{
-	Super::BeginPlay();
-}
-
 void UPickupComponent::Pickup( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed )
 {
-	UE_LOG( LogTemp, Display, TEXT( "%s is clicked." ), *MyOwner->GetFName().ToString() );
+	UE_LOG( LogTemp, Display, TEXT( "%s is attempted to be picked up." ), *MyOwner->GetName() );
+
+	AMyPlayerController* PlayerController = Cast<AMyPlayerController>( GetWorld()->GetFirstPlayerController() );
+
+	AE2EECharacter* ItemReceiver = PlayerController->GetActiveCharacter();
 
 	if ( ItemReceiver )
 	{

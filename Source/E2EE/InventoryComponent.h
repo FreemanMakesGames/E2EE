@@ -35,6 +35,8 @@ protected:
 
 public:
 
+	TArray<FItem>* GetItems();
+
 	void AddItem( FItem NewItem );
 
 };

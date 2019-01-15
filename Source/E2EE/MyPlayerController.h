@@ -31,6 +31,8 @@ protected:
 
 public:
 
+	AE2EECharacter* GetActiveCharacter();
+
 	void SetActiveCharacter( AE2EECharacter* Character );
 	
 };
