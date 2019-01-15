@@ -2,6 +2,7 @@
 
 #include "E2EECharacter.h"
 #include "MyPlayerController.h"
+#include "HighlightComponent.h"
 
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
@@ -44,6 +45,7 @@ AE2EECharacter::AE2EECharacter()
 	SkeletalMeshComponent = Cast<USkeletalMeshComponent>( GetComponentByClass( USkeletalMeshComponent::StaticClass() ) );
 	SkeletalMeshComponent->OnClicked.AddDynamic( this, &AE2EECharacter::Activate );
 
+	HighlightComponent = CreateDefaultSubobject<UHighlightComponent>( TEXT( "Highlight" ) );
 }
 
 //////////////////////////////////////////////////////////////////////////

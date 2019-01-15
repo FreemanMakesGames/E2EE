@@ -1,5 +1,5 @@
-/* This component finds the first static mesh component of the owner.
- * If the static mesh is moused over, it will be highlighted.
+/* This component finds the first primitive component of the owner.
+ * If the primitive component is moused over, it will be highlighted.
  */
 
 #pragma once
@@ -16,12 +16,10 @@ class E2EE_API UHighlightComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:	
-	// Sets default values for this component's properties
+
 	UHighlightComponent();
 
 protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
 
 	UFUNCTION()
 	void Highlight( UPrimitiveComponent* TouchedComponent );
@@ -30,7 +28,5 @@ protected:
 	void EndHighlight( UPrimitiveComponent* TouchedComponent );
 
 public:	
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 };

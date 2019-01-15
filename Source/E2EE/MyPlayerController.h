@@ -27,6 +27,8 @@ protected:
 
 	void ZoomOut();
 
+	void DisplayInventory();
+
 public:
 
 	void SetActiveCharacter( AE2EECharacter* Character );

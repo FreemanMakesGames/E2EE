@@ -11,6 +11,7 @@ void AMyPlayerController::SetupInputComponent()
 
 	InputComponent->BindKey( FKey( "Z" ), IE_Released, this, &AMyPlayerController::ZoomIn );
 	InputComponent->BindKey( FKey( "Q" ), IE_Released, this, &AMyPlayerController::ZoomOut );
+	InputComponent->BindKey( FKey( "Tab" ), IE_Released, this, &AMyPlayerController::DisplayInventory );
 }
 
 void AMyPlayerController::SetActiveCharacter( AE2EECharacter* Character )
@@ -47,4 +48,9 @@ void AMyPlayerController::ZoomOut()
 	{
 		SetViewTargetWithBlend( ActiveCharacter->OverviewCamera, 0.5f, EViewTargetBlendFunction::VTBlend_Cubic );
 	}
+}
+
+void AMyPlayerController::DisplayInventory()
+{
+	UE_LOG( LogTemp, Warning, TEXT( "TAB" ) );
 }

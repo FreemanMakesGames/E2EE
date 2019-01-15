@@ -21,8 +21,6 @@ public:
 
 protected:
 
-	//virtual void BeginPlay() override;
-
 	UFUNCTION()
 	void ZoomIn( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed );
 
