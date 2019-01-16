@@ -2,9 +2,9 @@
 
 #include "InventoryComponent.h"
 
-#include "Classes/GameFramework/PlayerController.h"
-#include "Engine/World.h"
-#include "Blueprint/UserWidget.h"
+//#include "Classes/GameFramework/PlayerController.h"
+//#include "Engine/World.h"
+//#include "Blueprint/UserWidget.h"
 
 UInventoryComponent::UInventoryComponent()
 {
@@ -14,15 +14,11 @@ UInventoryComponent::UInventoryComponent()
 void UInventoryComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
-	//InventoryWidget = CreateWidget<UUserWidget>( GetWorld()->GetFirstPlayerController(), InventoryWidgetClass );
 }
 
-TArray<FItem>* UInventoryComponent::GetItems() { return &Items; }
+TArray<FItem> UInventoryComponent::GetItems() { return Items; }
 
 void UInventoryComponent::AddItem( FItem NewItem )
 {
 	Items.Add( NewItem );
-
-	UE_LOG( LogTemp, Display, TEXT( "%s is picked up." ), *NewItem.Name );
 }

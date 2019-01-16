@@ -5,6 +5,14 @@
 #include "InventoryComponent.h"
 
 #include "UObject/ConstructorHelpers.h"
+#include "Blueprint/UserWidget.h"
+#include "Runtime/UMG/Public/Components/TileView.h"
+
+AMyPlayerController::AMyPlayerController()
+{
+	static ConstructorHelpers::FClassFinder<UUserWidget> InventoryWidgetClassFinder( TEXT( "/Game/UI/WBP_Inventory" ) );
+	InventoryWidgetClass = InventoryWidgetClassFinder.Class;
+}
 
 void AMyPlayerController::SetupInputComponent()
 {
@@ -12,7 +20,14 @@ void AMyPlayerController::SetupInputComponent()
 
 	InputComponent->BindKey( FKey( "Z" ), IE_Released, this, &AMyPlayerController::ZoomIn );
 	InputComponent->BindKey( FKey( "Q" ), IE_Released, this, &AMyPlayerController::ZoomOut );
-	InputComponent->BindKey( FKey( "Tab" ), IE_Released, this, &AMyPlayerController::DisplayInventory );
+	InputComponent->BindKey( FKey( "Tab" ), IE_Released, this, &AMyPlayerController::ToggleInventory );
+}
+
+void AMyPlayerController::BeginPlay()
+{
+	Super::BeginPlay();
+
+	InventoryWidget = CreateWidget<UUserWidget>( this, InventoryWidgetClass );
 }
 
 AE2EECharacter* AMyPlayerController::GetActiveCharacter() { return ActiveCharacter; }
@@ -53,19 +68,59 @@ void AMyPlayerController::ZoomOut()
 	}
 }
 
-void AMyPlayerController::DisplayInventory()
+void AMyPlayerController::ToggleInventory()
 {
+	// Errors.
+	if ( !InventoryWidget )
+	{
+		UE_LOG( LogTemp, Error, TEXT( "InventoryWidget is nullptr. Maybe InventoryWidgetClass isn't assigned." ) );
+		return;
+	}
+	// Skips.
 	if ( !ActiveCharacter ) { return; }
+
+	// Toggle the inventory off, if it's on.
+	if ( InventoryWidget->IsInViewport() )
+	{
+		UE_LOG( LogTemp, Warning, TEXT( "Hiding inventory of %s" ), *ActiveCharacter->GetName() );
+		Cast<UTileView>( InventoryWidget->GetWidgetFromName( TEXT( "TileView_28" ) ) )->ClearListItems();
+		InventoryWidget->RemoveFromViewport();
+		return;
+	}
 
 	UE_LOG( LogTemp, Warning, TEXT( "Showing inventory of %s" ), *ActiveCharacter->GetName() );
 
+	// Display the inventory, if it's off.
 	UInventoryComponent* ActiveInventory = Cast<UInventoryComponent>( ActiveCharacter->GetComponentByClass( UInventoryComponent::StaticClass() ) );
 	if ( ActiveInventory )
 	{
-		TArray<FItem>* Items = ActiveInventory->GetItems();
-		for ( int i = 0; i < Items->Num(); i++ )
+		// Get the tile view.
+		UTileView* TileView = Cast<UTileView>( InventoryWidget->GetWidgetFromName( TEXT( "TileView_28" ) ) );
+		if ( !TileView )
 		{
-			UE_LOG( LogTemp, Warning, TEXT( "%s has item: %s" ), *ActiveCharacter->GetName(), *( *Items )[i].Name );
+			UE_LOG( LogTemp, Error, TEXT( "InventoryWidget's TileView is nullptr." ) );
+			return;
+		}
+
+		InventoryWidget->AddToViewport();
+
+		// Add items to the tile view.
+		TArray<FItem> Items = ActiveInventory->GetItems();
+		for ( int i = 0; i < Items.Num(); i++ )
+		{
+			FString ItemName = Items[i].Name;
+			UTexture2D* ItemIcon = Items[i].Icon;
+
+			UE_LOG( LogTemp, Warning, TEXT( "%s has item: %s" ), *( ActiveCharacter->GetName() ), *ItemName );
+
+			if ( ItemIcon )
+			{
+				TileView->AddItem( ItemIcon );
+			}
+			else
+			{
+				UE_LOG( LogTemp, Error, TEXT( "%s has no icon." ), *ItemName );
+			}
 		}
 	}
 }

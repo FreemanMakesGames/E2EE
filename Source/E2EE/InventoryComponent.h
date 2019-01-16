@@ -8,8 +8,6 @@
 #include "Components/ActorComponent.h"
 #include "InventoryComponent.generated.h"
 
-class UUserWidget;
-
 UCLASS( ClassGroup = ( Custom ), meta = ( BlueprintSpawnableComponent ) )
 class E2EE_API UInventoryComponent : public UActorComponent
 {
@@ -27,15 +25,9 @@ protected:
 
 	TArray<FItem> Items;
 
-	UPROPERTY( EditAnywhere, BlueprintReadWrite )
-	TSubclassOf<class UUserWidget> InventoryWidgetClass;
-
-	UPROPERTY()
-	UUserWidget* InventoryWidget;
-
 public:
 
-	TArray<FItem>* GetItems();
+	TArray<FItem> GetItems();
 
 	void AddItem( FItem NewItem );
 

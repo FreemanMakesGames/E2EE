@@ -15,19 +15,29 @@ class E2EE_API AMyPlayerController : public APlayerController
 
 public:
 
+	AMyPlayerController();
+
 protected:
 
 	virtual void SetupInputComponent() override;
 
-protected:
+	virtual void BeginPlay() override;
 
-	AE2EECharacter* ActiveCharacter;
+protected:
 
 	void ZoomIn();
 
 	void ZoomOut();
 
-	void DisplayInventory();
+	void ToggleInventory();
+
+	AE2EECharacter* ActiveCharacter;
+
+	UPROPERTY( EditAnywhere )
+	TSubclassOf<class UUserWidget> InventoryWidgetClass;
+
+	UPROPERTY()
+	UUserWidget* InventoryWidget;
 
 public:
 
