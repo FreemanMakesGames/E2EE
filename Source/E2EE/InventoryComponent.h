@@ -21,8 +21,7 @@ protected:
 
 	virtual void BeginPlay() override;
 
-	AActor* MyOwner;
-
+	UPROPERTY()
 	TArray<FItem> Items;
 
 public:

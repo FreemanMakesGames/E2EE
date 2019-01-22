@@ -83,7 +83,6 @@ void AMyPlayerController::ToggleInventory()
 	if ( InventoryWidget->IsInViewport() )
 	{
 		UE_LOG( LogTemp, Warning, TEXT( "Hiding inventory of %s" ), *ActiveCharacter->GetName() );
-		Cast<UTileView>( InventoryWidget->GetWidgetFromName( TEXT( "TileView_28" ) ) )->ClearListItems();
 		InventoryWidget->RemoveFromViewport();
 		return;
 	}
@@ -95,32 +94,38 @@ void AMyPlayerController::ToggleInventory()
 	if ( ActiveInventory )
 	{
 		// Get the tile view.
-		UTileView* TileView = Cast<UTileView>( InventoryWidget->GetWidgetFromName( TEXT( "TileView_28" ) ) );
-		if ( !TileView )
+		UTileView* TileView = Cast<UTileView>( InventoryWidget->GetWidgetFromName( TEXT( "TileView_Items" ) ) );
+		if ( TileView )
+		{
+			InventoryWidget->AddToViewport();
+
+			// Add items to the tile view.
+			TArray<FItem> Items = ActiveInventory->GetItems();
+			for ( int i = 0; i < Items.Num(); i++ )
+			{
+				FString ItemName = Items[i].Name;
+				UTexture2D* ItemIcon = Items[i].Icon;
+
+				UE_LOG( LogTemp, Warning, TEXT( "%s has item: %s" ), *( ActiveCharacter->GetName() ), *ItemName );
+
+				if ( ItemIcon )
+				{
+					TileView->AddItem( ItemIcon );
+				}
+				else
+				{
+					UE_LOG( LogTemp, Error, TEXT( "%s has no icon." ), *ItemName );
+				}
+			}
+		}
+		else
 		{
 			UE_LOG( LogTemp, Error, TEXT( "InventoryWidget's TileView is nullptr." ) );
 			return;
 		}
-
-		InventoryWidget->AddToViewport();
-
-		// Add items to the tile view.
-		TArray<FItem> Items = ActiveInventory->GetItems();
-		for ( int i = 0; i < Items.Num(); i++ )
-		{
-			FString ItemName = Items[i].Name;
-			UTexture2D* ItemIcon = Items[i].Icon;
-
-			UE_LOG( LogTemp, Warning, TEXT( "%s has item: %s" ), *( ActiveCharacter->GetName() ), *ItemName );
-
-			if ( ItemIcon )
-			{
-				TileView->AddItem( ItemIcon );
-			}
-			else
-			{
-				UE_LOG( LogTemp, Error, TEXT( "%s has no icon." ), *ItemName );
-			}
-		}
+	}
+	else
+	{
+		UE_LOG( LogTemp, Error, TEXT( "%s has no inventory." ), *( ActiveCharacter->GetName() ) );
 	}
 }

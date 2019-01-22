@@ -2,7 +2,7 @@
 
 #include "Runtime/Engine/Classes/Engine/Texture2D.h"
 
-//#include "CoreMinimal.h"
+#include "CoreMinimal.h"
 #include "Item.generated.h"
 
 USTRUCT()
