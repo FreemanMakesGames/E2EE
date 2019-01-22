@@ -29,14 +29,16 @@ protected:
 
 	void ZoomOut();
 
+	UFUNCTION( BlueprintImplementableEvent )
 	void ToggleInventory();
 
+	UPROPERTY( VisibleAnywhere, BlueprintReadOnly )
 	AE2EECharacter* ActiveCharacter;
 
-	UPROPERTY( EditAnywhere )
+	UPROPERTY( EditAnywhere, BlueprintReadWrite )
 	TSubclassOf<class UUserWidget> InventoryWidgetClass;
 
-	UPROPERTY()
+	UPROPERTY( EditAnywhere, BlueprintReadWrite )
 	UUserWidget* InventoryWidget;
 
 public:

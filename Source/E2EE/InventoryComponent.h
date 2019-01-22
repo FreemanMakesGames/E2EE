@@ -21,7 +21,7 @@ protected:
 
 	virtual void BeginPlay() override;
 
-	UPROPERTY()
+	UPROPERTY( VisibleAnywhere )
 	TArray<FItem> Items;
 
 public:

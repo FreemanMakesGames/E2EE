@@ -7,6 +7,7 @@
 #include "UObject/ConstructorHelpers.h"
 #include "Blueprint/UserWidget.h"
 #include "Runtime/UMG/Public/Components/TileView.h"
+#include "Runtime/UMG/Public/Components/GridPanel.h"
 
 AMyPlayerController::AMyPlayerController()
 {
@@ -68,7 +69,7 @@ void AMyPlayerController::ZoomOut()
 	}
 }
 
-void AMyPlayerController::ToggleInventory()
+/*void AMyPlayerController::ToggleInventory()
 {
 	// Errors.
 	if ( !InventoryWidget )
@@ -128,4 +129,4 @@ void AMyPlayerController::ToggleInventory()
 	{
 		UE_LOG( LogTemp, Error, TEXT( "%s has no inventory." ), *( ActiveCharacter->GetName() ) );
 	}
-}
+}*/

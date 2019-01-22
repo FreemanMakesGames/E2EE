@@ -8,9 +8,12 @@
 
 AE2EEGameMode::AE2EEGameMode()
 {
+	// No default pawn.
 	DefaultPawnClass = nullptr;
 
-	PlayerControllerClass = AMyPlayerController::StaticClass();
+	// Player controller is the blueprint extension of AMyPlayerController.
+	static ConstructorHelpers::FClassFinder<AMyPlayerController> PlayerControllerClassFinder( TEXT( "/Game/Gameplay/BP_MyPlayerController" ) );
+	PlayerControllerClass = PlayerControllerClassFinder.Class;
 }
 
 void AE2EEGameMode::BeginPlay()
