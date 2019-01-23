@@ -141,7 +141,7 @@ void AE2EECharacter::BeginPlay()
 
 void AE2EECharacter::Activate( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed )
 {
-	UE_LOG( LogTemp, Display, TEXT( "%s is clicked." ), *GetName() );
+	UE_LOG( LogTemp, Display, TEXT( "%s is being activated." ), *GetName() );
 
 	AMyPlayerController* MyPlayerController = Cast<AMyPlayerController>( GetWorld()->GetFirstPlayerController() );
 
