@@ -26,9 +26,9 @@ void AMyPlayerController::SetupInputComponent()
 
 void AMyPlayerController::BeginPlay()
 {
-	Super::BeginPlay();
-
 	InventoryWidget = CreateWidget<UUserWidget>( this, InventoryWidgetClass );
+
+	Super::BeginPlay();
 }
 
 AE2EECharacter* AMyPlayerController::GetActiveCharacter() { return ActiveCharacter; }
