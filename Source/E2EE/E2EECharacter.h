@@ -63,7 +63,7 @@ protected:
 
 protected:
 
-	USkeletalMeshComponent* SkeletalMeshComponent;
+	USkeletalMeshComponent* MySkeletalMeshComponent;
 
 	UPROPERTY( EditAnywhere )
 	UHighlightComponent* HighlightComponent;

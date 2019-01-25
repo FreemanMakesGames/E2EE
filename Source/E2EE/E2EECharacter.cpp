@@ -42,8 +42,8 @@ AE2EECharacter::AE2EECharacter()
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 
 	// Setup OnClicked event for the skeletal mesh component.
-	SkeletalMeshComponent = Cast<USkeletalMeshComponent>( GetComponentByClass( USkeletalMeshComponent::StaticClass() ) );
-	SkeletalMeshComponent->OnClicked.AddDynamic( this, &AE2EECharacter::Activate );
+	MySkeletalMeshComponent = Cast<USkeletalMeshComponent>( GetComponentByClass( USkeletalMeshComponent::StaticClass() ) );
+	MySkeletalMeshComponent->OnClicked.AddDynamic( this, &AE2EECharacter::Activate );
 
 	HighlightComponent = CreateDefaultSubobject<UHighlightComponent>( TEXT( "Highlight" ) );
 }
