@@ -2,7 +2,6 @@
 
 #include "E2EECharacter.h"
 #include "MyPlayerController.h"
-#include "InventoryComponent.h"
 #include "HighlightComponent.h"
 
 #include "HeadMountedDisplayFunctionLibrary.h"

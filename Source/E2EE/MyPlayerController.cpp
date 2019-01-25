@@ -2,7 +2,6 @@
 
 #include "MyPlayerController.h"
 #include "E2EECharacter.h"
-#include "InventoryComponent.h"
 
 #include "UObject/ConstructorHelpers.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
