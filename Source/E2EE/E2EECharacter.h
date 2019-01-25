@@ -80,8 +80,5 @@ public:
 	UPROPERTY( EditAnywhere )
 	AActor* MyCamera;
 
-	UPROPERTY( EditAnywhere )
-	AActor* OverviewCamera;
-
 };
 

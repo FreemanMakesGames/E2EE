@@ -41,6 +41,9 @@ protected:
 	UPROPERTY( EditAnywhere, BlueprintReadWrite )
 	UUserWidget* InventoryWidget;
 
+	UPROPERTY()
+	AActor* Camera_Overview;
+
 public:
 
 	AE2EECharacter* GetActiveCharacter();

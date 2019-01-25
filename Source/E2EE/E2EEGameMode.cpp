@@ -30,5 +30,4 @@ void AE2EEGameMode::BeginPlay()
 	// Don't switch camera when possessing.
 	PlayerCtrl->bAutoManageActiveCameraTarget = false;
 
-
 }

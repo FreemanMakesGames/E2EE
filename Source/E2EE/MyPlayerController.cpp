@@ -5,6 +5,7 @@
 #include "InventoryComponent.h"
 
 #include "UObject/ConstructorHelpers.h"
+#include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "Blueprint/UserWidget.h"
 #include "Runtime/UMG/Public/Components/TileView.h"
 #include "Runtime/UMG/Public/Components/GridPanel.h"
@@ -29,6 +30,11 @@ void AMyPlayerController::BeginPlay()
 	InventoryWidget = CreateWidget<UUserWidget>( this, InventoryWidgetClass );
 
 	Super::BeginPlay();
+
+	// Set Camera_Overview.
+	TArray<AActor*> AllCameraOverviews;
+	UGameplayStatics::GetAllActorsWithTag( GetWorld(), FName( TEXT( "Camera.Overview" ) ), AllCameraOverviews );
+	Camera_Overview = AllCameraOverviews[0];
 }
 
 AE2EECharacter* AMyPlayerController::GetActiveCharacter() { return ActiveCharacter; }
@@ -63,9 +69,9 @@ void AMyPlayerController::ZoomIn()
 
 void AMyPlayerController::ZoomOut()
 {
-	if ( ActiveCharacter && ActiveCharacter->OverviewCamera )
+	if ( Camera_Overview )
 	{
-		SetViewTargetWithBlend( ActiveCharacter->OverviewCamera, 0.5f, EViewTargetBlendFunction::VTBlend_Cubic );
+		SetViewTargetWithBlend( Camera_Overview, 0.5f, EViewTargetBlendFunction::VTBlend_Cubic );
 	}
 }
 
