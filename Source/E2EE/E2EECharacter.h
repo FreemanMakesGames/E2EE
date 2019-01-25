@@ -65,11 +65,14 @@ protected:
 
 	USkeletalMeshComponent* MySkeletalMeshComponent;
 
-	UPROPERTY( EditAnywhere )
 	UHighlightComponent* HighlightComponent;
 
+	UPROPERTY( EditInstanceOnly )
+	FString Username;
 
 public:
+
+	FString GetUsername();
 
 	UFUNCTION()
 	void Activate( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed );

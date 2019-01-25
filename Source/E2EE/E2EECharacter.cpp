@@ -146,3 +146,8 @@ void AE2EECharacter::Activate( UPrimitiveComponent* TouchedComponent, FKey Butto
 
 	MyPlayerController->SetActiveCharacter( this );
 }
+
+FString AE2EECharacter::GetUsername()
+{
+	return Username;
+}

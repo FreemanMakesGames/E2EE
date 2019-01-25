@@ -36,7 +36,10 @@ void AMyPlayerController::BeginPlay()
 	Camera_Overview = AllCameraOverviews[0];
 }
 
-AE2EECharacter* AMyPlayerController::GetActiveCharacter() { return ActiveCharacter; }
+AE2EECharacter* AMyPlayerController::GetActiveCharacter() 
+{
+	return ActiveCharacter;
+}
 
 void AMyPlayerController::SetActiveCharacter( AE2EECharacter* Character )
 {
