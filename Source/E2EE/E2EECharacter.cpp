@@ -45,7 +45,7 @@ AE2EECharacter::AE2EECharacter()
 	MySkeletalMeshComponent = Cast<USkeletalMeshComponent>( GetComponentByClass( USkeletalMeshComponent::StaticClass() ) );
 	MySkeletalMeshComponent->OnClicked.AddDynamic( this, &AE2EECharacter::Activate );
 
-	HighlightComponent = CreateDefaultSubobject<UHighlightComponent>( TEXT( "Highlight" ) );
+	//HighlightComponent = CreateDefaultSubobject<UHighlightComponent>( TEXT( "Highlight" ) );
 }
 
 //////////////////////////////////////////////////////////////////////////

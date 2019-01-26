@@ -65,7 +65,7 @@ protected:
 
 	USkeletalMeshComponent* MySkeletalMeshComponent;
 
-	UHighlightComponent* HighlightComponent;
+	//UHighlightComponent* HighlightComponent;
 
 	UPROPERTY( EditInstanceOnly )
 	FString Username;
