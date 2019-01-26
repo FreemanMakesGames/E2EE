@@ -21,7 +21,6 @@ void AMyPlayerController::SetupInputComponent()
 
 	InputComponent->BindKey( FKey( "Z" ), IE_Released, this, &AMyPlayerController::ZoomIn );
 	InputComponent->BindKey( FKey( "Q" ), IE_Released, this, &AMyPlayerController::ZoomOut );
-	InputComponent->BindKey( FKey( "Tab" ), IE_Released, this, &AMyPlayerController::ToggleInventory );
 }
 
 void AMyPlayerController::BeginPlay()

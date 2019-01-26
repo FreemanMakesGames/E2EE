@@ -29,9 +29,6 @@ protected:
 
 	void ZoomOut();
 
-	UFUNCTION( BlueprintImplementableEvent )
-	void ToggleInventory();
-
 	UPROPERTY( VisibleAnywhere, BlueprintReadOnly )
 	AE2EECharacter* ActiveCharacter;
 
