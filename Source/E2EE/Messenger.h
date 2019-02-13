@@ -6,7 +6,7 @@
 #include "GameFramework/Character.h"
 #include "Messenger.generated.h"
 
-class ATriggerVolume;
+class ATargetPoint;
 
 UCLASS()
 class E2EE_API AMessenger : public ACharacter
@@ -34,13 +34,13 @@ protected:
 	UCapsuleComponent* MyCapsuleComponent;
 
 	UPROPERTY( EditInstanceOnly )
-	AActor* WayPoint_Alice;
+	ATargetPoint* WayPoint_Alice;
 
 	UPROPERTY( EditInstanceOnly )
-	AActor* WayPoint_Bob;
+	ATargetPoint* WayPoint_Bob;
 
 	UPROPERTY( VisibleInstanceOnly )
-	AActor* CurrentWayPoint;
+	ATargetPoint* CurrentWayPoint;
 
 public:	
 

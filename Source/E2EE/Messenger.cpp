@@ -8,7 +8,7 @@
 #include "Runtime/Engine/Classes/Components/CapsuleComponent.h"
 #include "Runtime/Engine/Classes/AI/NavigationSystemBase.h"
 #include "Runtime/AIModule/Classes/AIController.h"
-#include "Runtime/Engine/Classes/Engine/TriggerVolume.h"
+#include "Runtime/Engine/Classes/Engine/TargetPoint.h"
 
 AMessenger::AMessenger()
 {
@@ -27,7 +27,6 @@ AMessenger::AMessenger()
 void AMessenger::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 void AMessenger::SetupPlayerInputComponent( UInputComponent* PlayerInputComponent )
@@ -90,18 +89,21 @@ void AMessenger::HandleOnClicked( UPrimitiveComponent* TouchedComponent, FKey Bu
 
 void AMessenger::HandleOnCapsuleBeginOverlap( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult )
 {
-	if ( OtherActor == WayPoint_Alice )
+	if ( Cast<ATargetPoint>( OtherActor ) == WayPoint_Alice )
 	{
 		CurrentWayPoint = WayPoint_Alice;
 	}
-	else if ( OtherActor == WayPoint_Bob )
+	else if ( Cast<ATargetPoint>( OtherActor ) == WayPoint_Bob )
 	{
 		CurrentWayPoint = WayPoint_Bob;
 	}
 }
 
-// Only issue will happen if the two trigger volumes overlap.
+// Only issue that may happen is if the two trigger volumes overlap.
 void AMessenger::HandleOnCapsuleEndOverlap( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex )
 {
-	CurrentWayPoint = nullptr;
+	if ( Cast<ATargetPoint>( OtherActor ) == WayPoint_Alice || Cast<ATargetPoint>( OtherActor ) == WayPoint_Bob )
+	{
+		CurrentWayPoint = nullptr;
+	}
 }

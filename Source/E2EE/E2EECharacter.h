@@ -9,6 +9,8 @@
 class UUserWidget;
 class UHighlightComponent;
 
+class ATargetPoint;
+
 UCLASS(config=Game)
 class AE2EECharacter : public ACharacter
 {
@@ -63,14 +65,27 @@ protected:
 
 protected:
 
-	USkeletalMeshComponent* MySkeletalMeshComponent;
+	UFUNCTION()
+	void HandleOnCapsuleBeginOverlap( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult );
 
-	//UHighlightComponent* HighlightComponent;
+	UFUNCTION()
+	void HandleOnCapsuleEndOverlap( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex );
+
+	USkeletalMeshComponent* MySkeletalMeshComponent;
+	UCapsuleComponent* MyCapsuleComponent;
+
+	UPROPERTY( EditInstanceOnly )
+	ATargetPoint* MyWayPoint;
+
+	UPROPERTY( VisibleInstanceOnly )
+	bool bInWayPoint;
 
 	UPROPERTY( EditInstanceOnly )
 	FString Username;
 
 public:
+
+	bool IsInWayPoint();
 
 	FString GetUsername();
 

@@ -14,6 +14,7 @@
 #include "GameFramework/PlayerController.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Runtime/UMG/Public/Blueprint/UserWidget.h"
+#include "Runtime/Engine/Classes/Engine/TargetPoint.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AE2EECharacter
@@ -45,7 +46,10 @@ AE2EECharacter::AE2EECharacter()
 	MySkeletalMeshComponent = Cast<USkeletalMeshComponent>( GetComponentByClass( USkeletalMeshComponent::StaticClass() ) );
 	MySkeletalMeshComponent->OnClicked.AddDynamic( this, &AE2EECharacter::Activate );
 
-	//HighlightComponent = CreateDefaultSubobject<UHighlightComponent>( TEXT( "Highlight" ) );
+	// Setup OnComponentBeginOverlap, and OnComponentEndOverlap event for the capsule component.
+	MyCapsuleComponent = Cast<UCapsuleComponent>( GetComponentByClass( UCapsuleComponent::StaticClass() ) );
+	MyCapsuleComponent->OnComponentBeginOverlap.AddDynamic( this, &AE2EECharacter::HandleOnCapsuleBeginOverlap );
+	MyCapsuleComponent->OnComponentEndOverlap.AddDynamic( this, &AE2EECharacter::HandleOnCapsuleEndOverlap );
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -138,6 +142,22 @@ void AE2EECharacter::BeginPlay()
 	Super::BeginPlay();
 }
 
+void AE2EECharacter::HandleOnCapsuleBeginOverlap( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult )
+{
+	if ( Cast<ATargetPoint>( OtherActor ) == MyWayPoint )
+	{
+		bInWayPoint = true;
+	}
+}
+
+void AE2EECharacter::HandleOnCapsuleEndOverlap( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex )
+{
+	if ( Cast<ATargetPoint>( OtherActor ) == MyWayPoint )
+	{
+		bInWayPoint = false;
+	}
+}
+
 void AE2EECharacter::Activate( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed )
 {
 	UE_LOG( LogTemp, Display, TEXT( "%s is being activated." ), *GetName() );
@@ -145,6 +165,11 @@ void AE2EECharacter::Activate( UPrimitiveComponent* TouchedComponent, FKey Butto
 	AMyPlayerController* MyPlayerController = Cast<AMyPlayerController>( GetWorld()->GetFirstPlayerController() );
 
 	MyPlayerController->SetActiveCharacter( this );
+}
+
+bool AE2EECharacter::IsInWayPoint()
+{
+	return bInWayPoint;
 }
 
 FString AE2EECharacter::GetUsername()
