@@ -5,8 +5,10 @@
 #include "E2EECharacter.h"
 
 #include "Runtime/Engine/Classes/Components/SkeletalMeshComponent.h"
+#include "Runtime/Engine/Classes/Components/CapsuleComponent.h"
 #include "Runtime/Engine/Classes/AI/NavigationSystemBase.h"
 #include "Runtime/AIModule/Classes/AIController.h"
+#include "Runtime/Engine/Classes/Engine/TriggerVolume.h"
 
 AMessenger::AMessenger()
 {
@@ -15,6 +17,11 @@ AMessenger::AMessenger()
 	// Setup OnClicked event for the skeletal mesh component.
 	MySkeletalMeshComponent = Cast<USkeletalMeshComponent>( GetComponentByClass( USkeletalMeshComponent::StaticClass() ) );
 	MySkeletalMeshComponent->OnClicked.AddDynamic( this, &AMessenger::HandleOnClicked );
+
+	// Setup OnComponentBeginOverlap, and OnComponentEndOverlap event for the capsule component.
+	MyCapsuleComponent = Cast<UCapsuleComponent>( GetComponentByClass( UCapsuleComponent::StaticClass() ) );
+	MyCapsuleComponent->OnComponentBeginOverlap.AddDynamic( this, &AMessenger::HandleOnCapsuleBeginOverlap );
+	MyCapsuleComponent->OnComponentEndOverlap.AddDynamic( this, &AMessenger::HandleOnCapsuleEndOverlap );
 }
 
 void AMessenger::BeginPlay()
@@ -27,6 +34,11 @@ void AMessenger::SetupPlayerInputComponent( UInputComponent* PlayerInputComponen
 {
 	Super::SetupPlayerInputComponent( PlayerInputComponent );
 
+}
+
+AActor* AMessenger::GetCurrentWayPoint()
+{
+	return CurrentWayPoint;
 }
 
 void AMessenger::HandleOnClicked( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed )
@@ -74,4 +86,22 @@ void AMessenger::HandleOnClicked( UPrimitiveComponent* TouchedComponent, FKey Bu
 	{
 		UE_LOG( LogTemp, Error, TEXT( "Messenger doesn't have an AI Controller." ) );
 	}
+}
+
+void AMessenger::HandleOnCapsuleBeginOverlap( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult )
+{
+	if ( OtherActor == WayPoint_Alice )
+	{
+		CurrentWayPoint = WayPoint_Alice;
+	}
+	else if ( OtherActor == WayPoint_Bob )
+	{
+		CurrentWayPoint = WayPoint_Bob;
+	}
+}
+
+// Only issue will happen if the two trigger volumes overlap.
+void AMessenger::HandleOnCapsuleEndOverlap( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex )
+{
+	CurrentWayPoint = nullptr;
 }
