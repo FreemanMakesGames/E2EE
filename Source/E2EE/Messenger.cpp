@@ -35,11 +35,6 @@ void AMessenger::SetupPlayerInputComponent( UInputComponent* PlayerInputComponen
 
 }
 
-AActor* AMessenger::GetCurrentWayPoint()
-{
-	return CurrentWayPoint;
-}
-
 void AMessenger::HandleOnClicked( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed )
 {
 	UE_LOG( LogTemp, Display, TEXT( "Messenger is being summoned." ) );
@@ -106,4 +101,9 @@ void AMessenger::HandleOnCapsuleEndOverlap( UPrimitiveComponent* OverlappedCompo
 	{
 		CurrentWayPoint = nullptr;
 	}
+}
+
+ATargetPoint* AMessenger::GetCurrentWayPoint()
+{
+	return CurrentWayPoint;
 }

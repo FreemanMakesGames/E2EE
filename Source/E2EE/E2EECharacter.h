@@ -78,15 +78,17 @@ protected:
 	ATargetPoint* MyWayPoint;
 
 	UPROPERTY( VisibleInstanceOnly )
-	bool bInWayPoint;
+	ATargetPoint* CurrentWayPoint;
 
 	UPROPERTY( EditInstanceOnly )
 	FString Username;
 
 public:
+	
+	UFUNCTION( BlueprintCallable )
+	ATargetPoint* GetCurrentWayPoint();
 
-	bool IsInWayPoint();
-
+	UFUNCTION( BlueprintCallable )
 	FString GetUsername();
 
 	UFUNCTION()

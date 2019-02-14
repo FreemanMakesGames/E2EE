@@ -146,7 +146,7 @@ void AE2EECharacter::HandleOnCapsuleBeginOverlap( UPrimitiveComponent* Overlappe
 {
 	if ( Cast<ATargetPoint>( OtherActor ) == MyWayPoint )
 	{
-		bInWayPoint = true;
+		CurrentWayPoint = MyWayPoint;
 	}
 }
 
@@ -154,7 +154,7 @@ void AE2EECharacter::HandleOnCapsuleEndOverlap( UPrimitiveComponent* OverlappedC
 {
 	if ( Cast<ATargetPoint>( OtherActor ) == MyWayPoint )
 	{
-		bInWayPoint = false;
+		CurrentWayPoint = nullptr;
 	}
 }
 
@@ -167,9 +167,9 @@ void AE2EECharacter::Activate( UPrimitiveComponent* TouchedComponent, FKey Butto
 	MyPlayerController->SetActiveCharacter( this );
 }
 
-bool AE2EECharacter::IsInWayPoint()
+ATargetPoint* AE2EECharacter::GetCurrentWayPoint()
 {
-	return bInWayPoint;
+	return CurrentWayPoint;
 }
 
 FString AE2EECharacter::GetUsername()
