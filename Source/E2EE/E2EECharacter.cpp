@@ -42,10 +42,6 @@ AE2EECharacter::AE2EECharacter()
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 
-	// Setup OnClicked event for the skeletal mesh component.
-	MySkeletalMeshComponent = Cast<USkeletalMeshComponent>( GetComponentByClass( USkeletalMeshComponent::StaticClass() ) );
-	MySkeletalMeshComponent->OnClicked.AddDynamic( this, &AE2EECharacter::Activate );
-
 	// Setup OnComponentBeginOverlap, and OnComponentEndOverlap event for the capsule component.
 	MyCapsuleComponent = Cast<UCapsuleComponent>( GetComponentByClass( UCapsuleComponent::StaticClass() ) );
 	MyCapsuleComponent->OnComponentBeginOverlap.AddDynamic( this, &AE2EECharacter::HandleOnCapsuleBeginOverlap );
@@ -158,7 +154,7 @@ void AE2EECharacter::HandleOnCapsuleEndOverlap( UPrimitiveComponent* OverlappedC
 	}
 }
 
-void AE2EECharacter::Activate( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed )
+void AE2EECharacter::Activate()
 {
 	UE_LOG( LogTemp, Display, TEXT( "%s is being activated." ), *GetName() );
 

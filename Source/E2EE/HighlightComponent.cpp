@@ -8,33 +8,12 @@
 #include "Engine/StaticMesh.h"
 #include "Classes/Materials/MaterialInterface.h"
 
-UHighlightComponent::UHighlightComponent()
+void UHighlightComponent::Highlight( UPrimitiveComponent* ComponentToHighlight )
 {
-	if ( GetOwner() )
-	{
-		UPrimitiveComponent* PrimitiveComponent = Cast<UPrimitiveComponent>( GetOwner()->GetComponentByClass( UPrimitiveComponent::StaticClass() ) );
-		if ( PrimitiveComponent )
-		{
-			PrimitiveComponent->OnBeginCursorOver.AddDynamic( this, &UHighlightComponent::Highlight );
-			PrimitiveComponent->OnEndCursorOver.AddDynamic( this, &UHighlightComponent::EndHighlight );
-		}
-	}
+	ComponentToHighlight->SetRenderCustomDepth( true );
 }
 
-void UHighlightComponent::Highlight( UPrimitiveComponent* TouchedComponent )
+void UHighlightComponent::EndHighlight( UPrimitiveComponent* ComponentToEndHighlight )
 {
-	//UE_LOG( LogTemp, Display, TEXT( "HighlightComponent: Cursor on %s" ), *TouchedComponent->GetName() );
-
-	//GetWorld()->GetFirstPlayerController()->SetMouseCursorWidget( EMouseCursor::Hand, CursorWidget );
-
-	TouchedComponent->SetRenderCustomDepth( true );
-}
-
-void UHighlightComponent::EndHighlight( UPrimitiveComponent* TouchedComponent )
-{
-	//UE_LOG( LogTemp, Display, TEXT( "HighlightComponent: Cursor off %s" ), *TouchedComponent->GetName() );
-
-	//GetWorld()->GetFirstPlayerController()->SetMouseCursorWidget( EMouseCursor::Hand, CursorWidget );
-
-	TouchedComponent->SetRenderCustomDepth( false );
+	ComponentToEndHighlight->SetRenderCustomDepth( false );
 }

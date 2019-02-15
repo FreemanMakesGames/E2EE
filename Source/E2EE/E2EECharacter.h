@@ -91,8 +91,8 @@ public:
 	UFUNCTION( BlueprintCallable )
 	FString GetUsername();
 
-	UFUNCTION()
-	void Activate( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed );
+	UFUNCTION( BlueprintCallable )
+	void Activate();
 
 	UFUNCTION( BlueprintImplementableEvent )
 	void ToggleWidget( bool On );

@@ -17,15 +17,13 @@ class E2EE_API UHighlightComponent : public UActorComponent
 
 public:	
 
-	UHighlightComponent();
-
 protected:
 
-	UFUNCTION()
-	void Highlight( UPrimitiveComponent* TouchedComponent );
+	UFUNCTION( BlueprintCallable )
+	void Highlight( UPrimitiveComponent* ComponentToHighlight );
 
-	UFUNCTION()
-	void EndHighlight( UPrimitiveComponent* TouchedComponent );
+	UFUNCTION( BlueprintCallable )
+	void EndHighlight( UPrimitiveComponent* ComponentToEndHighlight );
 
 public:	
 
