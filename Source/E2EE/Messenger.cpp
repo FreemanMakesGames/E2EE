@@ -14,10 +14,6 @@ AMessenger::AMessenger()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	// Setup OnClicked event for the skeletal mesh component.
-	MySkeletalMeshComponent = Cast<USkeletalMeshComponent>( GetComponentByClass( USkeletalMeshComponent::StaticClass() ) );
-	MySkeletalMeshComponent->OnClicked.AddDynamic( this, &AMessenger::HandleOnClicked );
-
 	// Setup OnComponentBeginOverlap, and OnComponentEndOverlap event for the capsule component.
 	MyCapsuleComponent = Cast<UCapsuleComponent>( GetComponentByClass( UCapsuleComponent::StaticClass() ) );
 	MyCapsuleComponent->OnComponentBeginOverlap.AddDynamic( this, &AMessenger::HandleOnCapsuleBeginOverlap );
@@ -35,7 +31,7 @@ void AMessenger::SetupPlayerInputComponent( UInputComponent* PlayerInputComponen
 
 }
 
-void AMessenger::HandleOnClicked( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed )
+void AMessenger::Summon()
 {
 	UE_LOG( LogTemp, Display, TEXT( "Messenger is being summoned." ) );
 
