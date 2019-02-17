@@ -9,11 +9,7 @@
 #include "Runtime/UMG/Public/Components/TileView.h"
 #include "Runtime/UMG/Public/Components/GridPanel.h"
 
-AMyPlayerController::AMyPlayerController()
-{
-	static ConstructorHelpers::FClassFinder<UUserWidget> InventoryWidgetClassFinder( TEXT( "/Game/UI/WBP_Inventory" ) );
-	InventoryWidgetClass = InventoryWidgetClassFinder.Class;
-}
+AMyPlayerController::AMyPlayerController() {}
 
 void AMyPlayerController::SetupInputComponent()
 {
@@ -25,8 +21,6 @@ void AMyPlayerController::SetupInputComponent()
 
 void AMyPlayerController::BeginPlay()
 {
-	InventoryWidget = CreateWidget<UUserWidget>( this, InventoryWidgetClass );
-
 	Super::BeginPlay();
 
 	// Set Camera_Overview.

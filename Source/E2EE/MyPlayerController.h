@@ -32,12 +32,6 @@ protected:
 	UPROPERTY( VisibleAnywhere, BlueprintReadOnly )
 	AE2EECharacter* ActiveCharacter;
 
-	UPROPERTY( EditAnywhere, BlueprintReadWrite )
-	TSubclassOf<class UUserWidget> InventoryWidgetClass;
-
-	UPROPERTY( EditAnywhere, BlueprintReadWrite )
-	UUserWidget* InventoryWidget;
-
 	UPROPERTY()
 	AActor* Camera_Overview;
 
