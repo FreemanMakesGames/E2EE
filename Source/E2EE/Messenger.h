@@ -6,7 +6,7 @@
 #include "GameFramework/Character.h"
 #include "Messenger.generated.h"
 
-class ATargetPoint;
+class AWaypoint;
 
 UCLASS()
 class E2EE_API AMessenger : public ACharacter
@@ -25,31 +25,28 @@ protected:
 	void Summon();
 
 	UFUNCTION( BlueprintCallable )
-	void MoveToWaypoint( ATargetPoint* TargetWaypoint );
-
-	UFUNCTION()
-	void HandleOnCapsuleBeginOverlap( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult );
-
-	UFUNCTION()
-	void HandleOnCapsuleEndOverlap( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex );
+	void MoveToWaypoint( AWaypoint* TargetWaypoint );
 
 	USkeletalMeshComponent* MySkeletalMeshComponent;
 	UCapsuleComponent* MyCapsuleComponent;
 
 	UPROPERTY( EditInstanceOnly, BlueprintReadOnly )
-	ATargetPoint* Waypoint_Alice;
+	AWaypoint* Waypoint_Alice;
 
 	UPROPERTY( EditInstanceOnly, BlueprintReadOnly )
-	ATargetPoint* Waypoint_Bob;
+	AWaypoint* Waypoint_Bob;
 
 	UPROPERTY( VisibleInstanceOnly )
-	ATargetPoint* CurrentWaypoint;
+	AWaypoint* CurrentWaypoint;
 
 public:	
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UFUNCTION( BlueprintCallable )
-	ATargetPoint* GetCurrentWayPoint();
+	AWaypoint* GetCurrentWaypoint();
+
+	UFUNCTION( BlueprintCallable )
+	void SetCurrentWaypoint( AWaypoint* TheWaypoint );
 
 };
