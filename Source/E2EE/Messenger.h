@@ -24,6 +24,9 @@ protected:
 	UFUNCTION( BlueprintCallable )
 	void Summon();
 
+	UFUNCTION( BlueprintCallable )
+	void MoveToWaypoint( ATargetPoint* TargetWaypoint );
+
 	UFUNCTION()
 	void HandleOnCapsuleBeginOverlap( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult );
 
@@ -33,14 +36,14 @@ protected:
 	USkeletalMeshComponent* MySkeletalMeshComponent;
 	UCapsuleComponent* MyCapsuleComponent;
 
-	UPROPERTY( EditInstanceOnly )
-	ATargetPoint* WayPoint_Alice;
+	UPROPERTY( EditInstanceOnly, BlueprintReadOnly )
+	ATargetPoint* Waypoint_Alice;
 
-	UPROPERTY( EditInstanceOnly )
-	ATargetPoint* WayPoint_Bob;
+	UPROPERTY( EditInstanceOnly, BlueprintReadOnly )
+	ATargetPoint* Waypoint_Bob;
 
 	UPROPERTY( VisibleInstanceOnly )
-	ATargetPoint* CurrentWayPoint;
+	ATargetPoint* CurrentWaypoint;
 
 public:	
 

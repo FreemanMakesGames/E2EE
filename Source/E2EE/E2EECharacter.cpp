@@ -142,7 +142,7 @@ void AE2EECharacter::HandleOnCapsuleBeginOverlap( UPrimitiveComponent* Overlappe
 {
 	if ( Cast<ATargetPoint>( OtherActor ) == MyWayPoint )
 	{
-		CurrentWayPoint = MyWayPoint;
+		CurrentWaypoint = MyWayPoint;
 	}
 }
 
@@ -150,7 +150,7 @@ void AE2EECharacter::HandleOnCapsuleEndOverlap( UPrimitiveComponent* OverlappedC
 {
 	if ( Cast<ATargetPoint>( OtherActor ) == MyWayPoint )
 	{
-		CurrentWayPoint = nullptr;
+		CurrentWaypoint = nullptr;
 	}
 }
 
@@ -165,7 +165,7 @@ void AE2EECharacter::Activate()
 
 ATargetPoint* AE2EECharacter::GetCurrentWayPoint()
 {
-	return CurrentWayPoint;
+	return CurrentWaypoint;
 }
 
 FString AE2EECharacter::GetUsername()

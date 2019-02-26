@@ -78,7 +78,7 @@ protected:
 	ATargetPoint* MyWayPoint;
 
 	UPROPERTY( VisibleInstanceOnly )
-	ATargetPoint* CurrentWayPoint;
+	ATargetPoint* CurrentWaypoint;
 
 	UPROPERTY( EditInstanceOnly )
 	FString Username;

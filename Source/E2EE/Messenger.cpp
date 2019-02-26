@@ -35,7 +35,7 @@ void AMessenger::Summon()
 {
 	UE_LOG( LogTemp, Display, TEXT( "Messenger is being summoned." ) );
 
-	AActor* TargetWayPoint = nullptr;
+	ATargetPoint* TargetWaypoint = nullptr;
 
 	// Get target waypoint.
 	// Don't move if there's no active character.
@@ -45,8 +45,8 @@ void AMessenger::Summon()
 		AE2EECharacter* ActiveCharacter = PlayerController->GetActiveCharacter();
 		if ( ActiveCharacter )
 		{
-			if ( ActiveCharacter->GetUsername() == "Alice" ) { TargetWayPoint = WayPoint_Alice; }
-			else if ( ActiveCharacter->GetUsername() == "Bob" ) { TargetWayPoint = WayPoint_Bob; }
+			if ( ActiveCharacter->GetUsername() == "Alice" ) { TargetWaypoint = Waypoint_Alice; }
+			else if ( ActiveCharacter->GetUsername() == "Bob" ) { TargetWaypoint = Waypoint_Bob; }
 			else { UE_LOG( LogTemp, Error, TEXT( "Messenger: Active character's name is an unexpected string." ) ); }
 		}
 		else
@@ -57,15 +57,22 @@ void AMessenger::Summon()
 	else
 	{
 		UE_LOG( LogTemp, Error, TEXT( "Messenger can't get player controller." ) );
+
+		return;
 	}
 
-	// Move to target waypoint.
+	MoveToWaypoint( TargetWaypoint );
+
+}
+
+void AMessenger::MoveToWaypoint( ATargetPoint* TargetWaypoint )
+{
 	AAIController* MyAIController = GetController<AAIController>();
 	if ( MyAIController )
 	{
-		if ( TargetWayPoint )
+		if ( TargetWaypoint )
 		{
-			GetController<AAIController>()->MoveToActor( TargetWayPoint );
+			GetController<AAIController>()->MoveToActor( TargetWaypoint );
 		}
 		else
 		{
@@ -80,26 +87,26 @@ void AMessenger::Summon()
 
 void AMessenger::HandleOnCapsuleBeginOverlap( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult )
 {
-	if ( Cast<ATargetPoint>( OtherActor ) == WayPoint_Alice )
+	if ( Cast<ATargetPoint>( OtherActor ) == Waypoint_Alice )
 	{
-		CurrentWayPoint = WayPoint_Alice;
+		CurrentWaypoint = Waypoint_Alice;
 	}
-	else if ( Cast<ATargetPoint>( OtherActor ) == WayPoint_Bob )
+	else if ( Cast<ATargetPoint>( OtherActor ) == Waypoint_Bob )
 	{
-		CurrentWayPoint = WayPoint_Bob;
+		CurrentWaypoint = Waypoint_Bob;
 	}
 }
 
 // Only issue that may happen is if the two trigger volumes overlap.
 void AMessenger::HandleOnCapsuleEndOverlap( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex )
 {
-	if ( Cast<ATargetPoint>( OtherActor ) == WayPoint_Alice || Cast<ATargetPoint>( OtherActor ) == WayPoint_Bob )
+	if ( Cast<ATargetPoint>( OtherActor ) == Waypoint_Alice || Cast<ATargetPoint>( OtherActor ) == Waypoint_Bob )
 	{
-		CurrentWayPoint = nullptr;
+		CurrentWaypoint = nullptr;
 	}
 }
 
 ATargetPoint* AMessenger::GetCurrentWayPoint()
 {
-	return CurrentWayPoint;
+	return CurrentWaypoint;
 }
