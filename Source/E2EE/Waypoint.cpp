@@ -8,11 +8,23 @@
 
 AWaypoint::AWaypoint()
 {
+	// Setup TriggerBox.
+
 	TriggerBox = CreateDefaultSubobject<UBoxComponent>( TEXT( "Trigger Box" ) );
 	TriggerBox->SetupAttachment( RootComponent );
 
 	TriggerBox->OnComponentBeginOverlap.AddDynamic( this, &AWaypoint::HandleOnBoxBeginOverlap );
 	TriggerBox->OnComponentEndOverlap.AddDynamic( this, &AWaypoint::HandleOnBoxEndOverlap );
+
+	// Setup DefaultItemDropOff.
+
+	DefaultItemDropOff = CreateDefaultSubobject<USceneComponent>( TEXT( "Default Item Drop Off" ) );
+	DefaultItemDropOff->SetupAttachment( RootComponent );
+}
+
+FVector AWaypoint::GetDefaultItemDropOffLocation()
+{
+	return DefaultItemDropOff->GetComponentLocation();
 }
 
 TArray<ACharacter*> AWaypoint::GetOccupants()

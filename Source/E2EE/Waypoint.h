@@ -17,13 +17,19 @@ public:
 
 	AWaypoint();
 
-	UFUNCTION( BlueprintCallable )
+	UFUNCTION( BlueprintPure )
+	FVector GetDefaultItemDropOffLocation();
+
+	UFUNCTION( BlueprintPure )
 	TArray<ACharacter*> GetOccupants();
 
 protected:
 
-	UPROPERTY( VisibleAnywhere )
+	UPROPERTY( VisibleInstanceOnly )
 	UBoxComponent* TriggerBox;
+
+	UPROPERTY( VisibleInstanceOnly )
+	USceneComponent* DefaultItemDropOff;
 
 	UFUNCTION()
 	void HandleOnBoxBeginOverlap( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult );
