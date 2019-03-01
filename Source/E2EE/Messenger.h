@@ -6,7 +6,7 @@
 #include "GameFramework/Character.h"
 #include "Messenger.generated.h"
 
-class AWaypoint;
+class AAIController;
 
 UCLASS()
 class E2EE_API AMessenger : public ACharacter
@@ -24,11 +24,11 @@ protected:
 	UFUNCTION( BlueprintCallable )
 	void Summon();
 
-	UFUNCTION( BlueprintCallable )
-	void MoveToWaypoint( AWaypoint* TargetWaypoint );
-
 	USkeletalMeshComponent* MySkeletalMeshComponent;
 	UCapsuleComponent* MyCapsuleComponent;
+
+	UPROPERTY( BlueprintReadOnly )
+	AAIController* MyAIController;
 
 	UPROPERTY( EditInstanceOnly, BlueprintReadOnly )
 	AWaypoint* Waypoint_Alice;

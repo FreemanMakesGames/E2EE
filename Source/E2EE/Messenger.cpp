@@ -18,6 +18,8 @@ AMessenger::AMessenger()
 void AMessenger::BeginPlay()
 {
 	Super::BeginPlay();
+
+	MyAIController = GetController<AAIController>();
 }
 
 void AMessenger::SetupPlayerInputComponent( UInputComponent* PlayerInputComponent )
@@ -34,48 +36,19 @@ void AMessenger::Summon()
 	// Get target waypoint.
 	// Don't move if there's no active character.
 	AMyPlayerController* PlayerController = Cast<AMyPlayerController>( GetWorld()->GetFirstPlayerController() );
-	if ( PlayerController )
+	AE2EECharacter* ActiveCharacter = PlayerController->GetActiveCharacter();
+	if ( ActiveCharacter )
 	{
-		AE2EECharacter* ActiveCharacter = PlayerController->GetActiveCharacter();
-		if ( ActiveCharacter )
-		{
-			if ( ActiveCharacter->GetUsername() == "Alice" ) { TargetWaypoint = Waypoint_Alice; }
-			else if ( ActiveCharacter->GetUsername() == "Bob" ) { TargetWaypoint = Waypoint_Bob; }
-			else { UE_LOG( LogTemp, Error, TEXT( "Messenger: Active character's name is an unexpected string." ) ); }
-		}
-		else
-		{
-			return;
-		}
+		if ( ActiveCharacter->GetUsername() == "Alice" ) { TargetWaypoint = Waypoint_Alice; }
+		else if ( ActiveCharacter->GetUsername() == "Bob" ) { TargetWaypoint = Waypoint_Bob; }
+		else { UE_LOG( LogTemp, Error, TEXT( "Messenger: Active character's name is an unexpected string." ) ); }
 	}
 	else
 	{
-		UE_LOG( LogTemp, Error, TEXT( "Messenger can't get player controller." ) );
-
 		return;
 	}
 
-	MoveToWaypoint( TargetWaypoint );
-}
-
-void AMessenger::MoveToWaypoint( AWaypoint* TargetWaypoint )
-{
-	AAIController* MyAIController = GetController<AAIController>();
-	if ( MyAIController )
-	{
-		if ( TargetWaypoint )
-		{
-			GetController<AAIController>()->MoveToActor( TargetWaypoint );
-		}
-		else
-		{
-			UE_LOG( LogTemp, Error, TEXT( "Messenger doesn't have a target waypoint." ) );
-		}
-	}
-	else
-	{
-		UE_LOG( LogTemp, Error, TEXT( "Messenger doesn't have an AI Controller." ) );
-	}
+	MyAIController->MoveToActor( TargetWaypoint );
 }
 
 AWaypoint* AMessenger::GetCurrentWaypoint()
