@@ -140,7 +140,7 @@ void AE2EECharacter::Activate()
 
 	AMyPlayerController* MyPlayerController = Cast<AMyPlayerController>( GetWorld()->GetFirstPlayerController() );
 
-	MyPlayerController->SetActiveCharacter( this );
+	MyPlayerController->ServerSetActiveCharacter( this );
 }
 
 AWaypoint* AE2EECharacter::GetCurrentWaypoint()

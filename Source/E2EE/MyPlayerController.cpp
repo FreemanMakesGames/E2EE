@@ -37,12 +37,12 @@ void AMyPlayerController::BeginPlay()
 	bAutoManageActiveCameraTarget = false;
 }
 
-AE2EECharacter* AMyPlayerController::GetActiveCharacter() 
+AE2EECharacter* AMyPlayerController::GetActiveCharacter()
 {
 	return ActiveCharacter;
 }
 
-void AMyPlayerController::SetActiveCharacter( AE2EECharacter* Character )
+void AMyPlayerController::ServerSetActiveCharacter_Implementation( AE2EECharacter* CharacterToSet )
 {
 	// Turn off previous character's Widget_Selected.
 	// Do nothing if there's no previous character.
@@ -52,14 +52,22 @@ void AMyPlayerController::SetActiveCharacter( AE2EECharacter* Character )
 	}
 
 	// Update ActiveCharacter.
-	ActiveCharacter = Character;
+	ActiveCharacter = CharacterToSet;
 
-	// Possess and adjust rotation.
-	Possess( Character );
-	SetControlRotation( FVector::ZeroVector.ToOrientationRotator() );
+	if ( HasAuthority() )
+	{
+		// Possess and adjust rotation.
+		Possess( CharacterToSet );
+		SetControlRotation( FVector::ZeroVector.ToOrientationRotator() );
+	}
 
 	// Turn on Widget_Selected.
-	Character->ToggleWidget( true );
+	CharacterToSet->ToggleWidget( true );
+}
+
+bool AMyPlayerController::ServerSetActiveCharacter_Validate( AE2EECharacter* CharacterToSet )
+{
+	return true;
 }
 
 void AMyPlayerController::ZoomIn()
