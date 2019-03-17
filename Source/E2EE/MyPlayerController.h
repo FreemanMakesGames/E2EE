@@ -39,7 +39,7 @@ public:
 
 	AE2EECharacter* GetActiveCharacter();
 
-	UFUNCTION( Server, Reliable, WithValidation )
+	UFUNCTION( Server, Reliable, WithValidation, BlueprintCallable )
 	void ServerSetActiveCharacter( AE2EECharacter* CharacterToSet );
 	
 };

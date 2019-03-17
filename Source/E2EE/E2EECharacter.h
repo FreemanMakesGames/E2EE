@@ -71,6 +71,9 @@ protected:
 	UPROPERTY( VisibleInstanceOnly )
 	AWaypoint* CurrentWaypoint;
 
+	UPROPERTY( EditInstanceOnly, BlueprintReadOnly )
+	bool bIsMessenger;
+
 	UPROPERTY( EditInstanceOnly )
 	FString Username;
 
@@ -84,9 +87,6 @@ public:
 
 	UFUNCTION( BlueprintCallable )
 	FString GetUsername();
-
-	UFUNCTION( BlueprintCallable )
-	void Activate();
 
 	UFUNCTION( BlueprintImplementableEvent )
 	void ToggleWidget( bool On );
