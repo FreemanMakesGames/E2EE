@@ -27,6 +27,14 @@ void AMyPlayerController::BeginPlay()
 	TArray<AActor*> AllCameraOverviews;
 	UGameplayStatics::GetAllActorsWithTag( GetWorld(), FName( TEXT( "Camera.Overview" ) ), AllCameraOverviews );
 	Camera_Overview = AllCameraOverviews[0];
+
+	// Enable mouse.
+	bShowMouseCursor = true;
+	bEnableClickEvents = true;
+	bEnableMouseOverEvents = true;
+
+	// Don't switch camera when possessing.
+	bAutoManageActiveCameraTarget = false;
 }
 
 AE2EECharacter* AMyPlayerController::GetActiveCharacter() 
