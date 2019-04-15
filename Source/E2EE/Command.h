@@ -16,6 +16,8 @@ class E2EE_API UCommand : public UObject
 
 public:
 
+	void Initialize( AItem* OwnerItem );
+
 	void Initialize( AItem* OwnerItem, FString CommandName, bool bRequireSecondaryItem );
 
 	virtual void Execute();

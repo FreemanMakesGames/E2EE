@@ -2,6 +2,11 @@
 
 #include "Item.h"
 
+void UCommand::Initialize( AItem* OwnerItem )
+{
+	this->OwnerItem = OwnerItem;
+}
+
 void UCommand::Initialize( class AItem* OwnerItem, FString CommandName, bool bRequireSecondaryItem )
 {
 	this->OwnerItem = OwnerItem;
