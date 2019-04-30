@@ -16,5 +16,5 @@ void UItemClicker::NativeOnInitialized()
 
 void UItemClicker::HandleOnButtonClicked()
 {
-	UE_LOG( LogTemp, Warning, TEXT( "CLICKED" ) );
+	OnClicked.Broadcast( this );
 }

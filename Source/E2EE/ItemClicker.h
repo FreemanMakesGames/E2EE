@@ -25,8 +25,10 @@ public:
 
 public:
 
+	UPROPERTY( BlueprintReadWrite )
 	AItem* Item;
 
+	UPROPERTY( BlueprintAssignable )
 	FOnItemClickerClickedEvent OnClicked;
 
 protected:
