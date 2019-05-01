@@ -6,7 +6,9 @@
 #include "Blueprint/UserWidget.h"
 #include "InventoryMenu.generated.h"
 
+class UInventory;
 class UItemClicker;
+class UWrapBox;
 
 /**
  * 
@@ -18,9 +20,15 @@ class E2EE_API UInventoryMenu : public UUserWidget
 
 protected:
 
-// 	virtual void NativeOnInitialized() override;
-// 
-// 	UPROPERTY( BlueprintReadWrite )
-// 	TArray<UItemClicker*> ItemClickers;
+ 	virtual void NativeOnInitialized() override;
+
+	UPROPERTY( EditDefaultsOnly, BlueprintReadOnly )
+	TSubclassOf<UItemClicker> ItemClickerClass;
+
+	UPROPERTY()
+	UInventory* Inventory;
+
+	UPROPERTY( meta = ( BindWidget ) )
+	UWrapBox* WrapBox_ItemClickers;
 	
 };
