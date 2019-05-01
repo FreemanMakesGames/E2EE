@@ -18,9 +18,19 @@ class E2EE_API UInventoryMenu : public UUserWidget
 {
 	GENERATED_BODY()
 
+public:
+
+	UFUNCTION( BlueprintCallable )
+	UInventory* GetInventory();
+
+	UFUNCTION( BlueprintCallable )
+	void SetInventory( UInventory* InventoryToSet );
+
 protected:
 
  	virtual void NativeOnInitialized() override;
+
+	void ReloadDisplay();
 
 	UPROPERTY( EditDefaultsOnly, BlueprintReadOnly )
 	TSubclassOf<UItemClicker> ItemClickerClass;

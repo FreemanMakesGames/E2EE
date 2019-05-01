@@ -10,7 +10,7 @@
 
 class UCommand;
 
-UCLASS()
+UCLASS( BlueprintType )
 class E2EE_API AItem : public AActor
 {
 	GENERATED_BODY()

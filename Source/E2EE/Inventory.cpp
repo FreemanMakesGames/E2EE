@@ -13,3 +13,8 @@ void UInventory::RemoveItem( AItem* ItemToRemove )
 {
 	Items.Remove( ItemToRemove );
 }
+
+int UInventory::CountItems()
+{
+	return Items.Num();
+}

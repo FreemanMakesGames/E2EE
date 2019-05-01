@@ -11,16 +11,21 @@ class AItem;
 /**
  * 
  */
-UCLASS()
+UCLASS( BlueprintType )
 class E2EE_API UInventory : public UObject
 {
 	GENERATED_BODY()
 
 public:
 
+	UFUNCTION( BlueprintCallable )
 	void AddItem( AItem* ItemToAdd );
 
+	UFUNCTION( BlueprintCallable )
 	void RemoveItem( AItem* ItemToRemove );
+
+	UFUNCTION( BlueprintCallable )
+	int CountItems();
 
 protected:
 
