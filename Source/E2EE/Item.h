@@ -9,6 +9,7 @@
 #include "Item.generated.h"
 
 class UCommand;
+class UItemWidget;
 
 UCLASS( BlueprintType )
 class E2EE_API AItem : public AActor
@@ -23,12 +24,24 @@ protected:
 
 	virtual void BeginPlay() override;
 
+public:	
+
+	virtual void Tick(float DeltaTime) override;
+
+protected:
+
+	UTexture2D* Icon;
+
 	TArray<UCommand*> Commands;
 
 	UCommand* ActiveCommand;
 
-public:	
+public:
 
-	virtual void Tick(float DeltaTime) override;
+	UFUNCTION( BlueprintCallable )
+	UTexture2D* GetIcon();
+
+	UFUNCTION( BlueprintCallable )
+	void SetIcon( UTexture2D* IconToSet );
 
 };

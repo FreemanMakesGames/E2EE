@@ -20,3 +20,13 @@ void AItem::Tick(float DeltaTime)
 
 }
 
+UTexture2D* AItem::GetIcon()
+{
+	return Icon;
+}
+
+void AItem::SetIcon( UTexture2D* IconToSet )
+{
+	Icon = IconToSet;
+}
+

@@ -23,23 +23,29 @@ public:
 
 	UItemClicker( const FObjectInitializer& ObjectInitializer );
 
+protected:
+
+	virtual void NativeOnInitialized() override;
+
 public:
 
 	UPROPERTY( BlueprintReadWrite )
 	AItem* Item;
 
+protected:
+
+	UPROPERTY( meta = ( BindWidget ) )
+	UButton* Button_Clicker;
+
+	UPROPERTY( meta = ( BindWidget ) )
+	UNamedSlot* NamedSlot_ItemWidgetSlot;
+
+public:
+
 	UPROPERTY( BlueprintAssignable )
 	FOnItemClickerClickedEvent OnClicked;
 
 protected:
-
-	virtual void NativeOnInitialized() override;
-
-	UPROPERTY( EditAnywhere, BlueprintReadWrite )
-	UUserWidget* ItemWidget;
-
-	UPROPERTY( meta = ( BindWidget ) )
-	UButton* Button_Clicker;
 
 	UFUNCTION()
 	void HandleOnButtonClicked();

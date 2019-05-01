@@ -18,6 +18,21 @@ class E2EE_API UInventoryMenu : public UUserWidget
 {
 	GENERATED_BODY()
 
+protected:
+
+ 	virtual void NativeOnInitialized() override;
+
+protected:
+
+	UPROPERTY( EditDefaultsOnly, BlueprintReadOnly )
+	TSubclassOf<UItemClicker> ItemClickerClass;
+
+	UPROPERTY()
+	UInventory* Inventory;
+
+	UPROPERTY( meta = ( BindWidget ) )
+	UWrapBox* WrapBox_ItemClickers;
+
 public:
 
 	UFUNCTION( BlueprintCallable )
@@ -28,17 +43,9 @@ public:
 
 protected:
 
- 	virtual void NativeOnInitialized() override;
-
 	void ReloadDisplay();
 
-	UPROPERTY( EditDefaultsOnly, BlueprintReadOnly )
-	TSubclassOf<UItemClicker> ItemClickerClass;
-
-	UPROPERTY()
-	UInventory* Inventory;
-
-	UPROPERTY( meta = ( BindWidget ) )
-	UWrapBox* WrapBox_ItemClickers;
+	UFUNCTION()
+	void HandleOnItemClickerClicked( UItemClicker* ClickedItemClicker );
 	
 };
