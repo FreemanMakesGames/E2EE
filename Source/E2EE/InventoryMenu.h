@@ -23,20 +23,6 @@ protected:
 
  	virtual void NativeOnInitialized() override;
 
-protected:
-
-	UPROPERTY( EditDefaultsOnly, BlueprintReadOnly )
-	TSubclassOf<UItemClicker> ItemClickerClass;
-
-	UPROPERTY( meta = ( BindWidget ) )
-	UWrapBox* WrapBox_ItemClickers;
-
-	UPROPERTY( meta = ( BindWidget ) )
-	UButton* Button_Hide;
-
-	UPROPERTY()
-	UInventory* Inventory;
-
 public:
 
 	UFUNCTION( BlueprintCallable )
@@ -47,9 +33,26 @@ public:
 
 protected:
 
+	UPROPERTY( EditDefaultsOnly, BlueprintReadOnly )
+	TSubclassOf<UItemClicker> ItemClickerClass;
+
+	UPROPERTY( meta = ( BindWidget ) )
+	UWrapBox* WrapBox_ItemClickers;
+
+	UPROPERTY( meta = ( BindWidget ) )
+	UButton* Button_HideInventoryMenu;
+
+	UPROPERTY()
+	UInventory* Inventory;
+
+protected:
+
 	void ReloadDisplay();
 
 	UFUNCTION()
 	void HandleOnItemClickerClicked( UItemClicker* ClickedItemClicker );
+
+	UFUNCTION()
+	void HandleOnButtonHideInventoryMenuClicked();
 	
 };

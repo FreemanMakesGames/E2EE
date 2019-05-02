@@ -24,6 +24,8 @@ void UInventoryMenu::NativeOnInitialized()
 		UE_LOG( LogTemp, Error, TEXT( "InventoryMenu's ItemClickerClass isn't assigned!" ) );
 		return;
 	}
+
+	Button_HideInventoryMenu->OnClicked.AddDynamic( this, &UInventoryMenu::HandleOnButtonHideInventoryMenuClicked );
 }
 
 UInventory* UInventoryMenu::GetInventory()
@@ -67,4 +69,9 @@ void UInventoryMenu::HandleOnItemClickerClicked( UItemClicker* ClickedItemClicke
 	UE_LOG( LogTemp, Warning, TEXT( "Event test: %s" ), *ClickedItemClicker->GetName() );
 
 	// TODO: Inventory: Update and show ItemMenu here.
+}
+
+void UInventoryMenu::HandleOnButtonHideInventoryMenuClicked()
+{
+	RemoveFromParent();
 }
