@@ -1,5 +1,7 @@
 #include "Item.h"
 
+#include "ItemWidget.h"
+
 AItem::AItem()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -20,13 +22,13 @@ void AItem::Tick(float DeltaTime)
 
 }
 
-UTexture2D* AItem::GetIcon()
+UItemWidget* AItem::GetItemWidget()
 {
-	return Icon;
+	return ItemWidget;
 }
 
-void AItem::SetIcon( UTexture2D* IconToSet )
+void AItem::SetItemWidget( UItemWidget* ItemWidgetToSet )
 {
-	Icon = IconToSet;
+	ItemWidget = ItemWidgetToSet;
 }
 

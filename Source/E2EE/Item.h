@@ -30,7 +30,8 @@ public:
 
 protected:
 
-	UTexture2D* Icon;
+	UPROPERTY( EditDefaultsOnly, BlueprintReadWrite )
+	UItemWidget* ItemWidget;
 
 	TArray<UCommand*> Commands;
 
@@ -39,9 +40,9 @@ protected:
 public:
 
 	UFUNCTION( BlueprintCallable )
-	UTexture2D* GetIcon();
+	UItemWidget* GetItemWidget();
 
 	UFUNCTION( BlueprintCallable )
-	void SetIcon( UTexture2D* IconToSet );
+	void SetItemWidget( UItemWidget* ItemWidgetToSet );
 
 };
