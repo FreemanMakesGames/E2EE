@@ -9,6 +9,7 @@
 class UInventory;
 class UItemClicker;
 class UWrapBox;
+class UButton;
 
 /**
  * 
@@ -27,11 +28,14 @@ protected:
 	UPROPERTY( EditDefaultsOnly, BlueprintReadOnly )
 	TSubclassOf<UItemClicker> ItemClickerClass;
 
-	UPROPERTY()
-	UInventory* Inventory;
-
 	UPROPERTY( meta = ( BindWidget ) )
 	UWrapBox* WrapBox_ItemClickers;
+
+	UPROPERTY( meta = ( BindWidget ) )
+	UButton* Button_Hide;
+
+	UPROPERTY()
+	UInventory* Inventory;
 
 public:
 

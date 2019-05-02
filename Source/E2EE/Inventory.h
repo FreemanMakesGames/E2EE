@@ -18,6 +18,8 @@ class E2EE_API UInventory : public UObject
 
 public:
 
+	TArray<AItem*> GetItems();
+
 	UFUNCTION( BlueprintCallable )
 	void AddItem( AItem* ItemToAdd );
 

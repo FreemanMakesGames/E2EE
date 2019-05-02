@@ -3,6 +3,7 @@
 #include "ItemClicker.h"
 
 #include "Components/Button.h"
+#include "Components/NamedSlot.h"
 
 UItemClicker::UItemClicker( const FObjectInitializer& ObjectInitializer ) : Super( ObjectInitializer )
 {
@@ -12,6 +13,11 @@ UItemClicker::UItemClicker( const FObjectInitializer& ObjectInitializer ) : Supe
 void UItemClicker::NativeOnInitialized()
 {
 	Button_Clicker->OnClicked.AddDynamic( this, &UItemClicker::HandleOnButtonClicked );
+}
+
+UNamedSlot* UItemClicker::GetItemWidgetSlot()
+{
+	return NamedSlot_ItemWidgetSlot;
 }
 
 void UItemClicker::HandleOnButtonClicked()

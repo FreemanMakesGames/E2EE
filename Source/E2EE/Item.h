@@ -30,7 +30,10 @@ public:
 
 protected:
 
-	UPROPERTY( EditDefaultsOnly, BlueprintReadWrite )
+	UPROPERTY( EditDefaultsOnly )
+	TSubclassOf<UItemWidget> ItemWidgetClass;
+
+	UPROPERTY( BlueprintReadWrite )
 	UItemWidget* ItemWidget;
 
 	TArray<UCommand*> Commands;

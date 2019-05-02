@@ -2,10 +2,14 @@
 
 #include "InventoryMenu.h"
 
-#include "Inventory.h"
 #include "ItemClicker.h"
+#include "Inventory.h"
+#include "Item.h"
+#include "ItemWidget.h"
 
 #include "Components/WrapBox.h"
+#include "Components/Button.h"
+#include "Components/NamedSlot.h"
 
 void UInventoryMenu::NativeOnInitialized()
 {
@@ -50,6 +54,7 @@ void UInventoryMenu::ReloadDisplay()
 		UItemClicker* NewItemClicker = CreateWidget<UItemClicker>( this, ItemClickerClass );
 
 		// TODO: Inventory: Setup NewItemClicker based on each item.
+		NewItemClicker->GetItemWidgetSlot()->AddChild( Inventory->GetItems()[i]->GetItemWidget() );
 
 		NewItemClicker->OnClicked.AddDynamic( this, &UInventoryMenu::HandleOnItemClickerClicked );
 
