@@ -6,8 +6,9 @@
 #include "Blueprint/UserWidget.h"
 #include "InventoryMenu.generated.h"
 
-class UInventory;
 class UItemClicker;
+class UInventory;
+class AItem;
 class UWrapBox;
 class UButton;
 
@@ -36,6 +37,9 @@ protected:
 	UPROPERTY( EditDefaultsOnly, BlueprintReadOnly )
 	TSubclassOf<UItemClicker> ItemClickerClass;
 
+	UPROPERTY()
+	TMap<AItem*, UItemClicker*> ItemToItemClicker;
+
 	UPROPERTY( meta = ( BindWidget ) )
 	UWrapBox* WrapBox_ItemClickers;
 
@@ -45,9 +49,14 @@ protected:
 	UPROPERTY()
 	UInventory* Inventory;
 
+	UPROPERTY( EditDefaultsOnly )
+	int MaxItemSlots;
+
 protected:
 
-	void ReloadDisplay();
+	UItemClicker* AddNewItemClicker();
+
+	void ReloadInventoryDisplay();
 
 	UFUNCTION()
 	void HandleOnItemClickerClicked( UItemClicker* ClickedItemClicker );
