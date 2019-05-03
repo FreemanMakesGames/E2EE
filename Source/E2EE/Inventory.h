@@ -11,8 +11,8 @@ class AItem;
 /**
  * 
  */
-UCLASS( BlueprintType )
-class E2EE_API UInventory : public UObject
+UCLASS( BlueprintType, ClassGroup = ( Custom ), meta = ( BlueprintSpawnableComponent ) )
+class E2EE_API UInventory : public UActorComponent
 {
 	GENERATED_BODY()
 
