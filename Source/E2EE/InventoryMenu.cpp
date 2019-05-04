@@ -49,6 +49,7 @@ void UInventoryMenu::ShowInventory( UInventory* InventoryToSet )
 		ReloadInventoryDisplay();
 
 		Inventory->OnItemAdded.AddDynamic( this, &UInventoryMenu::HandleOnItemAdded );
+		Inventory->OnItemRemoved.AddDynamic( this, &UInventoryMenu::HandleOnItemRemoved );
 	}
 
 	AddToViewport();
@@ -139,5 +140,5 @@ void UInventoryMenu::HandleOnItemAdded( AItem* ItemAdded )
 
 void UInventoryMenu::HandleOnItemRemoved( AItem* ItemRemoved )
 {
-
+	UE_LOG( LogTemp, Warning, TEXT( "Item removal" ) );
 }

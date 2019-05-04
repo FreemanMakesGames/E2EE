@@ -17,6 +17,8 @@ void UInventory::AddItem( AItem* ItemToAdd )
 void UInventory::RemoveItem( AItem* ItemToRemove )
 {
 	Items.Remove( ItemToRemove );
+
+	OnItemRemoved.Broadcast( ItemToRemove );
 }
 
 int UInventory::CountItems()

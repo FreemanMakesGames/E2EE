@@ -7,6 +7,7 @@
 class AItem;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnItemAddedEvent, AItem*, Item );
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnItemRemovedEvent, AItem*, Item );
 
 /**
  * 
@@ -31,6 +32,9 @@ public:
 
 	UPROPERTY( BlueprintAssignable )
 	FOnItemAddedEvent OnItemAdded;
+
+	UPROPERTY( BlueprintAssignable )
+	FOnItemRemovedEvent OnItemRemoved;
 
 protected:
 
