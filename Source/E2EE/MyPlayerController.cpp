@@ -2,6 +2,8 @@
 
 #include "MyPlayerController.h"
 #include "E2EECharacter.h"
+#include "InventoryMenu.h"
+#include "Inventory.h"
 
 #include "UObject/ConstructorHelpers.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
@@ -27,6 +29,17 @@ void AMyPlayerController::BeginPlay()
 	TArray<AActor*> AllCameraOverviews;
 	UGameplayStatics::GetAllActorsWithTag( GetWorld(), FName( TEXT( "Camera.Overview" ) ), AllCameraOverviews );
 	Camera_Overview = AllCameraOverviews[0];
+
+	// Create InventoryMenu.
+	if ( InventoryMenuClass )
+	{
+		InventoryMenu = CreateWidget<UInventoryMenu>( this, InventoryMenuClass );
+	}
+	else
+	{
+		UE_LOG( LogTemp, Error, TEXT( "AMyPlayerController's InventoryMenuClass isn't set!" ) );
+		return;
+	}
 }
 
 AE2EECharacter* AMyPlayerController::GetActiveCharacter() 
@@ -47,11 +60,21 @@ void AMyPlayerController::SetActiveCharacter( AE2EECharacter* Character )
 	ActiveCharacter = Character;
 
 	// Possess and adjust rotation.
-	Possess( Character );
+	Possess( ActiveCharacter );
 	SetControlRotation( FVector::ZeroVector.ToOrientationRotator() );
 
 	// Turn on Widget_Selected.
-	Character->ToggleWidget( true );
+	ActiveCharacter->ToggleWidget( true );
+
+	// Set InventoryMenu's Inventory.
+	TArray<UInventory*> Inventories;
+	ActiveCharacter->GetComponents<UInventory>( Inventories );
+	InventoryMenu->SetInventory( Inventories[0] );
+}
+
+void AMyPlayerController::ShowInventoryMenu()
+{
+	InventoryMenu->AddToViewport();
 }
 
 void AMyPlayerController::ZoomIn()

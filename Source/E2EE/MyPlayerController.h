@@ -7,6 +7,7 @@
 #include "MyPlayerController.generated.h"
 
 class AE2EECharacter;
+class UInventoryMenu;
 
 UCLASS()
 class E2EE_API AMyPlayerController : public APlayerController
@@ -23,11 +24,26 @@ protected:
 
 	virtual void BeginPlay() override;
 
+public:
+
+	AE2EECharacter* GetActiveCharacter();
+
+	void SetActiveCharacter( AE2EECharacter* Character );
+
+	UFUNCTION( BlueprintCallable )
+	void ShowInventoryMenu();
+
 protected:
 
 	void ZoomIn();
 
 	void ZoomOut();
+
+	UPROPERTY( EditDefaultsOnly )
+	TSubclassOf<UInventoryMenu> InventoryMenuClass;
+
+	UPROPERTY()
+	UInventoryMenu* InventoryMenu;
 
 	UPROPERTY( VisibleAnywhere, BlueprintReadOnly )
 	AE2EECharacter* ActiveCharacter;
@@ -35,10 +51,4 @@ protected:
 	UPROPERTY()
 	AActor* Camera_Overview;
 
-public:
-
-	AE2EECharacter* GetActiveCharacter();
-
-	void SetActiveCharacter( AE2EECharacter* Character );
-	
 };
