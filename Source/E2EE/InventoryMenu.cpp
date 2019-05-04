@@ -45,6 +45,7 @@ void UInventoryMenu::ShowInventory( UInventory* InventoryToSet )
 		if ( Inventory )
 		{
 			Inventory->OnItemAdded.RemoveAll( this );
+			Inventory->OnItemRemoved.RemoveAll( this );
 		}
 
 		Inventory = InventoryToSet;
