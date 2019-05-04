@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -63,5 +61,11 @@ protected:
 
 	UFUNCTION()
 	void HandleOnButtonHideInventoryMenuClicked();
+
+	UFUNCTION()
+	void HandleOnItemAdded( AItem* ItemAdded );
+
+	UFUNCTION()
+	void HandleOnItemRemoved( AItem* ItemRemoved );
 	
 };

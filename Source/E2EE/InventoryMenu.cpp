@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #include "InventoryMenu.h"
 
 #include "ItemClicker.h"
@@ -47,6 +45,8 @@ void UInventoryMenu::SetInventory( UInventory* InventoryToSet )
 	Inventory = InventoryToSet;
 
 	ReloadInventoryDisplay();
+
+	Inventory->OnItemAdded.AddDynamic( this, &UInventoryMenu::HandleOnItemAdded );
 }
 
 UItemClicker* UInventoryMenu::AddNewItemClicker()
@@ -110,4 +110,14 @@ void UInventoryMenu::HandleOnItemClickerClicked( UItemClicker* ClickedItemClicke
 void UInventoryMenu::HandleOnButtonHideInventoryMenuClicked()
 {
 	RemoveFromParent();
+}
+
+void UInventoryMenu::HandleOnItemAdded( AItem* ItemAdded )
+{
+	UE_LOG( LogTemp, Warning, TEXT( "%s is added to inventory." ), *ItemAdded->GetName() );
+}
+
+void UInventoryMenu::HandleOnItemRemoved( AItem* ItemRemoved )
+{
+
 }

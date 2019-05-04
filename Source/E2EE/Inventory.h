@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -7,6 +5,8 @@
 #include "Inventory.generated.h"
 
 class AItem;
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnItemAddedEvent, AItem*, Item );
 
 /**
  * 
@@ -28,6 +28,9 @@ public:
 
 	UFUNCTION( BlueprintCallable )
 	int CountItems();
+
+	UPROPERTY( BlueprintAssignable )
+	FOnItemAddedEvent OnItemAdded;
 
 protected:
 
