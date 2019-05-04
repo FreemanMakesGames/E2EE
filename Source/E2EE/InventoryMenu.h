@@ -45,7 +45,9 @@ protected:
 	UInventory* Inventory;
 
 	UPROPERTY( EditDefaultsOnly )
-	int MaxItemSlots;
+	int MaxItemClickersPerPage;
+
+	int NextEmptyItemClickerIndex;
 
 protected:
 

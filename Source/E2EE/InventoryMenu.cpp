@@ -29,7 +29,7 @@ void UInventoryMenu::NativeOnInitialized()
 
 	/* Setup ItemClickers. */
 
-	for ( int i = 0; i < MaxItemSlots; i++ )
+	for ( int i = 0; i < MaxItemClickersPerPage; i++ )
 	{
 		AddNewItemClicker();
 	}
@@ -39,6 +39,11 @@ void UInventoryMenu::ShowInventory( UInventory* InventoryToSet )
 {
 	if ( Inventory != InventoryToSet )
 	{
+		if ( Inventory )
+		{
+			Inventory->OnItemAdded.RemoveAll( this );
+		}
+
 		Inventory = InventoryToSet;
 
 		ReloadInventoryDisplay();
@@ -68,6 +73,8 @@ void UInventoryMenu::ReloadInventoryDisplay()
 		return;
 	}
 
+	NextEmptyItemClickerIndex = 0;
+
 	TArray<AItem*> Items = Inventory->GetItems();
 
 	for ( int i = 0; i < WrapBox_ItemClickers->GetChildrenCount(); i++ )
@@ -96,6 +103,8 @@ void UInventoryMenu::ReloadInventoryDisplay()
 		if ( ItemWidget )
 		{
 			ItemClicker->GetItemWidgetSlot()->AddChild( ItemWidget );
+
+			NextEmptyItemClickerIndex++;
 		}
 	}
 }
@@ -114,7 +123,18 @@ void UInventoryMenu::HandleOnButtonHideInventoryMenuClicked()
 
 void UInventoryMenu::HandleOnItemAdded( AItem* ItemAdded )
 {
-	UE_LOG( LogTemp, Warning, TEXT( "%s is added to inventory." ), *ItemAdded->GetName() );
+	if ( NextEmptyItemClickerIndex <= MaxItemClickersPerPage - 1 )
+	{
+		UItemClicker* ItemClicker = Cast<UItemClicker>( WrapBox_ItemClickers->GetChildAt( NextEmptyItemClickerIndex ) );
+
+		ItemClicker->GetItemWidgetSlot()->AddChild( ItemAdded->GetItemWidget() );
+
+		NextEmptyItemClickerIndex++;
+	}
+	else
+	{
+
+	}
 }
 
 void UInventoryMenu::HandleOnItemRemoved( AItem* ItemRemoved )
