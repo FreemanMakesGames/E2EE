@@ -26,13 +26,6 @@ void UInventoryMenu::NativeOnInitialized()
 	/* Input events */
 
 	Button_HideInventoryMenu->OnClicked.AddDynamic( this, &UInventoryMenu::HandleOnButtonHideInventoryMenuClicked );
-
-	/* Setup ItemClickers. */
-
-	for ( int i = 0; i < MaxItemClickersPerPage; i++ )
-	{
-		AddNewItemClicker();
-	}
 }
 
 void UInventoryMenu::ShowInventory( UInventory* InventoryToSet )
@@ -55,58 +48,38 @@ void UInventoryMenu::ShowInventory( UInventory* InventoryToSet )
 	AddToViewport();
 }
 
-UItemClicker* UInventoryMenu::AddNewItemClicker()
+UItemClicker* UInventoryMenu::AddNewItemClicker( UItemWidget* ItemWidget )
 {
-	UItemClicker* NewItemClicker = CreateWidget<UItemClicker>( this, ItemClickerClass );
+	UItemClicker* ItemClicker = CreateWidget<UItemClicker>( this, ItemClickerClass );
 
-	NewItemClicker->OnClicked.AddDynamic( this, &UInventoryMenu::HandleOnItemClickerClicked );
+	ItemClicker->InsertItemWidget( ItemWidget );
 
-	WrapBox_ItemClickers->AddChildWrapBox( NewItemClicker );
+	ItemClicker->OnClicked.AddDynamic( this, &UInventoryMenu::HandleOnItemClickerClicked );
 
-	return NewItemClicker;
+	WrapBox_ItemClickers->AddChildWrapBox( ItemClicker );
+
+	return ItemClicker;
 }
 
 void UInventoryMenu::ReloadInventoryDisplay()
 {
+	WrapBox_ItemClickers->ClearChildren();
+
 	if ( !Inventory )
 	{
 		UE_LOG( LogTemp, Warning, TEXT( "UInventoryMenu.ReloadInventoryDisplay: Inventory is nullptr!" ) );	
 		return;
 	}
 
-	NextEmptyItemClickerIndex = 0;
-
 	TArray<AItem*> Items = Inventory->GetItems();
 
-	for ( int i = 0; i < WrapBox_ItemClickers->GetChildrenCount(); i++ )
+	for ( int i = 0; i < Items.Num(); i++ )
 	{
-		/* Get the new ItemWidget. */
+		// Get the new ItemWidget.
+		UItemWidget* ItemWidget = Items[i]->GetItemWidget();
 
-		UItemWidget* ItemWidget = nullptr;
-		if ( Items.IsValidIndex( i ) )
-		{
-			ItemWidget = Items[i]->GetItemWidget();
-		}
-
-		/* Get the ItemClicker. */
-
-		UItemClicker* ItemClicker = Cast<UItemClicker>( WrapBox_ItemClickers->GetChildAt( i ) );
-		if ( !ItemClicker )
-		{
-			UE_LOG( LogTemp, Error, TEXT( "InventoryMenu's WrapBox_ItemClickers has a non-ItemClicker child!" ) );
-			continue;
-		}
-
-		/* Reset the content of ItemClicker's ItemWidget NamedSlot. */
-
-		ItemClicker->GetItemWidgetSlot()->ClearChildren();
-
-		if ( ItemWidget )
-		{
-			ItemClicker->GetItemWidgetSlot()->AddChild( ItemWidget );
-
-			NextEmptyItemClickerIndex++;
-		}
+		// Add a new ItemClicker.
+		UItemClicker* ItemClicker = AddNewItemClicker( ItemWidget );
 	}
 }
 
@@ -124,18 +97,7 @@ void UInventoryMenu::HandleOnButtonHideInventoryMenuClicked()
 
 void UInventoryMenu::HandleOnItemAdded( AItem* ItemAdded )
 {
-	if ( NextEmptyItemClickerIndex <= MaxItemClickersPerPage - 1 )
-	{
-		UItemClicker* ItemClicker = Cast<UItemClicker>( WrapBox_ItemClickers->GetChildAt( NextEmptyItemClickerIndex ) );
-
-		ItemClicker->GetItemWidgetSlot()->AddChild( ItemAdded->GetItemWidget() );
-
-		NextEmptyItemClickerIndex++;
-	}
-	else
-	{
-
-	}
+	AddNewItemClicker( ItemAdded->GetItemWidget() );
 }
 
 void UInventoryMenu::HandleOnItemRemoved( AItem* ItemRemoved )

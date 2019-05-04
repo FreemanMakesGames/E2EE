@@ -5,6 +5,7 @@
 #include "ItemClicker.generated.h"
 
 class AItem;
+class UItemWidget;
 class UButton;
 class UNamedSlot;
 
@@ -44,7 +45,7 @@ public:
 	UPROPERTY( BlueprintAssignable )
 	FOnItemClickerClickedEvent OnClicked;
 
-	UNamedSlot* GetItemWidgetSlot();
+	void InsertItemWidget( UItemWidget* ItemWidget );
 
 protected:
 

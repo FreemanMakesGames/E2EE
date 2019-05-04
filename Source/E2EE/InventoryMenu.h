@@ -6,6 +6,7 @@
 
 class UItemClicker;
 class UInventory;
+class UItemWidget;
 class AItem;
 class UWrapBox;
 class UButton;
@@ -44,14 +45,9 @@ protected:
 	UPROPERTY()
 	UInventory* Inventory;
 
-	UPROPERTY( EditDefaultsOnly )
-	int MaxItemClickersPerPage;
-
-	int NextEmptyItemClickerIndex;
-
 protected:
 
-	UItemClicker* AddNewItemClicker();
+	UItemClicker* AddNewItemClicker( UItemWidget* ItemWidget );
 
 	void ReloadInventoryDisplay();
 
