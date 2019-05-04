@@ -28,8 +28,18 @@ void UInventoryMenu::NativeOnInitialized()
 	Button_HideInventoryMenu->OnClicked.AddDynamic( this, &UInventoryMenu::HandleOnButtonHideInventoryMenuClicked );
 }
 
+/**
+ * Show a specified Inventory.
+ * Only reload and reset if it's a different inventory.
+ */
 void UInventoryMenu::ShowInventory( UInventory* InventoryToSet )
 {
+	if ( !InventoryToSet )
+	{
+		UE_LOG( LogTemp, Error, TEXT( "UInventoryMenu.ShowInventory: InventoryToSet is nullptr!" ) );
+		return;
+	}
+
 	if ( Inventory != InventoryToSet )
 	{
 		if ( Inventory )
@@ -48,6 +58,9 @@ void UInventoryMenu::ShowInventory( UInventory* InventoryToSet )
 	AddToViewport();
 }
 
+/**
+ * Create a new ItemClicker with ItemWidget content, and add it to the WrapBox.
+ */
 UItemClicker* UInventoryMenu::AddNewItemClicker( UItemWidget* ItemWidget )
 {
 	UItemClicker* ItemClicker = CreateWidget<UItemClicker>( this, ItemClickerClass );
@@ -61,6 +74,10 @@ UItemClicker* UInventoryMenu::AddNewItemClicker( UItemWidget* ItemWidget )
 	return ItemClicker;
 }
 
+/**
+ * Remove all the ItemClickers.
+ * Add new ItemClickers based on Inventory's Items.
+ */
 void UInventoryMenu::ReloadInventoryDisplay()
 {
 	WrapBox_ItemClickers->ClearChildren();
