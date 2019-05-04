@@ -8,6 +8,7 @@
 
 class AE2EECharacter;
 class UInventoryMenu;
+class UInventory;
 
 UCLASS()
 class E2EE_API AMyPlayerController : public APlayerController
@@ -31,7 +32,7 @@ public:
 	void SetActiveCharacter( AE2EECharacter* Character );
 
 	UFUNCTION( BlueprintCallable )
-	void ShowInventoryMenu();
+	void ShowInventoryMenu( UInventory* Inventory );
 
 protected:
 

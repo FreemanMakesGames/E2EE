@@ -35,18 +35,18 @@ void UInventoryMenu::NativeOnInitialized()
 	}
 }
 
-UInventory* UInventoryMenu::GetInventory()
+void UInventoryMenu::ShowInventory( UInventory* InventoryToSet )
 {
-	return Inventory;
-}
+	if ( Inventory != InventoryToSet )
+	{
+		Inventory = InventoryToSet;
 
-void UInventoryMenu::SetInventory( UInventory* InventoryToSet )
-{
-	Inventory = InventoryToSet;
+		ReloadInventoryDisplay();
 
-	ReloadInventoryDisplay();
+		Inventory->OnItemAdded.AddDynamic( this, &UInventoryMenu::HandleOnItemAdded );
+	}
 
-	Inventory->OnItemAdded.AddDynamic( this, &UInventoryMenu::HandleOnItemAdded );
+	AddToViewport();
 }
 
 UItemClicker* UInventoryMenu::AddNewItemClicker()
@@ -64,7 +64,7 @@ void UInventoryMenu::ReloadInventoryDisplay()
 {
 	if ( !Inventory )
 	{
-		UE_LOG( LogTemp, Warning, TEXT( "InventoryMenu's Inventory is nullptr!" ) );	
+		UE_LOG( LogTemp, Warning, TEXT( "UInventoryMenu.ReloadInventoryDisplay: Inventory is nullptr!" ) );	
 		return;
 	}
 

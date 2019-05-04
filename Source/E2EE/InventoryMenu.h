@@ -25,10 +25,7 @@ protected:
 public:
 
 	UFUNCTION( BlueprintCallable )
-	UInventory* GetInventory();
-
-	UFUNCTION( BlueprintCallable )
-	void SetInventory( UInventory* InventoryToSet );
+	void ShowInventory( UInventory* InventoryToSet );
 
 protected:
 

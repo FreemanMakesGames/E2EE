@@ -65,16 +65,11 @@ void AMyPlayerController::SetActiveCharacter( AE2EECharacter* Character )
 
 	// Turn on Widget_Selected.
 	ActiveCharacter->ToggleWidget( true );
-
-	// Set InventoryMenu's Inventory.
-	TArray<UInventory*> Inventories;
-	ActiveCharacter->GetComponents<UInventory>( Inventories );
-	InventoryMenu->SetInventory( Inventories[0] );
 }
 
-void AMyPlayerController::ShowInventoryMenu()
+void AMyPlayerController::ShowInventoryMenu( UInventory* Inventory )
 {
-	InventoryMenu->AddToViewport();
+	InventoryMenu->ShowInventory( Inventory );
 }
 
 void AMyPlayerController::ZoomIn()
