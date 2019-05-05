@@ -13,7 +13,8 @@ AE2EEGameMode::AE2EEGameMode()
 	DefaultPawnClass = nullptr;
 
 	// Custom game state
-	GameStateClass = AE2EEGameStateBase::StaticClass();
+	static ConstructorHelpers::FClassFinder<AE2EEGameStateBase> GameStateBaseClassFinder( TEXT( "/Game/Gameplay/BP_GameStateBase" ) );
+	GameStateClass = GameStateBaseClassFinder.Class;
 
 	// Player controller is the blueprint extension of AMyPlayerController.
 	static ConstructorHelpers::FClassFinder<AMyPlayerController> PlayerControllerClassFinder( TEXT( "/Game/Gameplay/BP_MyPlayerController" ) );
