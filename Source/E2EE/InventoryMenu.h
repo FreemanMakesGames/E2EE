@@ -44,6 +44,9 @@ protected:
 	UPROPERTY()
 	UInventory* Inventory;
 
+	UPROPERTY()
+	AItem* ClickedItem;
+
 public:
 
 	UFUNCTION( BlueprintCallable )
@@ -57,6 +60,12 @@ protected:
 
 	UFUNCTION()
 	void HandleOnItemClickerClicked( UItemClicker* ClickedItemClicker );
+
+	UFUNCTION()
+	void HandleOnItemMenuButtonDestroyClicked();
+
+	UFUNCTION()
+	void HandleOnItemMenuButtonDropClicked();
 
 	UFUNCTION()
 	void HandleOnButtonHideInventoryMenuClicked();

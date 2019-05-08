@@ -26,6 +26,9 @@ void UInventoryMenu::NativeOnInitialized()
 
 	/* Input events */
 
+	ItemMenu->Button_Destroy->OnClicked.AddDynamic( this, &UInventoryMenu::HandleOnItemMenuButtonDestroyClicked );
+	ItemMenu->Button_Drop->OnClicked.AddDynamic( this, &UInventoryMenu::HandleOnItemMenuButtonDropClicked );
+
 	Button_HideInventoryMenu->OnClicked.AddDynamic( this, &UInventoryMenu::HandleOnButtonHideInventoryMenuClicked );
 }
 
@@ -73,6 +76,8 @@ UItemClicker* UInventoryMenu::AddNewItemClicker( AItem* Item )
 
 	WrapBox_ItemClickers->AddChildWrapBox( ItemClicker );
 
+	ItemToItemClicker.Add( Item, ItemClicker );
+
 	return ItemClicker;
 }
 
@@ -100,7 +105,22 @@ void UInventoryMenu::ReloadInventoryDisplay()
 
 void UInventoryMenu::HandleOnItemClickerClicked( UItemClicker* ClickedItemClicker )
 {
+	ClickedItem = ClickedItemClicker->GetItem();
+
 	ItemMenu->ShowButtons( ClickedItemClicker->GetItem() );
+}
+
+// FIXME: The ItemMenu should be cleared after destroying an item!
+void UInventoryMenu::HandleOnItemMenuButtonDestroyClicked()
+{
+	Inventory->RemoveItem( ClickedItem );
+}
+
+void UInventoryMenu::HandleOnItemMenuButtonDropClicked()
+{
+	UE_LOG( LogTemp, Warning, TEXT( "Drop" ) );
+
+	// TODO: Inventory: Implement item dropping.
 }
 
 void UInventoryMenu::HandleOnButtonHideInventoryMenuClicked()
@@ -110,10 +130,19 @@ void UInventoryMenu::HandleOnButtonHideInventoryMenuClicked()
 
 void UInventoryMenu::HandleOnItemAdded( AItem* ItemAdded )
 {
-	AddNewItemClicker( ItemAdded );
+	UItemClicker* ItemClicker = AddNewItemClicker( ItemAdded );
 }
 
 void UInventoryMenu::HandleOnItemRemoved( AItem* ItemRemoved )
 {
-	UE_LOG( LogTemp, Warning, TEXT( "Item removal" ) );
+	UItemClicker** pItemClicker = ItemToItemClicker.Find( ItemRemoved );
+
+	if ( pItemClicker )
+	{
+		(*pItemClicker)->RemoveFromParent();
+	}
+	else
+	{
+		UE_LOG( LogTemp, Error, TEXT( "UInventoryMenu hears an Item removal event, but no UItemClicker matches the removed item!" ) );
+	}
 }

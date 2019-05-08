@@ -24,16 +24,19 @@ public:
 
 	virtual void NativeOnInitialized() override;
 
-protected:
-
-	UPROPERTY( meta = ( BindWidget ) )
-	UVerticalBox* VerticalBox_Buttons;
+// FIXME: Inventory: Making these public seems dangerous. Consider making UInventoryMenu a friend class.
+public:
 
 	UPROPERTY( meta = ( BindWidget ) )
 	UButton* Button_Destroy;
 
 	UPROPERTY( meta = ( BindWidget ) )
 	UButton* Button_Drop;
+
+protected:
+
+	UPROPERTY( meta = ( BindWidget ) )
+	UVerticalBox* VerticalBox_Buttons;
 
 	UPROPERTY( VisibleAnywhere, BlueprintReadOnly )
 	TMap<EItemUsage, UButton*> ItemUsageToButton;

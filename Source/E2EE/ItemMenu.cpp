@@ -24,11 +24,11 @@ void UItemMenu::ShowButtons( AItem* Item )
 
 	for ( EItemUsage ItemUsage : Item->GetItemUsages() )
 	{
-		UButton* Button = *ItemUsageToButton.Find( ItemUsage );
+		UButton** pButton = ItemUsageToButton.Find( ItemUsage );
 
-		if ( Button )
+		if ( pButton )
 		{
-			VerticalBox_Buttons->AddChildToVerticalBox( Button );
+			VerticalBox_Buttons->AddChildToVerticalBox( *pButton );
 		}
 		else
 		{
