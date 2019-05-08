@@ -21,6 +21,11 @@ void AItem::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
+TArray<EItemUsage> AItem::GetItemUsages()
+{
+	return ItemUsages;
+}
+
 UItemWidget* AItem::GetItemWidget()
 {
 	return ItemWidget;

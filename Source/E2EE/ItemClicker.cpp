@@ -1,5 +1,6 @@
 #include "ItemClicker.h"
 
+#include "Item.h"
 #include "ItemWidget.h"
 
 #include "Components/Button.h"
@@ -15,16 +16,23 @@ void UItemClicker::NativeOnInitialized()
 	Button_Clicker->OnClicked.AddDynamic( this, &UItemClicker::HandleOnButtonClicked );
 }
 
-void UItemClicker::InsertItemWidget( UItemWidget* ItemWidget )
+AItem* UItemClicker::GetItem()
 {
+	return Item;
+}
+
+void UItemClicker::SetItem( AItem* ItemToSet )
+{
+	Item = ItemToSet;
+
 	if ( NamedSlot_ItemWidgetSlot->HasAnyChildren() )
 	{
-		UE_LOG( LogTemp, Warning, TEXT( "An ItemClicker's ItemWidget is being replaced. Is it intended?" ) );
+		UE_LOG( LogTemp, Warning, TEXT( "An ItemClicker's Item is being replaced. Is it intended?" ) );
 
 		NamedSlot_ItemWidgetSlot->ClearChildren();
 	}
 
-	NamedSlot_ItemWidgetSlot->AddChild( ItemWidget );
+	NamedSlot_ItemWidgetSlot->AddChild( Item->GetItemWidget() );
 }
 
 void UItemClicker::HandleOnButtonClicked()

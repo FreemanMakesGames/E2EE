@@ -29,8 +29,11 @@ protected:
 
 public:
 
-	UPROPERTY( BlueprintReadWrite )
-	AItem* Item;
+	UFUNCTION( BlueprintCallable )
+	AItem* GetItem();
+
+	UFUNCTION( BlueprintCallable )
+	void SetItem( AItem* ItemToSet );
 
 protected:
 
@@ -40,12 +43,13 @@ protected:
 	UPROPERTY( meta = ( BindWidget ) )
 	UNamedSlot* NamedSlot_ItemWidgetSlot;
 
+	UPROPERTY( BlueprintReadWrite )
+	AItem* Item;
+
 public:
 
 	UPROPERTY( BlueprintAssignable )
 	FOnItemClickerClickedEvent OnClicked;
-
-	void InsertItemWidget( UItemWidget* ItemWidget );
 
 protected:
 

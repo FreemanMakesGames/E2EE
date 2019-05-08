@@ -1,8 +1,8 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "Command.h"
+
+#include "ItemUsage.h"
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
@@ -28,6 +28,11 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
+public:
+
+	UFUNCTION( BlueprintCallable )
+	TArray<EItemUsage> GetItemUsages();
+
 protected:
 
 	UPROPERTY( EditDefaultsOnly )
@@ -35,6 +40,9 @@ protected:
 
 	UPROPERTY( BlueprintReadWrite )
 	UItemWidget* ItemWidget;
+
+	UPROPERTY( EditDefaultsOnly, BlueprintReadOnly )
+	TArray<EItemUsage> ItemUsages;
 
 	TArray<UCommand*> Commands;
 

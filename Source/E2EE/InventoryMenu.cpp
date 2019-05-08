@@ -1,6 +1,7 @@
 #include "InventoryMenu.h"
 
 #include "ItemClicker.h"
+#include "ItemMenu.h"
 #include "Inventory.h"
 #include "Item.h"
 #include "ItemWidget.h"
@@ -62,11 +63,11 @@ void UInventoryMenu::ShowInventory( UInventory* InventoryToSet )
 /**
  * Create a new ItemClicker with ItemWidget content, and add it to the WrapBox.
  */
-UItemClicker* UInventoryMenu::AddNewItemClicker( UItemWidget* ItemWidget )
+UItemClicker* UInventoryMenu::AddNewItemClicker( AItem* Item )
 {
 	UItemClicker* ItemClicker = CreateWidget<UItemClicker>( this, ItemClickerClass );
 
-	ItemClicker->InsertItemWidget( ItemWidget );
+	ItemClicker->SetItem( Item );
 
 	ItemClicker->OnClicked.AddDynamic( this, &UInventoryMenu::HandleOnItemClickerClicked );
 
@@ -93,19 +94,13 @@ void UInventoryMenu::ReloadInventoryDisplay()
 
 	for ( int i = 0; i < Items.Num(); i++ )
 	{
-		// Get the new ItemWidget.
-		UItemWidget* ItemWidget = Items[i]->GetItemWidget();
-
-		// Add a new ItemClicker.
-		UItemClicker* ItemClicker = AddNewItemClicker( ItemWidget );
+		UItemClicker* ItemClicker = AddNewItemClicker( Items[ i ] );
 	}
 }
 
 void UInventoryMenu::HandleOnItemClickerClicked( UItemClicker* ClickedItemClicker )
 {
-	UE_LOG( LogTemp, Warning, TEXT( "Event test: %s" ), *ClickedItemClicker->GetName() );
-
-	// TODO: Inventory: Update and show ItemMenu here.
+	ItemMenu->ShowButtons( ClickedItemClicker->GetItem() );
 }
 
 void UInventoryMenu::HandleOnButtonHideInventoryMenuClicked()
@@ -115,7 +110,7 @@ void UInventoryMenu::HandleOnButtonHideInventoryMenuClicked()
 
 void UInventoryMenu::HandleOnItemAdded( AItem* ItemAdded )
 {
-	AddNewItemClicker( ItemAdded->GetItemWidget() );
+	AddNewItemClicker( ItemAdded );
 }
 
 void UInventoryMenu::HandleOnItemRemoved( AItem* ItemRemoved )

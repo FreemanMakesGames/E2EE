@@ -10,6 +10,7 @@ class UItemWidget;
 class AItem;
 class UWrapBox;
 class UButton;
+class UItemMenu;
 
 /**
  * 
@@ -23,11 +24,6 @@ protected:
 
  	virtual void NativeOnInitialized() override;
 
-public:
-
-	UFUNCTION( BlueprintCallable )
-	void ShowInventory( UInventory* InventoryToSet );
-
 protected:
 
 	UPROPERTY( EditDefaultsOnly, BlueprintReadOnly )
@@ -40,14 +36,22 @@ protected:
 	UWrapBox* WrapBox_ItemClickers;
 
 	UPROPERTY( meta = ( BindWidget ) )
+	UItemMenu* ItemMenu;
+
+	UPROPERTY( meta = ( BindWidget ) )
 	UButton* Button_HideInventoryMenu;
 
 	UPROPERTY()
 	UInventory* Inventory;
 
+public:
+
+	UFUNCTION( BlueprintCallable )
+	void ShowInventory( UInventory* InventoryToSet );
+
 protected:
 
-	UItemClicker* AddNewItemClicker( UItemWidget* ItemWidget );
+	UItemClicker* AddNewItemClicker( AItem* Item );
 
 	void ReloadInventoryDisplay();
 
