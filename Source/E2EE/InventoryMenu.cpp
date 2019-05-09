@@ -108,7 +108,6 @@ void UInventoryMenu::HandleOnItemClickerClicked( UItemClicker* ClickedItemClicke
 	ItemMenu->Display( ClickedItemClicker->GetItem() );
 }
 
-// FIXME: The ItemMenu should be cleared after destroying an item!
 void UInventoryMenu::HandleOnItemMenuButtonDestroyClicked( AItem* TargetItem )
 {
 	Inventory->RemoveItem( TargetItem );

@@ -48,10 +48,14 @@ void UItemMenu::Display( AItem* Item )
 void UItemMenu::HandleOnButtonDestroyClicked()
 {
 	OnButtonDestroyClicked.Broadcast( CurrentItem );
+
+	VerticalBox_Buttons->ClearChildren();
 }
 
 void UItemMenu::HandleOnButtonDropClicked()
 {
 	OnButtonDropClicked.Broadcast( CurrentItem );
+
+	VerticalBox_Buttons->ClearChildren();
 }
 
