@@ -10,6 +10,9 @@ class UVerticalBox;
 class UButton;
 class AItem;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnButtonDestroyClicked, AItem*, TargetItem );
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnButtonDropClicked, AItem*, TargetItem );
+
 /**
  * 
  */
@@ -24,8 +27,18 @@ public:
 
 	virtual void NativeOnInitialized() override;
 
-// FIXME: Inventory: Making these public seems dangerous. Consider making UInventoryMenu a friend class.
 public:
+
+	UPROPERTY( BlueprintAssignable )
+	FOnButtonDestroyClicked OnButtonDestroyClicked;
+
+	UPROPERTY( BlueprintAssignable )
+	FOnButtonDropClicked OnButtonDropClicked;
+
+protected:
+
+	UPROPERTY( meta = ( BindWidget ) )
+	UVerticalBox* VerticalBox_Buttons;
 
 	UPROPERTY( meta = ( BindWidget ) )
 	UButton* Button_Destroy;
@@ -33,17 +46,23 @@ public:
 	UPROPERTY( meta = ( BindWidget ) )
 	UButton* Button_Drop;
 
-protected:
-
-	UPROPERTY( meta = ( BindWidget ) )
-	UVerticalBox* VerticalBox_Buttons;
-
 	UPROPERTY( VisibleAnywhere, BlueprintReadOnly )
 	TMap<EItemUsage, UButton*> ItemUsageToButton;
+
+	UPROPERTY( VisibleAnywhere )
+	AItem* CurrentItem;
 
 public:
 
 	UFUNCTION()
-	void ShowButtons( AItem* Item );
+	void Display( AItem* Item );
+
+protected:
+
+	UFUNCTION()
+	void HandleOnButtonDestroyClicked();
+
+	UFUNCTION()
+	void HandleOnButtonDropClicked();
 	
 };

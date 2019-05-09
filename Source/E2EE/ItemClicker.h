@@ -9,7 +9,7 @@ class UItemWidget;
 class UButton;
 class UNamedSlot;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnItemClickerClickedEvent, UItemClicker*, ClickedItemClicker );
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnButtonClickerClicked, UItemClicker*, ClickedItemClicker );
 
 /**
  * 
@@ -29,6 +29,11 @@ protected:
 
 public:
 
+	UPROPERTY( BlueprintAssignable )
+	FOnButtonClickerClicked OnClicked;
+
+public:
+
 	UFUNCTION( BlueprintCallable )
 	AItem* GetItem();
 
@@ -45,11 +50,6 @@ protected:
 
 	UPROPERTY( BlueprintReadWrite )
 	AItem* Item;
-
-public:
-
-	UPROPERTY( BlueprintAssignable )
-	FOnItemClickerClickedEvent OnClicked;
 
 protected:
 

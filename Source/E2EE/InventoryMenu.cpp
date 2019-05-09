@@ -24,11 +24,11 @@ void UInventoryMenu::NativeOnInitialized()
 		return;
 	}
 
-	/* Input events */
+	// Bind UItemMenu events.
+	ItemMenu->OnButtonDestroyClicked.AddDynamic( this, &UInventoryMenu::HandleOnItemMenuButtonDestroyClicked );
+	ItemMenu->OnButtonDropClicked.AddDynamic( this, &UInventoryMenu::HandleOnItemMenuButtonDropClicked );
 
-	ItemMenu->Button_Destroy->OnClicked.AddDynamic( this, &UInventoryMenu::HandleOnItemMenuButtonDestroyClicked );
-	ItemMenu->Button_Drop->OnClicked.AddDynamic( this, &UInventoryMenu::HandleOnItemMenuButtonDropClicked );
-
+	// Bind my input events.
 	Button_HideInventoryMenu->OnClicked.AddDynamic( this, &UInventoryMenu::HandleOnButtonHideInventoryMenuClicked );
 }
 
@@ -105,18 +105,16 @@ void UInventoryMenu::ReloadInventoryDisplay()
 
 void UInventoryMenu::HandleOnItemClickerClicked( UItemClicker* ClickedItemClicker )
 {
-	ClickedItem = ClickedItemClicker->GetItem();
-
-	ItemMenu->ShowButtons( ClickedItemClicker->GetItem() );
+	ItemMenu->Display( ClickedItemClicker->GetItem() );
 }
 
 // FIXME: The ItemMenu should be cleared after destroying an item!
-void UInventoryMenu::HandleOnItemMenuButtonDestroyClicked()
+void UInventoryMenu::HandleOnItemMenuButtonDestroyClicked( AItem* TargetItem )
 {
-	Inventory->RemoveItem( ClickedItem );
+	Inventory->RemoveItem( TargetItem );
 }
 
-void UInventoryMenu::HandleOnItemMenuButtonDropClicked()
+void UInventoryMenu::HandleOnItemMenuButtonDropClicked( AItem* TargetItem )
 {
 	UE_LOG( LogTemp, Warning, TEXT( "Drop" ) );
 
