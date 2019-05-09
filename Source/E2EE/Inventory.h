@@ -22,13 +22,16 @@ public:
 	TArray<AItem*> GetItems();
 
 	UFUNCTION( BlueprintCallable )
+	int CountItems();
+
+	UFUNCTION( BlueprintCallable )
 	void AddItem( AItem* ItemToAdd );
 
 	UFUNCTION( BlueprintCallable )
 	void RemoveItem( AItem* ItemToRemove );
 
 	UFUNCTION( BlueprintCallable )
-	int CountItems();
+	void DropItem( AItem* ItemToDrop );
 
 	UPROPERTY( BlueprintAssignable )
 	FOnItemAdded OnItemAdded;

@@ -115,9 +115,7 @@ void UInventoryMenu::HandleOnItemMenuButtonDestroyClicked( AItem* TargetItem )
 
 void UInventoryMenu::HandleOnItemMenuButtonDropClicked( AItem* TargetItem )
 {
-	UE_LOG( LogTemp, Warning, TEXT( "Drop" ) );
-
-	// TODO: Inventory: Implement item dropping.
+	Inventory->DropItem( TargetItem );
 }
 
 void UInventoryMenu::HandleOnButtonHideInventoryMenuClicked()
