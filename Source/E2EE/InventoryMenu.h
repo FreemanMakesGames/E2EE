@@ -15,7 +15,7 @@ class UItemMenu;
 /**
  * 
  */
-UCLASS()
+UCLASS( Blueprintable )
 class E2EE_API UInventoryMenu : public UUserWidget
 {
 	GENERATED_BODY()
@@ -55,9 +55,15 @@ protected:
 
 	void ReloadInventoryDisplay();
 
+#pragma region My UI event handlers
 	UFUNCTION()
 	void HandleOnItemClickerClicked( UItemClicker* ClickedItemClicker );
 
+	UFUNCTION()
+	void HandleOnButtonHideInventoryMenuClicked();
+#pragma endregion
+
+#pragma region Item Menu event handlers
 	UFUNCTION()
 	void HandleOnItemMenuButtonDestroyClicked( AItem* TargetItem );
 
@@ -65,12 +71,26 @@ protected:
 	void HandleOnItemMenuButtonDropClicked( AItem* TargetItem );
 
 	UFUNCTION()
-	void HandleOnButtonHideInventoryMenuClicked();
+	void HandleOnItemMenuButtonOpenClicked( AItem* TargetItem );
 
+	UFUNCTION()
+	void HandleOnItemMenuButtonForCombinationClicked( AItem* TargetItem );
+#pragma endregion
+
+#pragma region Inventory event handlers
 	UFUNCTION()
 	void HandleOnItemAdded( AItem* ItemAdded );
 
 	UFUNCTION()
 	void HandleOnItemRemoved( AItem* ItemRemoved );
+#pragma endregion
+
+protected:
+
+	UPROPERTY( VisibleAnywhere )
+	AItem* FirstItemForCombination;
+
+	UPROPERTY( VisibleAnywhere )
+	bool bIsCombining;
 	
 };

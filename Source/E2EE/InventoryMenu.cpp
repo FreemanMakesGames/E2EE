@@ -27,6 +27,8 @@ void UInventoryMenu::NativeOnInitialized()
 	// Bind UItemMenu events.
 	ItemMenu->OnButtonDestroyClicked.AddDynamic( this, &UInventoryMenu::HandleOnItemMenuButtonDestroyClicked );
 	ItemMenu->OnButtonDropClicked.AddDynamic( this, &UInventoryMenu::HandleOnItemMenuButtonDropClicked );
+	ItemMenu->OnButtonOpenClicked.AddDynamic( this, &UInventoryMenu::HandleOnItemMenuButtonOpenClicked );
+	ItemMenu->OnButtonForCombinationClicked.AddDynamic( this, &UInventoryMenu::HandleOnItemMenuButtonForCombinationClicked );
 
 	// Bind my input events.
 	Button_HideInventoryMenu->OnClicked.AddDynamic( this, &UInventoryMenu::HandleOnButtonHideInventoryMenuClicked );
@@ -103,11 +105,32 @@ void UInventoryMenu::ReloadInventoryDisplay()
 	}
 }
 
+#pragma region My UI event handlers
 void UInventoryMenu::HandleOnItemClickerClicked( UItemClicker* ClickedItemClicker )
 {
-	ItemMenu->Display( ClickedItemClicker->GetItem() );
+	AItem* TargetItem = ClickedItemClicker->GetItem();
+
+	if ( bIsCombining )
+	{
+		Inventory->CombineItems( FirstItemForCombination, TargetItem );
+
+		bIsCombining = false;
+	}
+	else
+	{
+		ItemMenu->Display( TargetItem );
+
+		FirstItemForCombination = TargetItem;
+	}
 }
 
+void UInventoryMenu::HandleOnButtonHideInventoryMenuClicked()
+{
+	RemoveFromParent();
+}
+#pragma endregion
+
+#pragma region Item Menu event handlers
 void UInventoryMenu::HandleOnItemMenuButtonDestroyClicked( AItem* TargetItem )
 {
 	Inventory->RemoveItem( TargetItem );
@@ -118,11 +141,18 @@ void UInventoryMenu::HandleOnItemMenuButtonDropClicked( AItem* TargetItem )
 	Inventory->DropItem( TargetItem );
 }
 
-void UInventoryMenu::HandleOnButtonHideInventoryMenuClicked()
+void UInventoryMenu::HandleOnItemMenuButtonOpenClicked( AItem* TargetItem )
 {
-	RemoveFromParent();
+	UE_LOG( LogTemp, Warning, TEXT( "Open" ) );
 }
 
+void UInventoryMenu::HandleOnItemMenuButtonForCombinationClicked( AItem* TargetItem )
+{
+	bIsCombining = true;
+}
+#pragma endregion
+
+#pragma region Inventory event handlers
 void UInventoryMenu::HandleOnItemAdded( AItem* ItemAdded )
 {
 	UItemClicker* ItemClicker = AddNewItemClicker( ItemAdded );
@@ -141,3 +171,4 @@ void UInventoryMenu::HandleOnItemRemoved( AItem* ItemRemoved )
 		UE_LOG( LogTemp, Error, TEXT( "UInventoryMenu hears an Item removal event, but no UItemClicker matches the removed item!" ) );
 	}
 }
+#pragma endregion

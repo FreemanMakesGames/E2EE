@@ -12,7 +12,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnItemRemoved, AItem*, Item );
 /**
  * 
  */
-UCLASS( BlueprintType, ClassGroup = ( Custom ), meta = ( BlueprintSpawnableComponent ) )
+UCLASS( Blueprintable, BlueprintType, ClassGroup = ( Custom ), meta = ( BlueprintSpawnableComponent ) )
 class E2EE_API UInventory : public UActorComponent
 {
 	GENERATED_BODY()
@@ -32,6 +32,12 @@ public:
 
 	UFUNCTION( BlueprintCallable )
 	void DropItem( AItem* ItemToDrop );
+
+	UFUNCTION( BlueprintCallable )
+	void CombineItems( AItem* Item1, AItem* Item2 );
+
+	UFUNCTION( BlueprintImplementableEvent )
+	TArray<AItem*> CombineItemsWithItemCombiner( AItem* Item1, AItem* Item2 );
 
 	UPROPERTY( BlueprintAssignable )
 	FOnItemAdded OnItemAdded;

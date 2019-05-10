@@ -15,6 +15,12 @@ void UItemMenu::NativeOnInitialized()
 	// Bind UButton events.
 	Button_Destroy->OnClicked.AddDynamic( this, &UItemMenu::HandleOnButtonDestroyClicked );
 	Button_Drop->OnClicked.AddDynamic( this, &UItemMenu::HandleOnButtonDropClicked );
+	Button_Open->OnClicked.AddDynamic( this, &UItemMenu::HandleOnButtonOpenClicked );
+
+	// Bind UButton events for Item combinations.
+	Button_Lock->OnClicked.AddDynamic( this, &UItemMenu::HandleOnButtonForCombinationClicked );
+	Button_Unlock->OnClicked.AddDynamic( this, &UItemMenu::HandleOnButtonForCombinationClicked );
+	Button_Contain->OnClicked.AddDynamic( this, &UItemMenu::HandleOnButtonForCombinationClicked );
 
 	// Populate the TMap.
 	ItemUsageToButton.Add( EItemUsage::Destroy, Button_Destroy );
@@ -59,6 +65,20 @@ void UItemMenu::HandleOnButtonDestroyClicked()
 void UItemMenu::HandleOnButtonDropClicked()
 {
 	OnButtonDropClicked.Broadcast( CurrentItem );
+
+	VerticalBox_Buttons->ClearChildren();
+}
+
+void UItemMenu::HandleOnButtonOpenClicked()
+{
+	OnButtonOpenClicked.Broadcast( CurrentItem );
+
+	VerticalBox_Buttons->ClearChildren();
+}
+
+void UItemMenu::HandleOnButtonForCombinationClicked()
+{
+	OnButtonForCombinationClicked.Broadcast( CurrentItem );
 
 	VerticalBox_Buttons->ClearChildren();
 }

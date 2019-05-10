@@ -42,7 +42,12 @@ void UInventory::DropItem( AItem* ItemToDrop )
 		return;
 	}
 
-	Items.Remove( ItemToDrop );
+	RemoveItem( ItemToDrop );
+}
 
-	OnItemRemoved.Broadcast( ItemToDrop );
+void UInventory::CombineItems( AItem* Item1, AItem* Item2 )
+{
+	UE_LOG( LogTemp, Warning, TEXT( "%s is being combined with %s." ), *Item1->GetName(), *Item2->GetName() );
+
+	TArray<AItem*> ResultItems = CombineItemsWithItemCombiner( Item1, Item2 );
 }
