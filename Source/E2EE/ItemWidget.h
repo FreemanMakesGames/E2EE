@@ -5,6 +5,7 @@
 #include "ItemWidget.generated.h"
 
 class UImage;
+class UTexture2D;
 
 /**
  * 
@@ -14,9 +15,14 @@ class E2EE_API UItemWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
+public:
+
+	UFUNCTION( BlueprintCallable )
+	void UpdateImage( UTexture2D* NewTexture );
+
 protected:
 
-	// An Image holds a Texture.
+	// An Image widget holds a Texture.
 	UPROPERTY( meta = ( BindWidget ) )
 	UImage* Image_Icon;
 	
