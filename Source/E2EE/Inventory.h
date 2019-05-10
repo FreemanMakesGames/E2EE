@@ -34,10 +34,10 @@ public:
 	void DropItem( AItem* ItemToDrop );
 
 	UFUNCTION( BlueprintCallable )
-	void CombineItems( AItem* Item1, AItem* Item2 );
+	void CombineItems( TArray<AItem*> Items );
 
 	UFUNCTION( BlueprintImplementableEvent )
-	TArray<AItem*> CombineItemsWithItemCombiner( AItem* Item1, AItem* Item2 );
+	TArray<AItem*> CombineItemsWithItemCombiner( const TArray<AItem*>& Items );
 
 	UPROPERTY( BlueprintAssignable )
 	FOnItemAdded OnItemAdded;

@@ -112,7 +112,11 @@ void UInventoryMenu::HandleOnItemClickerClicked( UItemClicker* ClickedItemClicke
 
 	if ( bIsCombining )
 	{
-		Inventory->CombineItems( FirstItemForCombination, TargetItem );
+		TArray<AItem*> CombiningItems;
+		CombiningItems.Add( FirstItemForCombination );
+		CombiningItems.Add( TargetItem );
+
+		Inventory->CombineItems( CombiningItems );
 
 		bIsCombining = false;
 	}

@@ -45,9 +45,24 @@ void UInventory::DropItem( AItem* ItemToDrop )
 	RemoveItem( ItemToDrop );
 }
 
-void UInventory::CombineItems( AItem* Item1, AItem* Item2 )
+void UInventory::CombineItems( TArray<AItem*> Items )
 {
-	UE_LOG( LogTemp, Warning, TEXT( "%s is being combined with %s." ), *Item1->GetName(), *Item2->GetName() );
+	TArray<AItem*> ResultItems = CombineItemsWithItemCombiner( Items );
 
-	TArray<AItem*> ResultItems = CombineItemsWithItemCombiner( Item1, Item2 );
+	if ( ResultItems == Items )
+	{
+		return;
+	}
+	else
+	{
+		for ( AItem* Item : Items )
+		{
+			RemoveItem( Item );
+		}
+
+		for ( AItem* Item : ResultItems )
+		{
+			AddItem( Item );
+		}
+	}
 }
