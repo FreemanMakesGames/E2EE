@@ -46,6 +46,18 @@ protected:
 	UPROPERTY( meta = ( BindWidget ) )
 	UButton* Button_Drop;
 
+	UPROPERTY( meta = ( BindWidget ) )
+	UButton* Button_Lock;
+
+	UPROPERTY( meta = ( BindWidget ) )
+	UButton* Button_Unlock;
+
+	UPROPERTY( meta = ( BindWidget ) )
+	UButton* Button_Open;
+
+	UPROPERTY( meta = ( BindWidget ) )
+	UButton* Button_Contain;
+
 	UPROPERTY( VisibleAnywhere, BlueprintReadOnly )
 	TMap<EItemUsage, UButton*> ItemUsageToButton;
 

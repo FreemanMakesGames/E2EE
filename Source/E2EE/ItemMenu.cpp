@@ -19,6 +19,10 @@ void UItemMenu::NativeOnInitialized()
 	// Populate the TMap.
 	ItemUsageToButton.Add( EItemUsage::Destroy, Button_Destroy );
 	ItemUsageToButton.Add( EItemUsage::Drop, Button_Drop );
+	ItemUsageToButton.Add( EItemUsage::Lock, Button_Lock );
+	ItemUsageToButton.Add( EItemUsage::Unlock, Button_Unlock );
+	ItemUsageToButton.Add( EItemUsage::Open, Button_Open );
+	ItemUsageToButton.Add( EItemUsage::Contain, Button_Contain );
 
 	// Clear the UVerticalBox.
 	VerticalBox_Buttons->ClearChildren();
