@@ -45,17 +45,17 @@ void UInventory::DropItem( AItem* ItemToDrop )
 	RemoveItem( ItemToDrop );
 }
 
-void UInventory::CombineItems( TArray<AItem*> Items )
+void UInventory::CombineItems( TArray<AItem*> SourceItems )
 {
-	TArray<AItem*> ResultItems = CombineItemsWithItemCombiner( Items );
+	TArray<AItem*> ResultItems = CombineItemsWithItemCombiner( SourceItems );
 
-	if ( ResultItems == Items )
+	if ( ResultItems == SourceItems )
 	{
 		return;
 	}
 	else
 	{
-		for ( AItem* Item : Items )
+		for ( AItem* Item : SourceItems )
 		{
 			RemoveItem( Item );
 		}

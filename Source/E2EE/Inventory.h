@@ -37,7 +37,7 @@ public:
 	void CombineItems( TArray<AItem*> Items );
 
 	UFUNCTION( BlueprintImplementableEvent )
-	TArray<AItem*> CombineItemsWithItemCombiner( const TArray<AItem*>& Items );
+	TArray<AItem*> CombineItemsWithItemCombiner( const TArray<AItem*>& SourceItems );
 
 	UPROPERTY( BlueprintAssignable )
 	FOnItemAdded OnItemAdded;
