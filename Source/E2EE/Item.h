@@ -31,6 +31,12 @@ public:
 public:
 
 	UFUNCTION( BlueprintCallable )
+	UItemWidget* GetItemWidget();
+
+	UFUNCTION( BlueprintCallable )
+	void SetItemWidget( UItemWidget* ItemWidgetToSet );
+
+	UFUNCTION( BlueprintCallable )
 	TArray<EItemUsage> GetItemUsages();
 
 protected:
@@ -44,16 +50,9 @@ protected:
 	UPROPERTY( EditDefaultsOnly, BlueprintReadOnly )
 	TArray<EItemUsage> ItemUsages;
 
-	TArray<UCommand*> Commands;
-
-	UCommand* ActiveCommand;
-
 public:
 
-	UFUNCTION( BlueprintCallable )
-	UItemWidget* GetItemWidget();
-
-	UFUNCTION( BlueprintCallable )
-	void SetItemWidget( UItemWidget* ItemWidgetToSet );
+	UFUNCTION( BlueprintImplementableEvent, BlueprintCallable )
+	AItem* Duplicate();
 
 };

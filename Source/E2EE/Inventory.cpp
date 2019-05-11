@@ -45,6 +45,22 @@ void UInventory::DropItem( AItem* ItemToDrop )
 	RemoveItem( ItemToDrop );
 }
 
+AItem* UInventory::DuplicateItem( AItem* ItemToDuplicate )
+{
+	AItem* Clone = ItemToDuplicate->Duplicate();
+
+	if ( Clone )
+	{
+		AddItem( Clone );
+	}
+	else
+	{
+		UE_LOG( LogTemp, Warning, TEXT( "Item duplication failed?!" ) );
+	}
+
+	return Clone;
+}
+
 void UInventory::CombineItems( TArray<AItem*> SourceItems )
 {
 	TArray<AItem*> ResultItems = CombineItemsWithItemCombiner( SourceItems );
