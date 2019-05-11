@@ -12,6 +12,7 @@ class AItem;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnButtonDestroyClicked, AItem*, TargetItem );
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnButtonDropClicked, AItem*, TargetItem );
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnButtonDuplicateClicked, AItem*, TargetItem );
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnButtonOpenClicked, AItem*, TargetItem );
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnButtonReadClicked, AItem*, TargetItem );
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnButtonForCombinationClicked, AItem*, TargetItem );
@@ -40,6 +41,9 @@ public:
 	FOnButtonDropClicked OnButtonDropClicked;
 
 	UPROPERTY( BlueprintAssignable )
+	FOnButtonDuplicateClicked OnButtonDuplicateClicked;
+
+	UPROPERTY( BlueprintAssignable )
 	FOnButtonOpenClicked OnButtonOpenClicked;
 
 	UPROPERTY( BlueprintAssignable )
@@ -60,6 +64,9 @@ protected:
 
 	UPROPERTY( meta = ( BindWidget ) )
 	UButton* Button_Drop;
+
+	UPROPERTY( meta = ( BindWidget ) )
+	UButton* Button_Duplicate;
 
 	UPROPERTY( meta = ( BindWidget ) )
 	UButton* Button_Lock;
@@ -96,6 +103,9 @@ protected:
 
 	UFUNCTION()
 	void HandleOnButtonDropClicked();
+
+	UFUNCTION()
+	void HandleOnButtonDuplicateClicked();
 
 	UFUNCTION()
 	void HandleOnButtonOpenClicked();

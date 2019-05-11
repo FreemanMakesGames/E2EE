@@ -33,10 +33,13 @@ public:
 	UFUNCTION( BlueprintCallable )
 	void DropItem( AItem* ItemToDrop );
 
-	UFUNCTION( BlueprintImplementableEvent )
+	UFUNCTION(  BlueprintImplementableEvent, BlueprintCallable )
+	AItem* DuplicateItem( AItem* ItemToDuplicate );
+
+	UFUNCTION( BlueprintImplementableEvent, BlueprintCallable )
 	void OpenItem( AItem* ItemToOpen );
 
-	UFUNCTION( BlueprintImplementableEvent )
+	UFUNCTION( BlueprintImplementableEvent, BlueprintCallable )
 	void ReadItem( AItem* ItemToRead );
 
 	UFUNCTION( BlueprintCallable )

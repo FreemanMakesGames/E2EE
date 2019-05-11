@@ -71,6 +71,9 @@ protected:
 	void HandleOnItemMenuButtonDropClicked( AItem* TargetItem );
 
 	UFUNCTION()
+	void HandleOnItemMenuButtonDuplicateClicked( AItem* TargetItem );
+
+	UFUNCTION()
 	void HandleOnItemMenuButtonOpenClicked( AItem* TargetItem );
 
 	UFUNCTION()

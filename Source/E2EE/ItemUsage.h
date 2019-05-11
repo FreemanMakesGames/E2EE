@@ -8,6 +8,7 @@ enum class EItemUsage : uint8
 	// General
 	Destroy			UMETA( DisplayName = "Destroy" ),
 	Drop			UMETA( DisplayName = "Drop" ),
+	Duplicate		UMETA( DisplayName = "Duplicate" ),
 
 	// Combination
 	Lock			UMETA( DisplayName = "Lock" ),

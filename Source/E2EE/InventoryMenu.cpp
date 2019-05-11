@@ -27,6 +27,7 @@ void UInventoryMenu::NativeOnInitialized()
 	// Bind UItemMenu events.
 	ItemMenu->OnButtonDestroyClicked.AddDynamic( this, &UInventoryMenu::HandleOnItemMenuButtonDestroyClicked );
 	ItemMenu->OnButtonDropClicked.AddDynamic( this, &UInventoryMenu::HandleOnItemMenuButtonDropClicked );
+	ItemMenu->OnButtonDuplicateClicked.AddDynamic( this, &UInventoryMenu::HandleOnItemMenuButtonDuplicateClicked );
 	ItemMenu->OnButtonOpenClicked.AddDynamic( this, &UInventoryMenu::HandleOnItemMenuButtonOpenClicked );
 	ItemMenu->OnButtonReadClicked.AddDynamic( this, &UInventoryMenu::HandleOnItemMenuButtonReadClicked );
 	ItemMenu->OnButtonForCombinationClicked.AddDynamic( this, &UInventoryMenu::HandleOnItemMenuButtonForCombinationClicked );
@@ -144,6 +145,11 @@ void UInventoryMenu::HandleOnItemMenuButtonDestroyClicked( AItem* TargetItem )
 void UInventoryMenu::HandleOnItemMenuButtonDropClicked( AItem* TargetItem )
 {
 	Inventory->DropItem( TargetItem );
+}
+
+void UInventoryMenu::HandleOnItemMenuButtonDuplicateClicked( AItem* TargetItem )
+{
+	Inventory->DuplicateItem( TargetItem );
 }
 
 void UInventoryMenu::HandleOnItemMenuButtonOpenClicked( AItem* TargetItem )

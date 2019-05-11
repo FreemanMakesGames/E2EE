@@ -15,6 +15,7 @@ void UItemMenu::NativeOnInitialized()
 	// Bind UButton events.
 	Button_Destroy->OnClicked.AddDynamic( this, &UItemMenu::HandleOnButtonDestroyClicked );
 	Button_Drop->OnClicked.AddDynamic( this, &UItemMenu::HandleOnButtonDropClicked );
+	Button_Duplicate->OnClicked.AddDynamic( this, &UItemMenu::HandleOnButtonDuplicateClicked );
 	Button_Open->OnClicked.AddDynamic( this, &UItemMenu::HandleOnButtonOpenClicked );
 	Button_Read->OnClicked.AddDynamic( this, &UItemMenu::HandleOnButtonReadClicked );
 
@@ -26,6 +27,7 @@ void UItemMenu::NativeOnInitialized()
 	// Populate the TMap.
 	ItemUsageToButton.Add( EItemUsage::Destroy, Button_Destroy );
 	ItemUsageToButton.Add( EItemUsage::Drop, Button_Drop );
+	ItemUsageToButton.Add( EItemUsage::Duplicate, Button_Duplicate );
 	ItemUsageToButton.Add( EItemUsage::Lock, Button_Lock );
 	ItemUsageToButton.Add( EItemUsage::Unlock, Button_Unlock );
 	ItemUsageToButton.Add( EItemUsage::Open, Button_Open );
@@ -68,6 +70,13 @@ void UItemMenu::HandleOnButtonDestroyClicked()
 void UItemMenu::HandleOnButtonDropClicked()
 {
 	OnButtonDropClicked.Broadcast( CurrentItem );
+
+	VerticalBox_Buttons->ClearChildren();
+}
+
+void UItemMenu::HandleOnButtonDuplicateClicked()
+{
+	OnButtonDuplicateClicked.Broadcast( CurrentItem );
 
 	VerticalBox_Buttons->ClearChildren();
 }
