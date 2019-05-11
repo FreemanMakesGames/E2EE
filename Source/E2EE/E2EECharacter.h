@@ -8,6 +8,7 @@
 
 class UUserWidget;
 class UHighlightComponent;
+class UDropItemComponent;
 
 class AWaypoint;
 
@@ -64,9 +65,6 @@ protected:
 	virtual void BeginPlay() override;
 
 protected:
-
-	USkeletalMeshComponent* MySkeletalMeshComponent;
-	UCapsuleComponent* MyCapsuleComponent;
 
 	UPROPERTY( VisibleInstanceOnly )
 	AWaypoint* CurrentWaypoint;

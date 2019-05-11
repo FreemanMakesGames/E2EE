@@ -2,12 +2,7 @@
 
 #include "E2EEGameStateBase.h"
 
-int AE2EEGameStateBase::GetCurrentKeyPairID()
+void AE2EEGameStateBase::IncrementUsableKeyPairID()
 {
-	return CurrentKeyPairID;
-}
-
-void AE2EEGameStateBase::IncrementCurrentKeyPairID()
-{
-	CurrentKeyPairID++;
+	NextUsableKeyPairID++;
 }

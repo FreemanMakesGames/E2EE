@@ -14,13 +14,11 @@ class E2EE_API AE2EEGameStateBase : public AGameStateBase
 public:
 
 	UFUNCTION( BlueprintCallable )
-	int GetCurrentKeyPairID();
-
-	UFUNCTION( BlueprintCallable )
-	void IncrementCurrentKeyPairID();
+	void IncrementUsableKeyPairID();
 
 protected:
 
-	int CurrentKeyPairID;
+	UPROPERTY( VisibleAnywhere, BlueprintReadOnly )
+	int NextUsableKeyPairID;
 	
 };
