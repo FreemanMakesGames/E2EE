@@ -36,6 +36,9 @@ public:
 	UFUNCTION( BlueprintImplementableEvent )
 	void OpenItem( AItem* ItemToOpen );
 
+	UFUNCTION( BlueprintImplementableEvent )
+	void ReadItem( AItem* ItemToRead );
+
 	UFUNCTION( BlueprintCallable )
 	void CombineItems( TArray<AItem*> Items );
 

@@ -13,6 +13,7 @@ class AItem;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnButtonDestroyClicked, AItem*, TargetItem );
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnButtonDropClicked, AItem*, TargetItem );
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnButtonOpenClicked, AItem*, TargetItem );
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnButtonReadClicked, AItem*, TargetItem );
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnButtonForCombinationClicked, AItem*, TargetItem );
 
 /**
@@ -29,6 +30,7 @@ public:
 
 	virtual void NativeOnInitialized() override;
 
+#pragma region Button events
 public:
 
 	UPROPERTY( BlueprintAssignable )
@@ -41,13 +43,18 @@ public:
 	FOnButtonOpenClicked OnButtonOpenClicked;
 
 	UPROPERTY( BlueprintAssignable )
+	FOnButtonReadClicked OnButtonReadClicked;
+
+	UPROPERTY( BlueprintAssignable )
 	FOnButtonForCombinationClicked OnButtonForCombinationClicked;
+#pragma endregion
 
 protected:
 
 	UPROPERTY( meta = ( BindWidget ) )
 	UVerticalBox* VerticalBox_Buttons;
 
+#pragma region UButtons
 	UPROPERTY( meta = ( BindWidget ) )
 	UButton* Button_Destroy;
 
@@ -64,7 +71,11 @@ protected:
 	UButton* Button_Open;
 
 	UPROPERTY( meta = ( BindWidget ) )
+	UButton* Button_Read;
+
+	UPROPERTY( meta = ( BindWidget ) )
 	UButton* Button_Contain;
+#pragma endregion
 
 	UPROPERTY( VisibleAnywhere, BlueprintReadOnly )
 	TMap<EItemUsage, UButton*> ItemUsageToButton;
@@ -79,6 +90,7 @@ public:
 
 protected:
 
+#pragma region Button event handlers
 	UFUNCTION()
 	void HandleOnButtonDestroyClicked();
 
@@ -89,6 +101,10 @@ protected:
 	void HandleOnButtonOpenClicked();
 
 	UFUNCTION()
+	void HandleOnButtonReadClicked();
+
+	UFUNCTION()
 	void HandleOnButtonForCombinationClicked();
+#pragma endregion
 	
 };

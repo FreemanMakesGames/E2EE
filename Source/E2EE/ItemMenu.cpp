@@ -16,6 +16,7 @@ void UItemMenu::NativeOnInitialized()
 	Button_Destroy->OnClicked.AddDynamic( this, &UItemMenu::HandleOnButtonDestroyClicked );
 	Button_Drop->OnClicked.AddDynamic( this, &UItemMenu::HandleOnButtonDropClicked );
 	Button_Open->OnClicked.AddDynamic( this, &UItemMenu::HandleOnButtonOpenClicked );
+	Button_Read->OnClicked.AddDynamic( this, &UItemMenu::HandleOnButtonReadClicked );
 
 	// Bind UButton events for Item combinations.
 	Button_Lock->OnClicked.AddDynamic( this, &UItemMenu::HandleOnButtonForCombinationClicked );
@@ -28,6 +29,7 @@ void UItemMenu::NativeOnInitialized()
 	ItemUsageToButton.Add( EItemUsage::Lock, Button_Lock );
 	ItemUsageToButton.Add( EItemUsage::Unlock, Button_Unlock );
 	ItemUsageToButton.Add( EItemUsage::Open, Button_Open );
+	ItemUsageToButton.Add( EItemUsage::Read, Button_Read );
 	ItemUsageToButton.Add( EItemUsage::Contain, Button_Contain );
 
 	// Clear the UVerticalBox.
@@ -55,6 +57,7 @@ void UItemMenu::Display( AItem* Item )
 	}
 }
 
+#pragma region Button event handlers
 void UItemMenu::HandleOnButtonDestroyClicked()
 {
 	OnButtonDestroyClicked.Broadcast( CurrentItem );
@@ -76,10 +79,17 @@ void UItemMenu::HandleOnButtonOpenClicked()
 	VerticalBox_Buttons->ClearChildren();
 }
 
+void UItemMenu::HandleOnButtonReadClicked()
+{
+	OnButtonReadClicked.Broadcast( CurrentItem );
+
+	VerticalBox_Buttons->ClearChildren();
+}
+
 void UItemMenu::HandleOnButtonForCombinationClicked()
 {
 	OnButtonForCombinationClicked.Broadcast( CurrentItem );
 
 	VerticalBox_Buttons->ClearChildren();
 }
-
+#pragma endregion

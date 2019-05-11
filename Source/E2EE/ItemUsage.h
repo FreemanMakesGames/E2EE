@@ -9,8 +9,12 @@ enum class EItemUsage : uint8
 	Destroy			UMETA( DisplayName = "Destroy" ),
 	Drop			UMETA( DisplayName = "Drop" ),
 
+	// Combination
 	Lock			UMETA( DisplayName = "Lock" ),
 	Unlock			UMETA( DisplayName = "Unlock" ),
+	Contain			UMETA( DisplayName = "Contain" ),
+
 	Open			UMETA( DisplayName = "Open" ),
-	Contain			UMETA( DisplayName = "Contain" )
+
+	Read			UMETA( DisplayName = "Read" )
 };

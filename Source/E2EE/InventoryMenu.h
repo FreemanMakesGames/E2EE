@@ -74,6 +74,9 @@ protected:
 	void HandleOnItemMenuButtonOpenClicked( AItem* TargetItem );
 
 	UFUNCTION()
+	void HandleOnItemMenuButtonReadClicked( AItem* TargetItem );
+
+	UFUNCTION()
 	void HandleOnItemMenuButtonForCombinationClicked( AItem* TargetItem );
 #pragma endregion
 
