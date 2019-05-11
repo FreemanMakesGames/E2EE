@@ -147,7 +147,7 @@ void UInventoryMenu::HandleOnItemMenuButtonDropClicked( AItem* TargetItem )
 
 void UInventoryMenu::HandleOnItemMenuButtonOpenClicked( AItem* TargetItem )
 {
-	UE_LOG( LogTemp, Warning, TEXT( "Open" ) );
+	Inventory->OpenItem( TargetItem );
 }
 
 void UInventoryMenu::HandleOnItemMenuButtonForCombinationClicked( AItem* TargetItem )
