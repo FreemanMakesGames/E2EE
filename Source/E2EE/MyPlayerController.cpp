@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #include "MyPlayerController.h"
 #include "E2EECharacter.h"
 #include "InventoryMenu.h"
@@ -29,6 +27,14 @@ void AMyPlayerController::BeginPlay()
 	TArray<AActor*> AllCameraOverviews;
 	UGameplayStatics::GetAllActorsWithTag( GetWorld(), FName( TEXT( "Camera.Overview" ) ), AllCameraOverviews );
 	Camera_Overview = AllCameraOverviews[0];
+
+	// Don't switch camera when possessing.
+	bAutoManageActiveCameraTarget = false;
+
+	// Enable mouse.
+	bShowMouseCursor = true;
+	bEnableClickEvents = true;
+	bEnableMouseOverEvents = true;
 
 	// Create InventoryMenu.
 	if ( InventoryMenuClass )

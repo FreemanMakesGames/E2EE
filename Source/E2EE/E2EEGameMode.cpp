@@ -24,15 +24,4 @@ AE2EEGameMode::AE2EEGameMode()
 void AE2EEGameMode::BeginPlay()
 {
 	Super::BeginPlay();
-
-	APlayerController* PlayerCtrl = GetWorld()->GetFirstPlayerController();
-
-	// Enable mouse.
-	PlayerCtrl->bShowMouseCursor = true;
-	PlayerCtrl->bEnableClickEvents = true;
-	PlayerCtrl->bEnableMouseOverEvents = true;
-
-	// Don't switch camera when possessing.
-	PlayerCtrl->bAutoManageActiveCameraTarget = false;
-
 }
