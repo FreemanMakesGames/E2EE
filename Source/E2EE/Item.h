@@ -1,14 +1,11 @@
 #pragma once
 
-#include "Command.h"
-
 #include "ItemUsage.h"
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Item.generated.h"
 
-class UCommand;
 class UItemWidget;
 
 UCLASS( BlueprintType )
