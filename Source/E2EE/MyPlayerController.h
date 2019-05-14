@@ -34,10 +34,6 @@ public:
 
 protected:
 
-	void ZoomIn();
-
-	void ZoomOut();
-
 	UPROPERTY( EditDefaultsOnly )
 	TSubclassOf<UInventoryMenu> InventoryMenuClass;
 
@@ -46,8 +42,5 @@ protected:
 
 	UPROPERTY( VisibleAnywhere, BlueprintReadOnly )
 	AE2EECharacter* ActiveCharacter;
-
-	UPROPERTY()
-	AActor* Camera_Overview;
 
 };

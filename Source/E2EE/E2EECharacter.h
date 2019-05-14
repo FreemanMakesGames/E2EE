@@ -9,6 +9,7 @@
 class UUserWidget;
 class UHighlightComponent;
 class UDropItemComponent;
+class ACameraActor;
 
 class AWaypoint;
 
@@ -89,8 +90,8 @@ public:
 	UFUNCTION( BlueprintImplementableEvent )
 	void ToggleWidget( bool On );
 
-	UPROPERTY( EditAnywhere )
-	AActor* MyCamera;
+	UPROPERTY( EditInstanceOnly, BlueprintReadOnly )
+	ACameraActor* Camera;
 
 };
 
