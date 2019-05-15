@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Team.h"
+
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
 #include "MPGameMode.generated.h"
@@ -18,7 +20,7 @@ class E2EE_API AMPGameMode : public AGameModeBase
 protected:
 
 	UPROPERTY( VisibleInstanceOnly, BlueprintReadWrite )
-	ABasicPlayerController* AliceBobCtrl;
+	ABasicPlayerController* AliceAndBobCtrl;
 
 	UPROPERTY( VisibleInstanceOnly, BlueprintReadWrite )
 	ABasicPlayerController* MessengerCtrl;
@@ -35,6 +37,6 @@ protected:
 public:
 
 	UFUNCTION( BlueprintCallable )
-	bool ProcessCharacterSelectionRequest( ABasicPlayerController* PlayerCtrl, FString CharacterName );
+	bool ProcessTeamSelectionRequest( ABasicPlayerController* PlayerCtrl, ETeam Team );
 	
 };

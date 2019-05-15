@@ -1,8 +1,19 @@
 #include "MPGameMode.h"
 
-bool AMPGameMode::ProcessCharacterSelectionRequest( ABasicPlayerController* PlayerCtrl, FString CharacterName )
+bool AMPGameMode::ProcessTeamSelectionRequest( ABasicPlayerController* PlayerCtrl, ETeam Team )
 {
-	UE_LOG( LogTemp, Warning, TEXT( "Request is received." ) );
-
+	if ( Team == ETeam::AliceAndBob && AliceAndBobCtrl == nullptr )
+	{
+		AliceAndBobCtrl = PlayerCtrl;
+		UE_LOG( LogTemp, Warning, TEXT( "Alice and Bob selection" ) );
+		return true;
+	}
+	else if ( Team == ETeam::Messenger && MessengerCtrl == nullptr )
+	{
+		MessengerCtrl = PlayerCtrl;
+		UE_LOG( LogTemp, Warning, TEXT( "M selection" ) );
+		return true;
+	}
+	UE_LOG( LogTemp, Warning, TEXT( "Selection fails." ) );
 	return false;
 }

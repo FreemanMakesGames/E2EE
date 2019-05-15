@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Team.h"
+
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
 #include "BasicPlayerController.generated.h"
@@ -43,7 +45,7 @@ protected:
 public:
 
 	UFUNCTION( Server, Reliable, WithValidation, BlueprintCallable )
-	void SubmitCharacterSelectionRequest( const FString& CharacterName );
+	void SubmitTeamSelectionRequest( ETeam Team );
 
 	UFUNCTION( BlueprintCallable )
 	void ShowInventoryMenu( UInventory* Inventory );

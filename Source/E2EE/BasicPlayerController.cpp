@@ -66,7 +66,7 @@ void ABasicPlayerController::SetActiveCharacter( ABasicCharacter* Character )
 	ActiveCharacter->ToggleWidget( true );
 }
 
-void ABasicPlayerController::SubmitCharacterSelectionRequest_Implementation( const FString& CharacterName )
+void ABasicPlayerController::SubmitTeamSelectionRequest_Implementation( ETeam Team )
 {
 	if ( Role == ROLE_Authority )
 	{
@@ -74,12 +74,12 @@ void ABasicPlayerController::SubmitCharacterSelectionRequest_Implementation( con
 
 		if ( MPGameMode )
 		{
-			MPGameMode->ProcessCharacterSelectionRequest( this, CharacterName );
+			MPGameMode->ProcessTeamSelectionRequest( this, Team );
 		}
 	}
 }
 
-bool ABasicPlayerController::SubmitCharacterSelectionRequest_Validate( const FString& CharacterName )
+bool ABasicPlayerController::SubmitTeamSelectionRequest_Validate( ETeam Team )
 {
 	return true;
 }
