@@ -138,7 +138,7 @@ void AE2EECharacter::Activate()
 {
 	UE_LOG( LogTemp, Display, TEXT( "%s is being activated." ), *GetName() );
 
-	AMyPlayerController* MyPlayerController = Cast<AMyPlayerController>( GetWorld()->GetFirstPlayerController() );
+	ABasicPlayerController* MyPlayerController = Cast<ABasicPlayerController>( GetWorld()->GetFirstPlayerController() );
 
 	MyPlayerController->SetActiveCharacter( this );
 }

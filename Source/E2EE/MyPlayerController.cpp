@@ -9,14 +9,14 @@
 #include "Runtime/UMG/Public/Components/TileView.h"
 #include "Runtime/UMG/Public/Components/GridPanel.h"
 
-AMyPlayerController::AMyPlayerController() {}
+ABasicPlayerController::ABasicPlayerController() {}
 
-void AMyPlayerController::SetupInputComponent()
+void ABasicPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
 }
 
-void AMyPlayerController::BeginPlay()
+void ABasicPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
@@ -40,12 +40,12 @@ void AMyPlayerController::BeginPlay()
 	}
 }
 
-AE2EECharacter* AMyPlayerController::GetActiveCharacter() 
+AE2EECharacter* ABasicPlayerController::GetActiveCharacter() 
 {
 	return ActiveCharacter;
 }
 
-void AMyPlayerController::SetActiveCharacter( AE2EECharacter* Character )
+void ABasicPlayerController::SetActiveCharacter( AE2EECharacter* Character )
 {
 	// Turn off previous character's Widget_Selected.
 	// Do nothing if there's no previous character.
@@ -65,7 +65,7 @@ void AMyPlayerController::SetActiveCharacter( AE2EECharacter* Character )
 	ActiveCharacter->ToggleWidget( true );
 }
 
-void AMyPlayerController::ShowInventoryMenu( UInventory* Inventory )
+void ABasicPlayerController::ShowInventoryMenu( UInventory* Inventory )
 {
 	InventoryMenu->ShowInventory( Inventory );
 }

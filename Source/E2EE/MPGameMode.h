@@ -4,7 +4,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "MPGameMode.generated.h"
 
-class AMyPlayerController;
+class ABasicPlayerController;
 class AE2EECharacter;
 
 /**
@@ -18,10 +18,10 @@ class E2EE_API AMPGameMode : public AGameModeBase
 protected:
 
 	UPROPERTY( VisibleInstanceOnly, BlueprintReadWrite )
-	AMyPlayerController* AliceBobCtrl;
+	ABasicPlayerController* AliceBobCtrl;
 
 	UPROPERTY( VisibleInstanceOnly, BlueprintReadWrite )
-	AMyPlayerController* MessengerCtrl;
+	ABasicPlayerController* MessengerCtrl;
 
 	UPROPERTY( VisibleInstanceOnly, BlueprintReadWrite )
 	AE2EECharacter* Alice;
@@ -35,6 +35,6 @@ protected:
 public:
 
 	UFUNCTION( BlueprintCallable )
-	bool ProcessCharacterSelectionRequest( AMyPlayerController* PlayerCtrl, FString CharacterName );
+	bool ProcessCharacterSelectionRequest( ABasicPlayerController* PlayerCtrl, FString CharacterName );
 	
 };

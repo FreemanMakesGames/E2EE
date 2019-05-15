@@ -35,7 +35,7 @@ void AMessenger::Summon()
 
 	// Get target waypoint.
 	// Don't move if there's no active character.
-	AMyPlayerController* PlayerController = Cast<AMyPlayerController>( GetWorld()->GetFirstPlayerController() );
+	ABasicPlayerController* PlayerController = Cast<ABasicPlayerController>( GetWorld()->GetFirstPlayerController() );
 	AE2EECharacter* ActiveCharacter = PlayerController->GetActiveCharacter();
 	if ( ActiveCharacter )
 	{
