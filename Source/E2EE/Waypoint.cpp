@@ -39,9 +39,9 @@ void AWaypoint::HandleOnBoxBeginOverlap( UPrimitiveComponent* OverlappedComponen
 	{
 		Occupants.Add( Occupant );
 
-		if ( Cast<AE2EECharacter>( Occupant ) )
+		if ( Cast<ABasicCharacter>( Occupant ) )
 		{
-			Cast<AE2EECharacter>( Occupant )->SetCurrentWaypoint( this );
+			Cast<ABasicCharacter>( Occupant )->SetCurrentWaypoint( this );
 		}
 		else if ( Cast<AMessenger>( Occupant ) )
 		{
@@ -57,9 +57,9 @@ void AWaypoint::HandleOnBoxEndOverlap( UPrimitiveComponent* OverlappedComponent,
 	{
 		Occupants.RemoveSwap( Occupant );
 
-		if ( Cast<AE2EECharacter>( Occupant ) )
+		if ( Cast<ABasicCharacter>( Occupant ) )
 		{
-			Cast<AE2EECharacter>( Occupant )->SetCurrentWaypoint( nullptr );
+			Cast<ABasicCharacter>( Occupant )->SetCurrentWaypoint( nullptr );
 		}
 		else if ( Cast<AMessenger>( Occupant ) )
 		{

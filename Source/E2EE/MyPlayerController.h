@@ -4,7 +4,7 @@
 #include "GameFramework/PlayerController.h"
 #include "MyPlayerController.generated.h"
 
-class AE2EECharacter;
+class ABasicCharacter;
 class UInventoryMenu;
 class UInventory;
 
@@ -25,9 +25,9 @@ protected:
 
 public:
 
-	AE2EECharacter* GetActiveCharacter();
+	ABasicCharacter* GetActiveCharacter();
 
-	void SetActiveCharacter( AE2EECharacter* Character );
+	void SetActiveCharacter( ABasicCharacter* Character );
 
 	UFUNCTION( BlueprintCallable )
 	void ShowInventoryMenu( UInventory* Inventory );
@@ -41,6 +41,6 @@ protected:
 	UInventoryMenu* InventoryMenu;
 
 	UPROPERTY( VisibleAnywhere, BlueprintReadOnly )
-	AE2EECharacter* ActiveCharacter;
+	ABasicCharacter* ActiveCharacter;
 
 };

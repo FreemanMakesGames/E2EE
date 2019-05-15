@@ -19,7 +19,7 @@
 //////////////////////////////////////////////////////////////////////////
 // AE2EECharacter
 
-AE2EECharacter::AE2EECharacter()
+ABasicCharacter::ABasicCharacter()
 {
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
@@ -47,60 +47,60 @@ AE2EECharacter::AE2EECharacter()
 //////////////////////////////////////////////////////////////////////////
 // Input
 
-void AE2EECharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
+void ABasicCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
 	// Set up gameplay key bindings
 	check(PlayerInputComponent);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
-	PlayerInputComponent->BindAxis("MoveForward", this, &AE2EECharacter::MoveForward);
-	PlayerInputComponent->BindAxis("MoveRight", this, &AE2EECharacter::MoveRight);
+	PlayerInputComponent->BindAxis("MoveForward", this, &ABasicCharacter::MoveForward);
+	PlayerInputComponent->BindAxis("MoveRight", this, &ABasicCharacter::MoveRight);
 
 	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
 	// "turn" handles devices that provide an absolute delta, such as a mouse.
 	// "turnrate" is for devices that we choose to treat as a rate of change, such as an analog joystick
 	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
-	PlayerInputComponent->BindAxis("TurnRate", this, &AE2EECharacter::TurnAtRate);
+	PlayerInputComponent->BindAxis("TurnRate", this, &ABasicCharacter::TurnAtRate);
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
-	PlayerInputComponent->BindAxis("LookUpRate", this, &AE2EECharacter::LookUpAtRate);
+	PlayerInputComponent->BindAxis("LookUpRate", this, &ABasicCharacter::LookUpAtRate);
 
 	// handle touch devices
-	PlayerInputComponent->BindTouch(IE_Pressed, this, &AE2EECharacter::TouchStarted);
-	PlayerInputComponent->BindTouch(IE_Released, this, &AE2EECharacter::TouchStopped);
+	PlayerInputComponent->BindTouch(IE_Pressed, this, &ABasicCharacter::TouchStarted);
+	PlayerInputComponent->BindTouch(IE_Released, this, &ABasicCharacter::TouchStopped);
 
 	// VR headset functionality
-	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &AE2EECharacter::OnResetVR);
+	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &ABasicCharacter::OnResetVR);
 }
 
-void AE2EECharacter::OnResetVR()
+void ABasicCharacter::OnResetVR()
 {
 	UHeadMountedDisplayFunctionLibrary::ResetOrientationAndPosition();
 }
 
-void AE2EECharacter::TouchStarted(ETouchIndex::Type FingerIndex, FVector Location)
+void ABasicCharacter::TouchStarted(ETouchIndex::Type FingerIndex, FVector Location)
 {
 		Jump();
 }
 
-void AE2EECharacter::TouchStopped(ETouchIndex::Type FingerIndex, FVector Location)
+void ABasicCharacter::TouchStopped(ETouchIndex::Type FingerIndex, FVector Location)
 {
 		StopJumping();
 }
 
-void AE2EECharacter::TurnAtRate(float Rate)
+void ABasicCharacter::TurnAtRate(float Rate)
 {
 	// calculate delta for this frame from the rate information
 	AddControllerYawInput(Rate * BaseTurnRate * GetWorld()->GetDeltaSeconds());
 }
 
-void AE2EECharacter::LookUpAtRate(float Rate)
+void ABasicCharacter::LookUpAtRate(float Rate)
 {
 	// calculate delta for this frame from the rate information
 	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
 }
 
-void AE2EECharacter::MoveForward(float Value)
+void ABasicCharacter::MoveForward(float Value)
 {
 	if ((Controller != NULL) && (Value != 0.0f))
 	{
@@ -114,7 +114,7 @@ void AE2EECharacter::MoveForward(float Value)
 	}
 }
 
-void AE2EECharacter::MoveRight(float Value)
+void ABasicCharacter::MoveRight(float Value)
 {
 	if ( (Controller != NULL) && (Value != 0.0f) )
 	{
@@ -129,12 +129,12 @@ void AE2EECharacter::MoveRight(float Value)
 	}
 }
 
-void AE2EECharacter::BeginPlay()
+void ABasicCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 }
 
-void AE2EECharacter::Activate()
+void ABasicCharacter::Activate()
 {
 	UE_LOG( LogTemp, Display, TEXT( "%s is being activated." ), *GetName() );
 
@@ -143,17 +143,17 @@ void AE2EECharacter::Activate()
 	MyPlayerController->SetActiveCharacter( this );
 }
 
-AWaypoint* AE2EECharacter::GetCurrentWaypoint()
+AWaypoint* ABasicCharacter::GetCurrentWaypoint()
 {
 	return CurrentWaypoint;
 }
 
-void AE2EECharacter::SetCurrentWaypoint( AWaypoint* TheWaypoint )
+void ABasicCharacter::SetCurrentWaypoint( AWaypoint* TheWaypoint )
 {
 	CurrentWaypoint = TheWaypoint;
 }
 
-FString AE2EECharacter::GetUsername()
+FString ABasicCharacter::GetUsername()
 {
 	return Username;
 }

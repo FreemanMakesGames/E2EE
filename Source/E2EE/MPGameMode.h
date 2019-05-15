@@ -5,7 +5,7 @@
 #include "MPGameMode.generated.h"
 
 class ABasicPlayerController;
-class AE2EECharacter;
+class ABasicCharacter;
 
 /**
  * 
@@ -24,13 +24,13 @@ protected:
 	ABasicPlayerController* MessengerCtrl;
 
 	UPROPERTY( VisibleInstanceOnly, BlueprintReadWrite )
-	AE2EECharacter* Alice;
+	ABasicCharacter* Alice;
 
 	UPROPERTY( VisibleInstanceOnly, BlueprintReadWrite )
-	AE2EECharacter* Bob;
+	ABasicCharacter* Bob;
 
 	UPROPERTY( VisibleInstanceOnly, BlueprintReadWrite )
-	AE2EECharacter* Messenger;
+	ABasicCharacter* Messenger;
 
 public:
 

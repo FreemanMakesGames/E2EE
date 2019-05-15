@@ -40,12 +40,12 @@ void ABasicPlayerController::BeginPlay()
 	}
 }
 
-AE2EECharacter* ABasicPlayerController::GetActiveCharacter() 
+ABasicCharacter* ABasicPlayerController::GetActiveCharacter() 
 {
 	return ActiveCharacter;
 }
 
-void ABasicPlayerController::SetActiveCharacter( AE2EECharacter* Character )
+void ABasicPlayerController::SetActiveCharacter( ABasicCharacter* Character )
 {
 	// Turn off previous character's Widget_Selected.
 	// Do nothing if there's no previous character.

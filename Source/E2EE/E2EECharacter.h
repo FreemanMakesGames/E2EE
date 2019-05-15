@@ -14,12 +14,12 @@ class ACameraActor;
 class AWaypoint;
 
 UCLASS(config=Game)
-class AE2EECharacter : public ACharacter
+class ABasicCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
 public:
-	AE2EECharacter();
+	ABasicCharacter();
 
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
