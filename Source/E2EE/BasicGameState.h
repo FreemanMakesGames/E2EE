@@ -1,13 +1,11 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameStateBase.h"
-#include "E2EEGameStateBase.generated.h"
+#include "BasicGameState.generated.h"
 
 UCLASS()
-class E2EE_API AE2EEGameStateBase : public AGameStateBase
+class E2EE_API ABasicGameState : public AGameStateBase
 {
 	GENERATED_BODY()
 
