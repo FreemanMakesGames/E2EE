@@ -7,6 +7,8 @@
 class UTextBlock;
 class UButton;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE( FOnPresentationFinished );
+
 /**
  * 
  */
@@ -20,6 +22,11 @@ public:
 	UStoryDisplay( const FObjectInitializer& ObjectInitializer );
 
 	virtual void NativeOnInitialized() override;
+
+public:
+
+	UPROPERTY( BlueprintAssignable )
+	FOnPresentationFinished OnPresentationFinished;
 
 protected:
 

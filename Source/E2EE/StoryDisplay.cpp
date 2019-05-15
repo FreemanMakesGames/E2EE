@@ -5,7 +5,6 @@
 #include "Misc/FileHelper.h"
 #include "Misc/Paths.h"
 
-
 UStoryDisplay::UStoryDisplay( const FObjectInitializer& ObjectInitializer ) : Super( ObjectInitializer )
 {
 
@@ -53,4 +52,6 @@ void UStoryDisplay::HandleOnButtonNextClicked()
 void UStoryDisplay::HandleOnButtonProceedClicked()
 {
 	RemoveFromParent();
+
+	OnPresentationFinished.Broadcast();
 }
