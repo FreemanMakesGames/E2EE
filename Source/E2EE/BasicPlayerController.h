@@ -2,7 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
-#include "MyPlayerController.generated.h"
+#include "BasicPlayerController.generated.h"
 
 class ABasicCharacter;
 class UInventoryMenu;

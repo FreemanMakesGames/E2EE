@@ -1,5 +1,6 @@
-#include "MyPlayerController.h"
-#include "E2EECharacter.h"
+#include "BasicPlayerController.h"
+
+#include "BasicCharacter.h"
 #include "InventoryMenu.h"
 #include "Inventory.h"
 

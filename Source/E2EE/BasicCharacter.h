@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "E2EECharacter.generated.h"
+#include "BasicCharacter.generated.h"
 
 class UUserWidget;
 class UHighlightComponent;

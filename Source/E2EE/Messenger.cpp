@@ -1,8 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Messenger.h"
-#include "MyPlayerController.h"
-#include "E2EECharacter.h"
+#include "BasicPlayerController.h"
+#include "BasicCharacter.h"
 #include "Waypoint.h"
 
 #include "Runtime/Engine/Classes/Components/SkeletalMeshComponent.h"

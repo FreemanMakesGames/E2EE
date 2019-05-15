@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Waypoint.h"
-#include "E2EECharacter.h"
+#include "BasicCharacter.h"
 #include "Messenger.h"
 
 #include "Runtime/Engine/Classes/Components/BoxComponent.h"

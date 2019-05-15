@@ -1,7 +1,8 @@
 // Copyright 1998-2018 Epic Games, Inc. All Rights Reserved.
 
-#include "E2EECharacter.h"
-#include "MyPlayerController.h"
+#include "BasicCharacter.h"
+
+#include "BasicPlayerController.h"
 #include "HighlightComponent.h"
 #include "Waypoint.h"
 
