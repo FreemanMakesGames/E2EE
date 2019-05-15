@@ -29,9 +29,6 @@ public:
 
 	void SetActiveCharacter( ABasicCharacter* Character );
 
-	UFUNCTION( BlueprintCallable )
-	void ShowInventoryMenu( UInventory* Inventory );
-
 protected:
 
 	UPROPERTY( EditDefaultsOnly )
@@ -42,5 +39,13 @@ protected:
 
 	UPROPERTY( VisibleAnywhere, BlueprintReadOnly )
 	ABasicCharacter* ActiveCharacter;
+
+public:
+
+	UFUNCTION( Server, Reliable, WithValidation, BlueprintCallable )
+	void SubmitCharacterSelectionRequest( const FString& CharacterName );
+
+	UFUNCTION( BlueprintCallable )
+	void ShowInventoryMenu( UInventory* Inventory );
 
 };

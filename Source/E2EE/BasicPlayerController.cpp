@@ -1,14 +1,14 @@
 #include "BasicPlayerController.h"
 
+#include "MPGameMode.h"
 #include "BasicCharacter.h"
 #include "InventoryMenu.h"
 #include "Inventory.h"
 
+#include "Engine/World.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "Blueprint/UserWidget.h"
-#include "Runtime/UMG/Public/Components/TileView.h"
-#include "Runtime/UMG/Public/Components/GridPanel.h"
 
 ABasicPlayerController::ABasicPlayerController() {}
 
@@ -64,6 +64,24 @@ void ABasicPlayerController::SetActiveCharacter( ABasicCharacter* Character )
 
 	// Turn on Widget_Selected.
 	ActiveCharacter->ToggleWidget( true );
+}
+
+void ABasicPlayerController::SubmitCharacterSelectionRequest_Implementation( const FString& CharacterName )
+{
+	if ( Role == ROLE_Authority )
+	{
+		AMPGameMode* MPGameMode = GetWorld()->GetAuthGameMode<AMPGameMode>();
+
+		if ( MPGameMode )
+		{
+			MPGameMode->ProcessCharacterSelectionRequest( this, CharacterName );
+		}
+	}
+}
+
+bool ABasicPlayerController::SubmitCharacterSelectionRequest_Validate( const FString& CharacterName )
+{
+	return true;
 }
 
 void ABasicPlayerController::ShowInventoryMenu( UInventory* Inventory )
