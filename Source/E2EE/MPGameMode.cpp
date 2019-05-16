@@ -1,19 +1,25 @@
 #include "MPGameMode.h"
 
-bool AMPGameMode::ProcessTeamSelectionRequest( ABasicPlayerController* PlayerCtrl, ETeam Team )
+#include "BasicPlayerController.h"
+
+void AMPGameMode::ProcessTeamSelectionRequest( ABasicPlayerController* PlayerCtrl, ETeam Team )
 {
 	if ( Team == ETeam::AliceAndBob && AliceAndBobCtrl == nullptr )
 	{
 		AliceAndBobCtrl = PlayerCtrl;
-		UE_LOG( LogTemp, Warning, TEXT( "Alice and Bob selection" ) );
-		return true;
+
+		PlayerCtrl->ClientReceiveTeamSelectionResult( true );
+
+		return;
 	}
 	else if ( Team == ETeam::Messenger && MessengerCtrl == nullptr )
 	{
 		MessengerCtrl = PlayerCtrl;
-		UE_LOG( LogTemp, Warning, TEXT( "M selection" ) );
-		return true;
+
+		PlayerCtrl->ClientReceiveTeamSelectionResult( true );
+
+		return;
 	}
-	UE_LOG( LogTemp, Warning, TEXT( "Selection fails." ) );
-	return false;
+
+	PlayerCtrl->ClientReceiveTeamSelectionResult( false );
 }

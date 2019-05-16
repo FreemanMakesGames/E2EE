@@ -37,6 +37,6 @@ protected:
 public:
 
 	UFUNCTION( BlueprintCallable )
-	bool ProcessTeamSelectionRequest( ABasicPlayerController* PlayerCtrl, ETeam Team );
+	void ProcessTeamSelectionRequest( ABasicPlayerController* PlayerCtrl, ETeam Team );
 	
 };

@@ -66,7 +66,7 @@ void ABasicPlayerController::SetActiveCharacter( ABasicCharacter* Character )
 	ActiveCharacter->ToggleWidget( true );
 }
 
-void ABasicPlayerController::SubmitTeamSelectionRequest_Implementation( ETeam Team )
+void ABasicPlayerController::ServerSubmitTeamSelectionRequest_Implementation( ETeam Team )
 {
 	if ( Role == ROLE_Authority )
 	{
@@ -76,12 +76,21 @@ void ABasicPlayerController::SubmitTeamSelectionRequest_Implementation( ETeam Te
 		{
 			MPGameMode->ProcessTeamSelectionRequest( this, Team );
 		}
+		else
+		{
+			UE_LOG( LogTemp, Error, TEXT( "MPGameMode can't be found. Are we in Singleplayer?" ) );
+		}
 	}
 }
 
-bool ABasicPlayerController::SubmitTeamSelectionRequest_Validate( ETeam Team )
+bool ABasicPlayerController::ServerSubmitTeamSelectionRequest_Validate( ETeam Team )
 {
 	return true;
+}
+
+void ABasicPlayerController::ClientReceiveTeamSelectionResult_Implementation( bool bSuccessful )
+{
+	OnTeamSelectionResultReceived.Broadcast( bSuccessful );
 }
 
 void ABasicPlayerController::ShowInventoryMenu( UInventory* Inventory )
