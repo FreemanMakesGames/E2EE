@@ -43,7 +43,7 @@ protected:
 	UPROPERTY( EditDefaultsOnly )
 	TSubclassOf<UInventoryMenu> InventoryMenuClass;
 
-	UPROPERTY()
+	UPROPERTY( BlueprintReadOnly )
 	UInventoryMenu* InventoryMenu;
 
 	UPROPERTY( VisibleAnywhere, BlueprintReadOnly )
