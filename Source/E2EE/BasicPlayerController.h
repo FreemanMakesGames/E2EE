@@ -58,6 +58,6 @@ public:
 	void ClientReceiveTeamSelectionResult( bool bSuccessful );
 
 	UFUNCTION( BlueprintCallable )
-	void ShowInventoryMenu( UInventory* Inventory );
+	void ShowInventoryMenu();
 
 };

@@ -6,6 +6,7 @@
 #include "HighlightComponent.h"
 #include "Waypoint.h"
 
+#include "Engine/World.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -42,7 +43,6 @@ ABasicCharacter::ABasicCharacter()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
-
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -133,15 +133,13 @@ void ABasicCharacter::MoveRight(float Value)
 void ABasicCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	GetCapsuleComponent()->OnClicked.AddDynamic( this, &ABasicCharacter::HandleOnCapsuleClicked );
 }
 
-void ABasicCharacter::Activate()
+UInventory* ABasicCharacter::GetInventory()
 {
-	UE_LOG( LogTemp, Display, TEXT( "%s is being activated." ), *GetName() );
-
-	ABasicPlayerController* MyPlayerController = Cast<ABasicPlayerController>( GetWorld()->GetFirstPlayerController() );
-
-	MyPlayerController->SetActiveCharacter( this );
+	return Inventory;
 }
 
 AWaypoint* ABasicCharacter::GetCurrentWaypoint()
@@ -157,4 +155,9 @@ void ABasicCharacter::SetCurrentWaypoint( AWaypoint* TheWaypoint )
 FString ABasicCharacter::GetUsername()
 {
 	return Username;
+}
+
+void ABasicCharacter::HandleOnCapsuleClicked( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed )
+{
+	GetWorld()->GetFirstPlayerController<ABasicPlayerController>()->SetActiveCharacter( this );
 }

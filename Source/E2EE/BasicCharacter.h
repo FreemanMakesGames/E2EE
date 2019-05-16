@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "BasicCharacter.generated.h"
 
+class UInventory;
 class UUserWidget;
 class UHighlightComponent;
 class UDropItemComponent;
@@ -65,16 +66,11 @@ protected:
 
 	virtual void BeginPlay() override;
 
-protected:
-
-	UPROPERTY( VisibleInstanceOnly )
-	AWaypoint* CurrentWaypoint;
-
-	UPROPERTY( EditInstanceOnly )
-	FString Username;
-
 public:
-	
+
+	UFUNCTION( BlueprintCallable )
+	UInventory* GetInventory();
+
 	UFUNCTION( BlueprintCallable )
 	AWaypoint* GetCurrentWaypoint();
 
@@ -84,14 +80,29 @@ public:
 	UFUNCTION( BlueprintCallable )
 	FString GetUsername();
 
-	UFUNCTION( BlueprintCallable )
-	void Activate();
+protected:
+
+	UPROPERTY( BlueprintReadWrite )
+	UInventory* Inventory;
+
+	UPROPERTY( VisibleInstanceOnly )
+	AWaypoint* CurrentWaypoint;
+
+	UPROPERTY( EditInstanceOnly )
+	FString Username;
+
+public:
 
 	UFUNCTION( BlueprintImplementableEvent )
 	void ToggleWidget( bool On );
 
 	UPROPERTY( EditInstanceOnly, BlueprintReadOnly )
 	ACameraActor* Camera;
+
+protected:
+
+	UFUNCTION()
+	void HandleOnCapsuleClicked( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed );
 
 };
 

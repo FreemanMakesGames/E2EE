@@ -93,7 +93,10 @@ void ABasicPlayerController::ClientReceiveTeamSelectionResult_Implementation( bo
 	OnTeamSelectionResultReceived.Broadcast( bSuccessful );
 }
 
-void ABasicPlayerController::ShowInventoryMenu( UInventory* Inventory )
+void ABasicPlayerController::ShowInventoryMenu()
 {
-	InventoryMenu->ShowInventory( Inventory );
+	if ( ActiveCharacter )
+	{
+		InventoryMenu->ShowInventory( ActiveCharacter->GetInventory() );
+	}
 }
