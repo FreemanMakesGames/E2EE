@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include "Team.h"
+
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "BasicCharacter.generated.h"
@@ -20,6 +22,7 @@ class ABasicCharacter : public ACharacter
 	GENERATED_BODY()
 
 public:
+
 	ABasicCharacter();
 
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
@@ -72,6 +75,9 @@ public:
 	UInventory* GetInventory();
 
 	UFUNCTION( BlueprintCallable )
+	ETeam GetTeam();
+
+	UFUNCTION( BlueprintCallable )
 	AWaypoint* GetCurrentWaypoint();
 
 	UFUNCTION( BlueprintCallable )
@@ -84,6 +90,9 @@ protected:
 
 	UPROPERTY( BlueprintReadWrite )
 	UInventory* Inventory;
+
+	UPROPERTY( EditDefaultsOnly )
+	ETeam Team;
 
 	UPROPERTY( VisibleInstanceOnly )
 	AWaypoint* CurrentWaypoint;

@@ -93,6 +93,36 @@ void ABasicPlayerController::ClientReceiveTeamSelectionResult_Implementation( bo
 	OnTeamSelectionResultReceived.Broadcast( bSuccessful );
 }
 
+void ABasicPlayerController::ServerSubmitCharacterInteractionRequest_Implementation( ABasicCharacter* TargetCharacter )
+{
+	if ( Role == ROLE_Authority )
+	{
+		AMPGameMode* MPGameMode = GetWorld()->GetAuthGameMode<AMPGameMode>();
+
+		if ( MPGameMode )
+		{
+			if ( MPGameMode->ProcessCharacterInteractionRequest( this, TargetCharacter ) )
+			{
+				SetActiveCharacter( TargetCharacter );
+			}
+		}
+		else
+		{
+			SetActiveCharacter( TargetCharacter );
+		}
+	}
+}
+
+bool ABasicPlayerController::ServerSubmitCharacterInteractionRequest_Validate( ABasicCharacter* Character )
+{
+	return true;
+}
+
+void ABasicPlayerController::ClientReceiveCharacterInteractionResult_Implementation( bool bSuccessful )
+{
+	OnCharacterInteractionResultReceived.Broadcast( bSuccessful );
+}
+
 void ABasicPlayerController::ShowInventoryMenu()
 {
 	if ( ActiveCharacter )

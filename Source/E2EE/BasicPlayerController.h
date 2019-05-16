@@ -11,6 +11,7 @@ class UInventoryMenu;
 class UInventory;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnTeamSelectionResultReceived, bool, bSuccessful );
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnCharacterInteractionResultReceived, bool, bSuccessful );
 
 UCLASS()
 class E2EE_API ABasicPlayerController : public APlayerController
@@ -31,6 +32,9 @@ public:
 
 	UPROPERTY( BlueprintAssignable )
 	FOnTeamSelectionResultReceived OnTeamSelectionResultReceived;
+
+	UPROPERTY( BlueprintAssignable )
+	FOnCharacterInteractionResultReceived OnCharacterInteractionResultReceived;
 
 public:
 
@@ -56,6 +60,12 @@ public:
 
 	UFUNCTION( Client, Reliable )
 	void ClientReceiveTeamSelectionResult( bool bSuccessful );
+
+	UFUNCTION( Server, Reliable, WithValidation, BlueprintCallable )
+	void ServerSubmitCharacterInteractionRequest( ABasicCharacter* TargetCharacter );
+
+	UFUNCTION( Client, Reliable )
+	void ClientReceiveCharacterInteractionResult( bool bSuccessful );
 
 	UFUNCTION( BlueprintCallable )
 	void ShowInventoryMenu();

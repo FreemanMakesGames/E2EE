@@ -1,6 +1,7 @@
 #include "MPGameMode.h"
 
 #include "BasicPlayerController.h"
+#include "BasicCharacter.h"
 
 void AMPGameMode::ProcessTeamSelectionRequest( ABasicPlayerController* PlayerCtrl, ETeam Team )
 {
@@ -9,17 +10,27 @@ void AMPGameMode::ProcessTeamSelectionRequest( ABasicPlayerController* PlayerCtr
 		AliceAndBobCtrl = PlayerCtrl;
 
 		PlayerCtrl->ClientReceiveTeamSelectionResult( true );
-
-		return;
 	}
 	else if ( Team == ETeam::Messenger && MessengerCtrl == nullptr )
 	{
 		MessengerCtrl = PlayerCtrl;
 
 		PlayerCtrl->ClientReceiveTeamSelectionResult( true );
-
-		return;
 	}
+	else
+	{
+		PlayerCtrl->ClientReceiveTeamSelectionResult( false );
+	}
+}
 
-	PlayerCtrl->ClientReceiveTeamSelectionResult( false );
+bool AMPGameMode::ProcessCharacterInteractionRequest( ABasicPlayerController* PlayerCtrl, ABasicCharacter* Character )
+{
+	if ( ( PlayerCtrl == AliceAndBobCtrl && Character->GetTeam() == ETeam::AliceAndBob ) || ( PlayerCtrl == MessengerCtrl && Character->GetTeam() == ETeam::Messenger ) )
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }

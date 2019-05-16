@@ -142,6 +142,11 @@ UInventory* ABasicCharacter::GetInventory()
 	return Inventory;
 }
 
+ETeam ABasicCharacter::GetTeam()
+{
+	return Team;
+}
+
 AWaypoint* ABasicCharacter::GetCurrentWaypoint()
 {
 	return CurrentWaypoint;
@@ -159,5 +164,5 @@ FString ABasicCharacter::GetUsername()
 
 void ABasicCharacter::HandleOnCapsuleClicked( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed )
 {
-	GetWorld()->GetFirstPlayerController<ABasicPlayerController>()->SetActiveCharacter( this );
+	GetWorld()->GetFirstPlayerController<ABasicPlayerController>()->ServerSubmitCharacterInteractionRequest( this );
 }

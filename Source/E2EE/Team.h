@@ -5,8 +5,8 @@
 UENUM( BlueprintType )
 enum class ETeam : uint8
 {
-	AliceAndBob			UMETA( DisplayName = "Alice And Bob" ),
-	Messenger			UMETA( DisplayName = "Messenger" ),
+	None				UMETA( DisplayName = "None" ),
 
-	None				UMETA( DisplayName = "None" )
+	AliceAndBob			UMETA( DisplayName = "Alice And Bob" ),
+	Messenger			UMETA( DisplayName = "Messenger" )
 };
