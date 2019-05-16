@@ -40,6 +40,6 @@ public:
 	void ProcessTeamSelectionRequest( ABasicPlayerController* PlayerCtrl, ETeam Team );
 
 	UFUNCTION( BlueprintCallable )
-	bool ProcessCharacterInteractionRequest( ABasicPlayerController* PlayerCtrl, ABasicCharacter* Character );
+	void ProcessCharacterInteractionRequest( ABasicPlayerController* PlayerCtrl, ABasicCharacter* TargetCharacter );
 	
 };

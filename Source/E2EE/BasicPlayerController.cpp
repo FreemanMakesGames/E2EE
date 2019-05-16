@@ -48,22 +48,7 @@ ABasicCharacter* ABasicPlayerController::GetActiveCharacter()
 
 void ABasicPlayerController::SetActiveCharacter( ABasicCharacter* Character )
 {
-	// Turn off previous character's Widget_Selected.
-	// Do nothing if there's no previous character.
-	if ( ActiveCharacter )
-	{
-		ActiveCharacter->ToggleWidget( false );
-	}
 
-	// Update ActiveCharacter.
-	ActiveCharacter = Character;
-
-	// Possess and adjust rotation.
-	Possess( ActiveCharacter );
-	SetControlRotation( FVector::ZeroVector.ToOrientationRotator() );
-
-	// Turn on Widget_Selected.
-	ActiveCharacter->ToggleWidget( true );
 }
 
 void ABasicPlayerController::ServerSubmitTeamSelectionRequest_Implementation( ETeam Team )
@@ -101,14 +86,13 @@ void ABasicPlayerController::ServerSubmitCharacterInteractionRequest_Implementat
 
 		if ( MPGameMode )
 		{
-			if ( MPGameMode->ProcessCharacterInteractionRequest( this, TargetCharacter ) )
-			{
-				SetActiveCharacter( TargetCharacter );
-			}
+			MPGameMode->ProcessCharacterInteractionRequest( this, TargetCharacter );
 		}
 		else
 		{
-			SetActiveCharacter( TargetCharacter );
+			Possess( TargetCharacter );
+
+			ClientReceiveCharacterInteractionResult( true, TargetCharacter );
 		}
 	}
 }
@@ -118,9 +102,29 @@ bool ABasicPlayerController::ServerSubmitCharacterInteractionRequest_Validate( A
 	return true;
 }
 
-void ABasicPlayerController::ClientReceiveCharacterInteractionResult_Implementation( bool bSuccessful )
+void ABasicPlayerController::ClientReceiveCharacterInteractionResult_Implementation( bool bSuccessful, ABasicCharacter* TargetCharacter )
 {
-	OnCharacterInteractionResultReceived.Broadcast( bSuccessful );
+	if ( bSuccessful )
+	{
+		// Turn off previous character's Widget_Selected.
+		// Do nothing if there's no previous character.
+		if ( ActiveCharacter )
+		{
+			ActiveCharacter->ToggleWidget( false );
+		}
+
+		// Update ActiveCharacter.
+		ActiveCharacter = TargetCharacter;
+
+		SetControlRotation( FVector::ZeroVector.ToOrientationRotator() );
+
+		// Turn on Widget_Selected.
+		ActiveCharacter->ToggleWidget( true );
+	}
+	else
+	{
+
+	}
 }
 
 void ABasicPlayerController::ShowInventoryMenu()

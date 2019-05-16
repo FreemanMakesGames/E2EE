@@ -23,14 +23,16 @@ void AMPGameMode::ProcessTeamSelectionRequest( ABasicPlayerController* PlayerCtr
 	}
 }
 
-bool AMPGameMode::ProcessCharacterInteractionRequest( ABasicPlayerController* PlayerCtrl, ABasicCharacter* Character )
+void AMPGameMode::ProcessCharacterInteractionRequest( ABasicPlayerController* PlayerCtrl, ABasicCharacter* TargetCharacter )
 {
-	if ( ( PlayerCtrl == AliceAndBobCtrl && Character->GetTeam() == ETeam::AliceAndBob ) || ( PlayerCtrl == MessengerCtrl && Character->GetTeam() == ETeam::Messenger ) )
+	if ( ( PlayerCtrl == AliceAndBobCtrl && TargetCharacter->GetTeam() == ETeam::AliceAndBob ) || ( PlayerCtrl == MessengerCtrl && TargetCharacter->GetTeam() == ETeam::Messenger ) )
 	{
-		return true;
+		PlayerCtrl->Possess( TargetCharacter );
+
+		PlayerCtrl->ClientReceiveCharacterInteractionResult( true, TargetCharacter );
 	}
 	else
 	{
-		return false;
+		PlayerCtrl->ClientReceiveCharacterInteractionResult( false, TargetCharacter );
 	}
 }
