@@ -25,6 +25,7 @@ public:
 
 public:
 
-	void DropItem( AItem* ItemToDrop );
+	UFUNCTION( Server, Reliable, WithValidation, BlueprintCallable )
+	void ServerDropItem( AItem* ItemToDrop );
 
 };

@@ -1,5 +1,6 @@
 #include "DropItemComponent.h"
 
+#include "GameUtilities.h"
 #include "Item.h"
 
 #include "Engine/World.h"
@@ -22,16 +23,13 @@ void UDropItemComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAc
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 }
 
-void UDropItemComponent::DropItem( AItem* ItemToDrop )
+void UDropItemComponent::ServerDropItem_Implementation( AItem* ItemToDrop )
 {
 	UPrimitiveComponent* PrimitiveComponent = ItemToDrop->FindComponentByClass<UPrimitiveComponent>();
 
 	if ( PrimitiveComponent )
 	{
-		ItemToDrop->SetActorHiddenInGame( false );
-		PrimitiveComponent->SetSimulatePhysics( true );
-		ItemToDrop->SetActorEnableCollision( true );
-		ItemToDrop->SetActorTickEnabled( true );
+		UGameUtilities::EnableActor( ItemToDrop );
 
 		ItemToDrop->SetActorTransform( GetComponentTransform() );
 	}
@@ -39,5 +37,10 @@ void UDropItemComponent::DropItem( AItem* ItemToDrop )
 	{
 		UE_LOG( LogTemp, Error, TEXT( "UDropItemComponent tries to drop %s, which doesn't have a UPrimitiveComponent!" ) );
 	}
+}
+
+bool UDropItemComponent::ServerDropItem_Validate( AItem* ItemToDrop )
+{
+	return true;
 }
 

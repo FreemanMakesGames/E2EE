@@ -2,6 +2,7 @@
 
 #include "BasicCharacter.h"
 
+#include "GameUtilities.h"
 #include "BasicPlayerController.h"
 #include "HighlightComponent.h"
 #include "Waypoint.h"
@@ -170,15 +171,7 @@ void ABasicCharacter::HandleOnCapsuleClicked( UPrimitiveComponent* TouchedCompon
 
 void ABasicCharacter::ServerDisablePickedUpActor_Implementation( AActor* PickedUpActor )
 {
-	PickedUpActor->SetActorHiddenInGame( true );
-	PickedUpActor->SetActorTickEnabled( false );
-	PickedUpActor->SetActorEnableCollision( false );
-	
-	UPrimitiveComponent* PrimitiveComponent = PickedUpActor->FindComponentByClass<UPrimitiveComponent>();
-	if ( PrimitiveComponent )
-	{
-		PrimitiveComponent->SetSimulatePhysics( false );
-	}
+	UGameUtilities::DisableActor( PickedUpActor );
 }
 
 bool ABasicCharacter::ServerDisablePickedUpActor_Validate( AActor* PickedUpActor )

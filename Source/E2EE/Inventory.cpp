@@ -34,7 +34,7 @@ void UInventory::DropItem( AItem* ItemToDrop )
 
 	if ( DropItemComponent )
 	{
-		DropItemComponent->DropItem( ItemToDrop );
+		DropItemComponent->ServerDropItem( ItemToDrop );
 	}
 	else
 	{
