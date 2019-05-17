@@ -13,6 +13,10 @@ void UGameUtilities::DisableActor( AActor* TargetActor )
 	if ( PrimitiveComponent )
 	{
 		PrimitiveComponent->SetSimulatePhysics( false );
+		PrimitiveComponent->SetHiddenInGame( true );
+		PrimitiveComponent->SetComponentTickEnabled( false );
+		PrimitiveComponent->SetCollisionEnabled( ECollisionEnabled::NoCollision );
+		PrimitiveComponent->SetGenerateOverlapEvents( false );
 	}
 }
 
@@ -26,6 +30,10 @@ void UGameUtilities::EnableActor( AActor* TargetActor )
 	if ( PrimitiveComponent )
 	{
 		PrimitiveComponent->SetSimulatePhysics( true );
+		PrimitiveComponent->SetHiddenInGame( false );
+		PrimitiveComponent->SetComponentTickEnabled( true );
+		PrimitiveComponent->SetCollisionEnabled( ECollisionEnabled::QueryAndPhysics );
+		PrimitiveComponent->SetGenerateOverlapEvents( true );
 	}
 }
 

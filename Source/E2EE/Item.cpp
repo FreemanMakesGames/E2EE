@@ -8,6 +8,8 @@ AItem::AItem()
 	PrimaryActorTick.bCanEverTick = true;
 
 	bReplicates = true;
+	bAlwaysRelevant = true;
+	NetDormancy = ENetDormancy::DORM_Never;
 }
 
 // Called when the game starts or when spawned
