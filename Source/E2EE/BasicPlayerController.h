@@ -34,9 +34,8 @@ public:
 
 public:
 
+	UFUNCTION( BlueprintCallable )
 	ABasicCharacter* GetActiveCharacter();
-
-	void SetActiveCharacter( ABasicCharacter* Character );
 
 protected:
 

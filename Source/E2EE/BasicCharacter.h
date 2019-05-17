@@ -102,6 +102,9 @@ protected:
 
 public:
 
+	UFUNCTION( Server, Reliable, WithValidation, BlueprintCallable )
+	void ServerDisablePickedUpActor( AActor* PickedUpActor );
+
 	UFUNCTION( BlueprintImplementableEvent )
 	void ToggleWidget( bool On );
 

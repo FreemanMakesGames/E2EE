@@ -46,11 +46,6 @@ ABasicCharacter* ABasicPlayerController::GetActiveCharacter()
 	return ActiveCharacter;
 }
 
-void ABasicPlayerController::SetActiveCharacter( ABasicCharacter* Character )
-{
-
-}
-
 void ABasicPlayerController::ServerSubmitTeamSelectionRequest_Implementation( ETeam Team )
 {
 	if ( Role == ROLE_Authority )

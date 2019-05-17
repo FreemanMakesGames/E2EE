@@ -17,6 +17,7 @@
 #include "GameFramework/PlayerController.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Runtime/UMG/Public/Blueprint/UserWidget.h"
+#include "Components/PrimitiveComponent.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AE2EECharacter
@@ -165,4 +166,22 @@ FString ABasicCharacter::GetUsername()
 void ABasicCharacter::HandleOnCapsuleClicked( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed )
 {
 	GetWorld()->GetFirstPlayerController<ABasicPlayerController>()->ServerSubmitCharacterInteractionRequest( this );
+}
+
+void ABasicCharacter::ServerDisablePickedUpActor_Implementation( AActor* PickedUpActor )
+{
+	PickedUpActor->SetActorHiddenInGame( true );
+	PickedUpActor->SetActorTickEnabled( false );
+	PickedUpActor->SetActorEnableCollision( false );
+	
+	UPrimitiveComponent* PrimitiveComponent = PickedUpActor->FindComponentByClass<UPrimitiveComponent>();
+	if ( PrimitiveComponent )
+	{
+		PrimitiveComponent->SetSimulatePhysics( false );
+	}
+}
+
+bool ABasicCharacter::ServerDisablePickedUpActor_Validate( AActor* PickedUpActor )
+{
+	return true;
 }
