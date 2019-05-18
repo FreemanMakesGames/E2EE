@@ -1,5 +1,6 @@
 #include "Inventory.h"
 
+#include "BasicCharacter.h"
 #include "DropItemComponent.h"
 
 #include "Item.h"
@@ -45,16 +46,9 @@ void UInventory::DropItem( AItem* ItemToDrop )
 	RemoveItem( ItemToDrop );
 }
 
-void UInventory::ServerDuplicateItem_Implementation( AItem* ItemToDuplicate )
+void UInventory::DuplicateItem( AItem* ItemToDuplicate )
 {
-	AItem* Clone = ItemToDuplicate->Duplicate();
-
-	ClientReceiveDuplicatedItem( Clone );
-}
-
-bool UInventory::ServerDuplicateItem_Validate( AItem* ItemToDuplicate )
-{
-	return true;
+	Cast<ABasicCharacter>( GetOwner() )->ServerHelpsDuplicateItem( ItemToDuplicate );
 }
 
 void UInventory::CombineItems( TArray<AItem*> SourceItems )
@@ -76,17 +70,5 @@ void UInventory::CombineItems( TArray<AItem*> SourceItems )
 		{
 			AddItem( Item );
 		}
-	}
-}
-
-void UInventory::ClientReceiveDuplicatedItem_Implementation( AItem* Clone )
-{
-	if ( Clone )
-	{
-		AddItem( Clone );
-	}
-	else
-	{
-		UE_LOG( LogTemp, Warning, TEXT( "Item duplication failed?!" ) );
 	}
 }

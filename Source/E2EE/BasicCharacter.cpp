@@ -4,6 +4,7 @@
 
 #include "GameUtilities.h"
 #include "BasicPlayerController.h"
+#include "Inventory.h"
 #include "Item.h"
 #include "HighlightComponent.h"
 #include "Waypoint.h"
@@ -178,6 +179,30 @@ bool ABasicCharacter::ServerDisablePickedUpActor_Validate( AActor* PickedUpActor
 void ABasicCharacter::MulticastDisablePickedUpActor_Implementation( AActor* PickedUpActor )
 {
 	UGameUtilities::DisableActor( PickedUpActor );
+}
+
+void ABasicCharacter::ServerHelpsDuplicateItem_Implementation( AItem* ItemToDuplicate )
+{
+	AItem* Clone = ItemToDuplicate->Duplicate();
+
+	ClientReceiveDuplicatedItem( Clone );
+}
+
+bool ABasicCharacter::ServerHelpsDuplicateItem_Validate( AItem* ItemToDuplicate )
+{
+	return true;
+}
+
+void ABasicCharacter::ClientReceiveDuplicatedItem_Implementation( AItem* Clone )
+{
+	if ( Clone )
+	{
+		Inventory->AddItem( Clone );
+	}
+	else
+	{
+		UE_LOG( LogTemp, Warning, TEXT( "Item duplication failed?!" ) );
+	}
 }
 
 void ABasicCharacter::HandleOnCapsuleClicked( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed )

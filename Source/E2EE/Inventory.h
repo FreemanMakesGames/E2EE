@@ -33,8 +33,8 @@ public:
 	UFUNCTION( BlueprintCallable )
 	void DropItem( AItem* ItemToDrop );
 
-	UFUNCTION( Server, Reliable, WithValidation, BlueprintCallable )
-	void ServerDuplicateItem( AItem* ItemToDuplicate );
+	UFUNCTION( BlueprintCallable )
+	void DuplicateItem( AItem* ItemToDuplicate );
 
 	UFUNCTION( BlueprintImplementableEvent, BlueprintCallable )
 	void OpenItem( AItem* ItemToOpen );
@@ -53,11 +53,6 @@ public:
 
 	UPROPERTY( BlueprintAssignable )
 	FOnItemRemoved OnItemRemoved;
-
-protected:
-
-	UFUNCTION( Client, Reliable )
-	void ClientReceiveDuplicatedItem( AItem* Clone );
 
 protected:
 
