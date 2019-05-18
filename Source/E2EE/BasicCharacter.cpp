@@ -181,30 +181,6 @@ void ABasicCharacter::MulticastDisablePickedUpActor_Implementation( AActor* Pick
 	UGameUtilities::DisableActor( PickedUpActor );
 }
 
-void ABasicCharacter::ServerHelpsDuplicateItem_Implementation( AItem* ItemToDuplicate )
-{
-	AItem* Clone = ItemToDuplicate->Duplicate();
-
-	ClientReceiveDuplicatedItem( Clone );
-}
-
-bool ABasicCharacter::ServerHelpsDuplicateItem_Validate( AItem* ItemToDuplicate )
-{
-	return true;
-}
-
-void ABasicCharacter::ClientReceiveDuplicatedItem_Implementation( AItem* Clone )
-{
-	if ( Clone )
-	{
-		Inventory->AddItem( Clone );
-	}
-	else
-	{
-		UE_LOG( LogTemp, Warning, TEXT( "Item duplication failed?!" ) );
-	}
-}
-
 void ABasicCharacter::HandleOnCapsuleClicked( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed )
 {
 	GetWorld()->GetFirstPlayerController<ABasicPlayerController>()->ServerSubmitCharacterInteractionRequest( this );

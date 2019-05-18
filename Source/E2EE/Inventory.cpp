@@ -1,9 +1,10 @@
 #include "Inventory.h"
 
-#include "BasicCharacter.h"
-#include "DropItemComponent.h"
-
 #include "Item.h"
+#include "DropItemComponent.h"
+#include "BasicCharacter.h"
+
+#include "Net/UnrealNetwork.h"
 
 TArray<AItem*> UInventory::GetItems()
 {
@@ -15,11 +16,18 @@ int UInventory::CountItems()
 	return Items.Num();
 }
 
-void UInventory::AddItem_Implementation( AItem* ItemToAdd )
+void UInventory::AddItem( AItem* ItemToAdd )
 {
+	TempNewItem = ItemToAdd;
+
 	Items.Add( ItemToAdd );
 
 	OnItemAdded.Broadcast( ItemToAdd );
+}
+
+void UInventory::OnRep_Items()
+{
+	OnItemAdded.Broadcast( TempNewItem );
 }
 
 void UInventory::RemoveItem( AItem* ItemToRemove )
@@ -46,7 +54,7 @@ void UInventory::DropItem( AItem* ItemToDrop )
 	RemoveItem( ItemToDrop );
 }
 
-void UInventory::DuplicateItem( AItem* ItemToDuplicate )
+void UInventory::ServerDuplicateItem_Implementation( AItem* ItemToDuplicate )
 {
 	AItem* Clone = ItemToDuplicate->Duplicate();
 
@@ -58,6 +66,11 @@ void UInventory::DuplicateItem( AItem* ItemToDuplicate )
 	{
 		UE_LOG( LogTemp, Warning, TEXT( "Item duplication failed?!" ) );
 	}
+}
+
+bool UInventory::ServerDuplicateItem_Validate( AItem* ItemToDuplicate )
+{
+	return true;
 }
 
 void UInventory::CombineItems( TArray<AItem*> SourceItems )
@@ -80,4 +93,11 @@ void UInventory::CombineItems( TArray<AItem*> SourceItems )
 			AddItem( Item );
 		}
 	}
+}
+
+void UInventory::GetLifetimeReplicatedProps( TArray<FLifetimeProperty>& OutLifetimeProps ) const
+{
+	Super::GetLifetimeReplicatedProps( OutLifetimeProps );
+
+	DOREPLIFETIME( UInventory, Items );
 }

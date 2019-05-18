@@ -109,12 +109,6 @@ public:
 	UFUNCTION( NetMulticast, Reliable, BlueprintCallable )
 	void MulticastDisablePickedUpActor( AActor* PickedUpActor );
 
-	UFUNCTION( Server, Reliable, WithValidation, BlueprintCallable )
-	void ServerHelpsDuplicateItem( AItem* ItemToDuplicate );
-
-	UFUNCTION( Client, Reliable )
-	void ClientReceiveDuplicatedItem( AItem* Clone );
-
 	UFUNCTION( BlueprintImplementableEvent )
 	void ToggleWidget( bool On );
 

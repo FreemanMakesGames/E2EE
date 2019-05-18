@@ -27,20 +27,27 @@ public:
 
 public:
 
+	UFUNCTION( BlueprintCallable )
 	TArray<AItem*> GetItems();
 
 protected:
 
-	UPROPERTY()
+	UPROPERTY( ReplicatedUsing=OnRep_Items )
 	TArray<AItem*> Items;
+
+	UPROPERTY()
+	AItem* TempNewItem;
 
 public:
 
 	UFUNCTION( BlueprintCallable )
 	int CountItems();
 
-	UFUNCTION( NetMulticast, Reliable, BlueprintCallable )
+	UFUNCTION( BlueprintCallable )
 	void AddItem( AItem* ItemToAdd );
+
+	UFUNCTION()
+	void OnRep_Items();
 
 	UFUNCTION( BlueprintCallable )
 	void RemoveItem( AItem* ItemToRemove );
@@ -48,8 +55,8 @@ public:
 	UFUNCTION( BlueprintCallable )
 	void DropItem( AItem* ItemToDrop );
 
-	UFUNCTION( BlueprintCallable )
-	void DuplicateItem( AItem* ItemToDuplicate );
+	UFUNCTION( Server, Reliable, WithValidation, BlueprintCallable )
+	void ServerDuplicateItem( AItem* ItemToDuplicate );
 
 	UFUNCTION( BlueprintImplementableEvent, BlueprintCallable )
 	void OpenItem( AItem* ItemToOpen );
