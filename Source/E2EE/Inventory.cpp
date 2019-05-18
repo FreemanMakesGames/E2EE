@@ -15,7 +15,7 @@ int UInventory::CountItems()
 	return Items.Num();
 }
 
-void UInventory::AddItem( AItem* ItemToAdd )
+void UInventory::AddItem_Implementation( AItem* ItemToAdd )
 {
 	Items.Add( ItemToAdd );
 
@@ -48,7 +48,21 @@ void UInventory::DropItem( AItem* ItemToDrop )
 
 void UInventory::DuplicateItem( AItem* ItemToDuplicate )
 {
-	Cast<ABasicCharacter>( GetOwner() )->ServerHelpsDuplicateItem( ItemToDuplicate );
+	AItem* Clone = ItemToDuplicate->Duplicate();
+
+	if ( Clone )
+	{
+		AddItem( Clone );
+	}
+	else
+	{
+		UE_LOG( LogTemp, Warning, TEXT( "Item duplication failed?!" ) );
+	}
+}
+
+bool UInventory::ServerDuplicateItem_Validate( AItem* ItemToDuplicate )
+{
+	return true;
 }
 
 void UInventory::CombineItems( TArray<AItem*> SourceItems )

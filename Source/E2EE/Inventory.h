@@ -24,7 +24,7 @@ public:
 	UFUNCTION( BlueprintCallable )
 	int CountItems();
 
-	UFUNCTION( BlueprintCallable )
+	UFUNCTION( NetMulticast, Reliable, BlueprintCallable )
 	void AddItem( AItem* ItemToAdd );
 
 	UFUNCTION( BlueprintCallable )
