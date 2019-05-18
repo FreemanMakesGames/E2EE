@@ -25,12 +25,21 @@ void UDropItemComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAc
 
 void UDropItemComponent::ServerDropItem_Implementation( AItem* ItemToDrop )
 {
+	MulticastDropItem( ItemToDrop );
+}
+
+bool UDropItemComponent::ServerDropItem_Validate( AItem* ItemToDrop )
+{
+	return true;
+}
+
+void UDropItemComponent::MulticastDropItem_Implementation( AItem* ItemToDrop )
+{
 	UPrimitiveComponent* PrimitiveComponent = ItemToDrop->FindComponentByClass<UPrimitiveComponent>();
 
 	if ( PrimitiveComponent )
 	{
-		//UGameUtilities::EnableActor( ItemToDrop );
-		ItemToDrop->SetIsActive( true );
+		UGameUtilities::EnableActor( ItemToDrop );
 
 		ItemToDrop->SetActorTransform( GetComponentTransform() );
 	}
@@ -39,9 +48,3 @@ void UDropItemComponent::ServerDropItem_Implementation( AItem* ItemToDrop )
 		UE_LOG( LogTemp, Error, TEXT( "UDropItemComponent tries to drop %s, which doesn't have a UPrimitiveComponent!" ) );
 	}
 }
-
-bool UDropItemComponent::ServerDropItem_Validate( AItem* ItemToDrop )
-{
-	return true;
-}
-

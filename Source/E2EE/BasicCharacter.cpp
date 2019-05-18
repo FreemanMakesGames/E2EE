@@ -165,18 +165,22 @@ FString ABasicCharacter::GetUsername()
 	return Username;
 }
 
+void ABasicCharacter::ServerDisablePickedUpActor_Implementation( AActor* PickedUpActor )
+{
+	MulticastDisablePickedUpActor( PickedUpActor );
+}
+
+bool ABasicCharacter::ServerDisablePickedUpActor_Validate( AActor* PickedUpActor )
+{
+	return true;
+}
+
+void ABasicCharacter::MulticastDisablePickedUpActor_Implementation( AActor* PickedUpActor )
+{
+	UGameUtilities::DisableActor( PickedUpActor );
+}
+
 void ABasicCharacter::HandleOnCapsuleClicked( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed )
 {
 	GetWorld()->GetFirstPlayerController<ABasicPlayerController>()->ServerSubmitCharacterInteractionRequest( this );
-}
-
-void ABasicCharacter::ServerDisablePickedUpActor_Implementation( AItem* PickedUpItem )
-{
-	//UGameUtilities::DisableActor( PickedUpActor );
-	PickedUpItem->SetIsActive( false );
-}
-
-bool ABasicCharacter::ServerDisablePickedUpActor_Validate( AItem* PickedUpItem )
-{
-	return true;
 }

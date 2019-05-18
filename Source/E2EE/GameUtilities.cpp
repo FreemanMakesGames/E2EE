@@ -37,3 +37,15 @@ void UGameUtilities::EnableActor( AActor* TargetActor )
 	}
 }
 
+void UGameUtilities::ToggleActor( AActor* TargetActor, bool ToggleOn )
+{
+	if ( ToggleOn )
+	{
+		EnableActor( TargetActor );
+	}
+	else
+	{
+		DisableActor( TargetActor );
+	}
+}
+

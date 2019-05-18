@@ -104,7 +104,10 @@ protected:
 public:
 
 	UFUNCTION( Server, Reliable, WithValidation, BlueprintCallable )
-	void ServerDisablePickedUpActor( AItem* PickedUpItem );
+	void ServerDisablePickedUpActor( AActor* PickedUpActor );
+
+	UFUNCTION( NetMulticast, Reliable, BlueprintCallable )
+	void MulticastDisablePickedUpActor( AActor* PickedUpActor );
 
 	UFUNCTION( BlueprintImplementableEvent )
 	void ToggleWidget( bool On );

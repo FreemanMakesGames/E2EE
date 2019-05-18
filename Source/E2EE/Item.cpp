@@ -13,8 +13,6 @@ AItem::AItem()
 	bReplicates = true;
 	bAlwaysRelevant = true;
 	NetDormancy = ENetDormancy::DORM_Never;
-
-	bIsActive = true;
 }
 
 // Called when the game starts or when spawned
@@ -30,20 +28,6 @@ void AItem::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void AItem::SetIsActive( bool IsActive )
-{
-	bIsActive = IsActive;
-
-	if ( bIsActive )
-	{
-		UGameUtilities::EnableActor( this );
-	}
-	else
-	{
-		UGameUtilities::DisableActor( this );
-	}
-}
-
 TArray<EItemUsage> AItem::GetItemUsages()
 {
 	return ItemUsages;
@@ -57,23 +41,4 @@ UItemWidget* AItem::GetItemWidget()
 void AItem::SetItemWidget( UItemWidget* ItemWidgetToSet )
 {
 	ItemWidget = ItemWidgetToSet;
-}
-
-void AItem::OnRep_IsActive()
-{
-	if ( bIsActive )
-	{
-		UGameUtilities::EnableActor( this );
-	}
-	else
-	{
-		UGameUtilities::DisableActor( this );
-	}
-}
-
-void AItem::GetLifetimeReplicatedProps( TArray<FLifetimeProperty>& OutLifetimeProps ) const
-{
-	Super::GetLifetimeReplicatedProps( OutLifetimeProps );
-
-	DOREPLIFETIME( AItem, bIsActive );
 }

@@ -21,5 +21,8 @@ public:
 
 	UFUNCTION( BlueprintCallable )
 	static void EnableActor( AActor* TargetActor );
+
+	UFUNCTION( BlueprintCallable )
+	static void ToggleActor( AActor* TargetActor, bool IsActive );
 	
 };

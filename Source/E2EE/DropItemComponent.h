@@ -28,4 +28,7 @@ public:
 	UFUNCTION( Server, Reliable, WithValidation, BlueprintCallable )
 	void ServerDropItem( AItem* ItemToDrop );
 
+	UFUNCTION( NetMulticast, Reliable, BlueprintCallable )
+	void MulticastDropItem( AItem* ItemToDrop );
+
 };
