@@ -35,6 +35,12 @@ bool UDropItemComponent::ServerDropItem_Validate( AItem* ItemToDrop )
 
 void UDropItemComponent::MulticastDropItem_Implementation( AItem* ItemToDrop )
 {
+	if ( !ItemToDrop )
+	{
+		UE_LOG( LogTemp, Error, TEXT( "Server is dropping a NULL AItem!" ) );
+		return;
+	}
+
 	UPrimitiveComponent* PrimitiveComponent = ItemToDrop->FindComponentByClass<UPrimitiveComponent>();
 
 	if ( PrimitiveComponent )
