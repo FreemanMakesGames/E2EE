@@ -45,20 +45,16 @@ void UInventory::DropItem( AItem* ItemToDrop )
 	RemoveItem( ItemToDrop );
 }
 
-AItem* UInventory::DuplicateItem( AItem* ItemToDuplicate )
+void UInventory::ServerDuplicateItem_Implementation( AItem* ItemToDuplicate )
 {
 	AItem* Clone = ItemToDuplicate->Duplicate();
 
-	if ( Clone )
-	{
-		AddItem( Clone );
-	}
-	else
-	{
-		UE_LOG( LogTemp, Warning, TEXT( "Item duplication failed?!" ) );
-	}
+	ClientReceiveDuplicatedItem( Clone );
+}
 
-	return Clone;
+bool UInventory::ServerDuplicateItem_Validate( AItem* ItemToDuplicate )
+{
+	return true;
 }
 
 void UInventory::CombineItems( TArray<AItem*> SourceItems )
@@ -80,5 +76,17 @@ void UInventory::CombineItems( TArray<AItem*> SourceItems )
 		{
 			AddItem( Item );
 		}
+	}
+}
+
+void UInventory::ClientReceiveDuplicatedItem_Implementation( AItem* Clone )
+{
+	if ( Clone )
+	{
+		AddItem( Clone );
+	}
+	else
+	{
+		UE_LOG( LogTemp, Warning, TEXT( "Item duplication failed?!" ) );
 	}
 }
