@@ -19,7 +19,22 @@ class E2EE_API UInventory : public UActorComponent
 
 public:
 
+	UPROPERTY( BlueprintAssignable )
+	FOnItemAdded OnItemAdded;
+
+	UPROPERTY( BlueprintAssignable )
+	FOnItemRemoved OnItemRemoved;
+
+public:
+
 	TArray<AItem*> GetItems();
+
+protected:
+
+	UPROPERTY()
+	TArray<AItem*> Items;
+
+public:
 
 	UFUNCTION( BlueprintCallable )
 	int CountItems();
@@ -43,20 +58,9 @@ public:
 	void ReadItem( AItem* ItemToRead );
 
 	UFUNCTION( BlueprintCallable )
-	void CombineItems( TArray<AItem*> Items );
+	void CombineItems( TArray<AItem*> SourceItems );
 
 	UFUNCTION( BlueprintImplementableEvent )
 	TArray<AItem*> CombineItemsWithItemCombiner( const TArray<AItem*>& SourceItems );
-
-	UPROPERTY( BlueprintAssignable )
-	FOnItemAdded OnItemAdded;
-
-	UPROPERTY( BlueprintAssignable )
-	FOnItemRemoved OnItemRemoved;
-
-protected:
-
-	UPROPERTY()
-	TArray<AItem*> Items;
 	
 };

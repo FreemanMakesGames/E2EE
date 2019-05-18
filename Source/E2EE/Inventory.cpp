@@ -60,11 +60,6 @@ void UInventory::DuplicateItem( AItem* ItemToDuplicate )
 	}
 }
 
-bool UInventory::ServerDuplicateItem_Validate( AItem* ItemToDuplicate )
-{
-	return true;
-}
-
 void UInventory::CombineItems( TArray<AItem*> SourceItems )
 {
 	TArray<AItem*> ResultItems = CombineItemsWithItemCombiner( SourceItems );
