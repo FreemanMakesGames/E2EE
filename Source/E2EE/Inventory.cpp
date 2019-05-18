@@ -14,7 +14,7 @@ int UInventory::CountItems()
 	return Items.Num();
 }
 
-void UInventory::AddItem( AItem* ItemToAdd )
+void UInventory::AddItem_Implementation( AItem* ItemToAdd )
 {
 	Items.Add( ItemToAdd );
 
@@ -49,7 +49,14 @@ void UInventory::ServerDuplicateItem_Implementation( AItem* ItemToDuplicate )
 {
 	AItem* Clone = ItemToDuplicate->Duplicate();
 
-	ClientReceiveDuplicatedItem( Clone );
+	if ( Clone )
+	{
+		AddItem( Clone );
+	}
+	else
+	{
+		UE_LOG( LogTemp, Warning, TEXT( "Item duplication failed?!" ) );
+	}
 }
 
 bool UInventory::ServerDuplicateItem_Validate( AItem* ItemToDuplicate )
