@@ -4,6 +4,7 @@
 
 #include "GameUtilities.h"
 #include "BasicPlayerController.h"
+#include "Item.h"
 #include "HighlightComponent.h"
 #include "Waypoint.h"
 
@@ -169,12 +170,13 @@ void ABasicCharacter::HandleOnCapsuleClicked( UPrimitiveComponent* TouchedCompon
 	GetWorld()->GetFirstPlayerController<ABasicPlayerController>()->ServerSubmitCharacterInteractionRequest( this );
 }
 
-void ABasicCharacter::ServerDisablePickedUpActor_Implementation( AActor* PickedUpActor )
+void ABasicCharacter::ServerDisablePickedUpActor_Implementation( AItem* PickedUpItem )
 {
-	UGameUtilities::DisableActor( PickedUpActor );
+	//UGameUtilities::DisableActor( PickedUpActor );
+	PickedUpItem->SetIsActive( false );
 }
 
-bool ABasicCharacter::ServerDisablePickedUpActor_Validate( AActor* PickedUpActor )
+bool ABasicCharacter::ServerDisablePickedUpActor_Validate( AItem* PickedUpItem )
 {
 	return true;
 }

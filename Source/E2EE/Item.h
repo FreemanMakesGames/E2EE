@@ -28,6 +28,9 @@ public:
 public:
 
 	UFUNCTION( BlueprintCallable )
+	void SetIsActive( bool IsActive );
+
+	UFUNCTION( BlueprintCallable )
 	UItemWidget* GetItemWidget();
 
 	UFUNCTION( BlueprintCallable )
@@ -37,6 +40,9 @@ public:
 	TArray<EItemUsage> GetItemUsages();
 
 protected:
+
+	UPROPERTY( ReplicatedUsing = OnRep_IsActive, VisibleInstanceOnly )
+	bool bIsActive;
 
 	UPROPERTY( EditDefaultsOnly )
 	TSubclassOf<UItemWidget> ItemWidgetClass;
@@ -51,5 +57,10 @@ public:
 
 	UFUNCTION( BlueprintImplementableEvent, BlueprintCallable )
 	AItem* Duplicate();
+
+protected:
+
+	UFUNCTION()
+	void OnRep_IsActive();
 
 };

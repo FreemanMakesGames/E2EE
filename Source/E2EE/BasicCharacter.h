@@ -8,6 +8,7 @@
 #include "GameFramework/Character.h"
 #include "BasicCharacter.generated.h"
 
+class AItem;
 class UInventory;
 class UUserWidget;
 class UHighlightComponent;
@@ -103,7 +104,7 @@ protected:
 public:
 
 	UFUNCTION( Server, Reliable, WithValidation, BlueprintCallable )
-	void ServerDisablePickedUpActor( AActor* PickedUpActor );
+	void ServerDisablePickedUpActor( AItem* PickedUpItem );
 
 	UFUNCTION( BlueprintImplementableEvent )
 	void ToggleWidget( bool On );

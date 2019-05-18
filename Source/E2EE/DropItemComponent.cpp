@@ -29,7 +29,8 @@ void UDropItemComponent::ServerDropItem_Implementation( AItem* ItemToDrop )
 
 	if ( PrimitiveComponent )
 	{
-		UGameUtilities::EnableActor( ItemToDrop );
+		//UGameUtilities::EnableActor( ItemToDrop );
+		ItemToDrop->SetIsActive( true );
 
 		ItemToDrop->SetActorTransform( GetComponentTransform() );
 	}
