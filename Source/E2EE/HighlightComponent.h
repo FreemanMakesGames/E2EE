@@ -22,11 +22,13 @@ protected:
 protected:
 
 	UFUNCTION( BlueprintCallable )
-	void Highlight( UPrimitiveComponent* ComponentToHighlight );
+	void Highlight( UPrimitiveComponent* Target );
 
 	UFUNCTION( BlueprintCallable )
-	void EndHighlight( UPrimitiveComponent* ComponentToEndHighlight );
+	void EndHighlight( UPrimitiveComponent* Target );
 
-public:	
+protected:
+
+	UPrimitiveComponent* TargetPrimitiveComponent;
 
 };

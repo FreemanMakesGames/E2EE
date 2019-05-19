@@ -8,12 +8,15 @@ void UHighlightComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	UPrimitiveComponent* PrimitiveComponent = GetOwner()->FindComponentByClass<UPrimitiveComponent>();
-
-	if ( PrimitiveComponent )
+	if ( !TargetPrimitiveComponent )
 	{
-		PrimitiveComponent->OnBeginCursorOver.AddDynamic( this, &UHighlightComponent::Highlight );
-		PrimitiveComponent->OnEndCursorOver.AddDynamic( this, &UHighlightComponent::EndHighlight );
+		TargetPrimitiveComponent = GetOwner()->FindComponentByClass<UPrimitiveComponent>();
+	}
+
+	if ( TargetPrimitiveComponent )
+	{
+		TargetPrimitiveComponent->OnBeginCursorOver.AddDynamic( this, &UHighlightComponent::Highlight );
+		TargetPrimitiveComponent->OnEndCursorOver.AddDynamic( this, &UHighlightComponent::EndHighlight );
 	}
 	else
 	{
@@ -21,19 +24,19 @@ void UHighlightComponent::BeginPlay()
 	}
 }
 
-void UHighlightComponent::Highlight( UPrimitiveComponent* ComponentToHighlight )
+void UHighlightComponent::Highlight( UPrimitiveComponent* Target )
 {
-	if ( ComponentToHighlight )
+	if ( Target )
 	{
-		ComponentToHighlight->SetRenderCustomDepth( true );
+		Target->SetRenderCustomDepth( true );
 	}
 }
 
-void UHighlightComponent::EndHighlight( UPrimitiveComponent* ComponentToEndHighlight )
+void UHighlightComponent::EndHighlight( UPrimitiveComponent* Target )
 {
-	if ( ComponentToEndHighlight )
+	if ( Target )
 	{
-		ComponentToEndHighlight->SetRenderCustomDepth( false );
+		Target->SetRenderCustomDepth( false );
 	}
 }
 
