@@ -49,6 +49,9 @@ public:
 	UFUNCTION( BlueprintCallable )
 	void ShowInventory( UInventory* InventoryToSet );
 
+	UFUNCTION( BlueprintCallable )
+	void HideInventory();
+
 protected:
 
 	UItemClicker* AddNewItemClicker( AItem* Item );

@@ -67,6 +67,18 @@ void UInventoryMenu::ShowInventory( UInventory* InventoryToSet )
 	AddToViewport();
 }
 
+void UInventoryMenu::HideInventory()
+{
+	bIsCombining = false;
+
+	if ( ItemMenu->IsInViewport() )
+	{
+		ItemMenu->RemoveFromParent();
+	}
+
+	RemoveFromParent();
+}
+
 /**
  * Create a new ItemClicker with ItemWidget content, and add it to the WrapBox.
  */
@@ -132,7 +144,7 @@ void UInventoryMenu::HandleOnItemClickerClicked( UItemClicker* ClickedItemClicke
 
 void UInventoryMenu::HandleOnButtonHideInventoryMenuClicked()
 {
-	RemoveFromParent();
+	HideInventory();
 }
 #pragma endregion
 
