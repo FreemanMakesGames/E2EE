@@ -15,7 +15,9 @@ class E2EE_API UHighlightComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
+protected:
+
+	virtual void BeginPlay() override;
 
 protected:
 

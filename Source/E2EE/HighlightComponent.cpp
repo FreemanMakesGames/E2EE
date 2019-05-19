@@ -2,18 +2,38 @@
 
 #include "HighlightComponent.h"
 
-#include "Components/StaticMeshComponent.h"
-#include "Engine/World.h"
-#include "GameFramework/PlayerController.h"
-#include "Engine/StaticMesh.h"
-#include "Classes/Materials/MaterialInterface.h"
+#include "Components/PrimitiveComponent.h"
+
+void UHighlightComponent::BeginPlay()
+{
+	Super::BeginPlay();
+
+	UPrimitiveComponent* PrimitiveComponent = GetOwner()->FindComponentByClass<UPrimitiveComponent>();
+
+	if ( PrimitiveComponent )
+	{
+		PrimitiveComponent->OnBeginCursorOver.AddDynamic( this, &UHighlightComponent::Highlight );
+		PrimitiveComponent->OnEndCursorOver.AddDynamic( this, &UHighlightComponent::EndHighlight );
+	}
+	else
+	{
+		UE_LOG( LogTemp, Error, TEXT( "This Highlight Component's owner doesn't have a Primitive Component!" ) );
+	}
+}
 
 void UHighlightComponent::Highlight( UPrimitiveComponent* ComponentToHighlight )
 {
-	ComponentToHighlight->SetRenderCustomDepth( true );
+	if ( ComponentToHighlight )
+	{
+		ComponentToHighlight->SetRenderCustomDepth( true );
+	}
 }
 
 void UHighlightComponent::EndHighlight( UPrimitiveComponent* ComponentToEndHighlight )
 {
-	ComponentToEndHighlight->SetRenderCustomDepth( false );
+	if ( ComponentToEndHighlight )
+	{
+		ComponentToEndHighlight->SetRenderCustomDepth( false );
+	}
 }
+
