@@ -6,7 +6,9 @@
 #include "GameFramework/Actor.h"
 #include "Item.generated.h"
 
-class UItemWidget;
+class UItemInfo;
+
+class UUserWidget;
 
 UCLASS( BlueprintType )
 class E2EE_API AItem : public AActor
@@ -28,21 +30,27 @@ public:
 public:
 
 	UFUNCTION( BlueprintCallable )
-	UItemWidget* GetItemWidget();
+	virtual UItemInfo* GetItemInfo() PURE_VIRTUAL( , return ItemInfo; );
 
 	UFUNCTION( BlueprintCallable )
-	void SetItemWidget( UItemWidget* ItemWidgetToSet );
+	virtual void SetItemInfo( UItemInfo* InItemInfo ) PURE_VIRTUAL( , );
+
+	UFUNCTION( BlueprintCallable )
+	virtual UUserWidget* GetItemWidget() PURE_VIRTUAL( , return ItemWidget; );
+
+	UFUNCTION( BlueprintCallable )
+	virtual void SetItemWidget( UUserWidget* ItemWidgetToSet ) PURE_VIRTUAL( , );
 
 	UFUNCTION( BlueprintCallable )
 	TArray<EItemUsage> GetItemUsages();
 
 protected:
 
-	UPROPERTY( EditDefaultsOnly )
-	TSubclassOf<UItemWidget> ItemWidgetClass;
+	UPROPERTY()
+	UItemInfo* ItemInfo;
 
 	UPROPERTY( BlueprintReadWrite )
-	UItemWidget* ItemWidget;
+	UUserWidget* ItemWidget;
 
 	UPROPERTY( EditDefaultsOnly, BlueprintReadOnly )
 	TArray<EItemUsage> ItemUsages;
