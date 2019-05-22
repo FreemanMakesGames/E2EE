@@ -9,3 +9,12 @@ void ULockItemInfo::SetLockId( int InLockId )
 {
 	LockId = InLockId;
 }
+
+ULockItemInfo* ULockItemInfo::Duplicate()
+{
+	ULockItemInfo* Clone = NewObject<ULockItemInfo>();
+
+	Clone->SetLockId( LockId );
+
+	return Clone;
+}

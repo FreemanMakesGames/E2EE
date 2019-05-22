@@ -23,5 +23,9 @@ public:
 protected:
 
 	int LockId;
+
+public:
+
+	virtual ULockItemInfo* Duplicate() override;
 	
 };

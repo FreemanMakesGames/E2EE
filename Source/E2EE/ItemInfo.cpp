@@ -2,10 +2,10 @@
 
 int UItemInfo::GetItemId()
 {
-	return ItemId;
+	return ItemTypeId;
 }
 
 void UItemInfo::SetItemId( int InItemId )
 {
-	ItemId = InItemId;
+	ItemTypeId = InItemId;
 }

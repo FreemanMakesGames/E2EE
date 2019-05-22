@@ -22,7 +22,8 @@ public:
 
 protected:
 
-	int ItemId;
+	/** Map this to 3D models, and 2D item widgets, in the definition list. */
+	int ItemTypeId;
 
 public:
 

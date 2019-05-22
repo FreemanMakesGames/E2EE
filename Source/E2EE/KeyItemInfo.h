@@ -24,4 +24,8 @@ protected:
 
 	int KeyId;
 
+public:
+
+	virtual UKeyItemInfo* Duplicate() override;
+
 };
