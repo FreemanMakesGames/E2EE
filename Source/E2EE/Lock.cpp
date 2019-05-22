@@ -24,19 +24,12 @@ void ALock::BeginPlay()
 	LockItemWidget = CreateWidget<ULockItemWidget>( GetWorld()->GetFirstPlayerController() );
 }
 
-void ALock::SetLockId( int InLockId )
-{
-	LockItemInfo->SetLockId( InLockId );
-
-	LockItemWidget->SetLockIdText( InLockId );
-}
-
 UItemInfo* ALock::GetItemInfo()
 {
 	return LockItemInfo;
 }
 
-UUserWidget* ALock::GetItemWidget()
+UItemWidget* ALock::GetItemWidget()
 {
 	return LockItemWidget;
 }

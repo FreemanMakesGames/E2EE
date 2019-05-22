@@ -29,7 +29,7 @@ UItemInfo* AContainer::GetItemInfo()
 	return ContainerItemInfo;
 }
 
-UUserWidget* AContainer::GetItemWidget()
+UItemWidget* AContainer::GetItemWidget()
 {
 	return ContainerItemWidget;
 }

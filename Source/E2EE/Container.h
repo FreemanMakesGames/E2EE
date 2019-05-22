@@ -44,7 +44,7 @@ public:
 
 	virtual UItemInfo* GetItemInfo() override;
 
-	virtual UUserWidget* GetItemWidget() override;
+	virtual UItemWidget* GetItemWidget() override;
 
 protected:
 

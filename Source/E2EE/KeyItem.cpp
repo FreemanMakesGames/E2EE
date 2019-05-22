@@ -24,19 +24,12 @@ void AKeyItem::BeginPlay()
 	KeyItemWidget = CreateWidget<UKeyItemWidget>( GetWorld()->GetFirstPlayerController() );
 }
 
-void AKeyItem::SetKeyId( int InKeyId )
-{
-	KeyItemInfo->SetKeyId( InKeyId );
-
-	KeyItemWidget->SetKeyIdText( InKeyId );
-}
-
 UItemInfo* AKeyItem::GetItemInfo()
 {
 	return KeyItemInfo;
 }
 
-UUserWidget* AKeyItem::GetItemWidget()
+UItemWidget* AKeyItem::GetItemWidget()
 {
 	return KeyItemWidget;
 }

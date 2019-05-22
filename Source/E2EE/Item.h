@@ -7,8 +7,7 @@
 #include "Item.generated.h"
 
 class UItemInfo;
-
-class UUserWidget;
+class UItemWidget;
 
 UCLASS( BlueprintType )
 class E2EE_API AItem : public AActor
@@ -36,7 +35,7 @@ public:
 	virtual void SetItemInfo( UItemInfo* InItemInfo ) PURE_VIRTUAL( , );
 
 	UFUNCTION( BlueprintCallable )
-	virtual UUserWidget* GetItemWidget() PURE_VIRTUAL( , return ItemWidget; );
+	virtual UItemWidget* GetItemWidget() PURE_VIRTUAL( , return ItemWidget; );
 
 	UFUNCTION( BlueprintCallable )
 	virtual void SetItemWidget( UUserWidget* ItemWidgetToSet ) PURE_VIRTUAL( , );
@@ -50,7 +49,7 @@ protected:
 	UItemInfo* ItemInfo;
 
 	UPROPERTY( BlueprintReadWrite )
-	UUserWidget* ItemWidget;
+	UItemWidget* ItemWidget;
 
 	UPROPERTY( EditDefaultsOnly, BlueprintReadOnly )
 	TArray<EItemUsage> ItemUsages;

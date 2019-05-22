@@ -40,12 +40,9 @@ public:
 
 public:
 
-	UFUNCTION( BlueprintCallable )
-	void SetLockId( int InLockId );
-
 	virtual UItemInfo* GetItemInfo() override;
 
-	virtual UUserWidget* GetItemWidget() override;
+	virtual UItemWidget* GetItemWidget() override;
 
 protected:
 

@@ -4,6 +4,8 @@
 #include "Blueprint/UserWidget.h"
 #include "LockItemWidget.generated.h"
 
+class UItemInfo;
+class ULockItemInfo;
 class UImage;
 class UTexture2D;
 class UTextBlock;
@@ -12,17 +14,13 @@ class UTextBlock;
  * 
  */
 UCLASS()
-class E2EE_API ULockItemWidget : public UUserWidget
+class E2EE_API ULockItemWidget : public UItemWidget
 {
 	GENERATED_BODY()
 
 public:
 
-	UFUNCTION( BlueprintCallable )
-	void UpdateImage( UTexture2D* NewTexture );
-
-	UFUNCTION( BlueprintCallable )
-	void SetLockIdText( int InLockId );
+	virtual void SetItemInfo( UItemInfo* InItemInfo ) override;
 
 protected:
 
@@ -31,5 +29,13 @@ protected:
 
 	UPROPERTY( meta = ( BindWidget ) )
 	UTextBlock* TextBlock_LockId;
+
+	UPROPERTY( VisibleInstanceOnly, BlueprintReadWrite )
+	ULockItemInfo* LockItemInfo;
+
+public:
+
+	UFUNCTION( BlueprintCallable )
+	void UpdateImage( UTexture2D* NewTexture );
 
 };
