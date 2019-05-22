@@ -15,10 +15,10 @@ class E2EE_API UItemInfo : public UObject
 public:
 
 	UFUNCTION( BlueprintCallable )
-	int GetItemId();
+	int GetItemTypeId();
 
 	UFUNCTION( BlueprintCallable )
-	void SetItemId( int InItemId );
+	void SetItemTypeId( int InItemTypeId );
 
 protected:
 

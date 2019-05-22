@@ -1,11 +1,11 @@
 #include "ItemInfo.h"
 
-int UItemInfo::GetItemId()
+int UItemInfo::GetItemTypeId()
 {
 	return ItemTypeId;
 }
 
-void UItemInfo::SetItemId( int InItemId )
+void UItemInfo::SetItemTypeId( int InItemTypeId )
 {
-	ItemTypeId = InItemId;
+	ItemTypeId = InItemTypeId;
 }

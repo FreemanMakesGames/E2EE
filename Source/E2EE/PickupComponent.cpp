@@ -5,6 +5,7 @@
 #include "Inventory.h"
 #include "Item.h"
 #include "GameUtilities.h"
+#include "DevUtilities.h"
 
 #include "Engine/Engine.h"
 #include "Components/PrimitiveComponent.h"
@@ -21,7 +22,7 @@ void UPickupComponent::BeginPlay()
 	OwnerItem = Cast<AItem>( GetOwner() );
 	if ( !OwnerItem )
 	{
-		GEngine->AddOnScreenDebugMessage( -1, 100.0f, FColor::Red, TEXT( "PickupComponent is added to a non-Item!" ) );
+		UDevUtilities::PrintError( TEXT( "PickupComponent is added to a non-Item!" ) );
 		return;
 	}
 

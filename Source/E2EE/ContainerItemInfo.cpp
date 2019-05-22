@@ -2,6 +2,7 @@
 
 #include "ContainerItemWidget.h"
 #include "LockItemInfo.h"
+#include "DevUtilities.h"
 
 #include "Engine/Engine.h"
 
@@ -43,7 +44,7 @@ UItemInfo* UContainerItemInfo::ReleaseItem()
 	}
 	else
 	{
-		GEngine->AddOnScreenDebugMessage( -1, 100.0f, FColor::Red, TEXT( "Container's ReleaseItem is called before checking if it's occupied!" ) );
+		UDevUtilities::PrintError( TEXT( "Container's ReleaseItem is called before checking if it's occupied!" ) );
 
 		return nullptr;
 	}

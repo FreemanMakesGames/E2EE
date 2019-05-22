@@ -1,6 +1,7 @@
 #include "ContainerItemWidget.h"
 
 #include "ContaineritemInfo.h"
+#include "DevUtilities.h"
 
 #include "Engine/Engine.h"
 #include "Components/Image.h"
@@ -18,7 +19,7 @@ void UContainerItemWidget::SetItemInfo( UItemInfo* InItemInfo )
 	}
 	else
 	{
-		GEngine->AddOnScreenDebugMessage( -1, 100.0f, FColor::Red, TEXT( "ContainerItemWidget gets a non-ContainerItemInfo!" ) );
+		UDevUtilities::PrintError( TEXT( "ContainerItemWidget gets a non-ContainerItemInfo!" ) );
 	}
 }
 
