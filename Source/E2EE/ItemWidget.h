@@ -4,8 +4,7 @@
 #include "Blueprint/UserWidget.h"
 #include "ItemWidget.generated.h"
 
-class UImage;
-class UTexture2D;
+class UItemInfo;
 
 /**
  * 
@@ -17,13 +16,8 @@ class E2EE_API UItemWidget : public UUserWidget
 
 public:
 
+	/** Initialize ItemWidget with ItemInfo here. */
 	UFUNCTION( BlueprintCallable )
-	void UpdateImage( UTexture2D* NewTexture );
+	virtual void SetItemInfo( UItemInfo* InItemInfo ) PURE_VIRTUAL( , );
 
-protected:
-
-	// An Image widget holds a Texture.
-	UPROPERTY( meta = ( BindWidget ) )
-	UImage* Image_Icon;
-	
 };
