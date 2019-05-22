@@ -1,6 +1,6 @@
 #include "BasicGameState.h"
 
-void ABasicGameState::IncrementUsableKeyPairID()
+void ABasicGameState::IncrementUsableKeyPairId()
 {
-	NextUsableKeyPairID++;
+	NextUsableKeyPairId++;
 }

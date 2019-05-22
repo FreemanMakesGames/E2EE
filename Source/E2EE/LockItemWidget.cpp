@@ -13,5 +13,5 @@ void ULockItemWidget::SetLockIdText( int InLockId )
 {
 	FText Text = FText::FromString( FString::FromInt( InLockId ) );
 
-	TextBlock_LockID->SetText( Text );
+	TextBlock_LockId->SetText( Text );
 }

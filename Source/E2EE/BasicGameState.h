@@ -12,11 +12,11 @@ class E2EE_API ABasicGameState : public AGameStateBase
 public:
 
 	UFUNCTION( BlueprintCallable )
-	void IncrementUsableKeyPairID();
+	void IncrementUsableKeyPairId();
 
 protected:
 
 	UPROPERTY( VisibleAnywhere, BlueprintReadOnly )
-	int NextUsableKeyPairID;
+	int NextUsableKeyPairId;
 	
 };

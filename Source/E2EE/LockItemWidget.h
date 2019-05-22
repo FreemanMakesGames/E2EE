@@ -30,6 +30,6 @@ protected:
 	UImage* Image_Icon;
 
 	UPROPERTY( meta = ( BindWidget ) )
-	UTextBlock* TextBlock_LockID;
+	UTextBlock* TextBlock_LockId;
 
 };

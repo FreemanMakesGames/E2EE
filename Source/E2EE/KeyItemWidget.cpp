@@ -13,5 +13,5 @@ void UKeyItemWidget::SetKeyIdText( int InKeyId )
 {
 	FText Text = FText::FromString( FString::FromInt( InKeyId ) );
 
-	TextBlockKey_KeyID->SetText( Text );
+	TextBlockKey_KeyId->SetText( Text );
 }
