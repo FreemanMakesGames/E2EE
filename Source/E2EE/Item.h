@@ -21,14 +21,9 @@ public:
 public:
 
 	UFUNCTION( BlueprintCallable )
-	virtual UItemInfo* GetItemInfo() PURE_VIRTUAL( , return ItemInfo; );
+	virtual UItemInfo* GetItemInfo() PURE_VIRTUAL( , return nullptr; );
 
 	UFUNCTION( BlueprintCallable )
 	virtual void SetItemInfo( UItemInfo* InItemInfo ) PURE_VIRTUAL( , );
-
-protected:
-
-	UPROPERTY()
-	UItemInfo* ItemInfo;
 
 };

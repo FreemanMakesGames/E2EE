@@ -15,6 +15,8 @@ AContainer::AContainer()
 	PickupComponent = CreateDefaultSubobject<UPickupComponent>( TEXT( "Pickup" ) );
 
 	HightlightComponent = CreateDefaultSubobject<UHighlightComponent>( TEXT( "Highlight" ) );
+
+	ContainerItemInfo = NewObject<UContainerItemInfo>();
 }
 
 UItemInfo* AContainer::GetItemInfo()

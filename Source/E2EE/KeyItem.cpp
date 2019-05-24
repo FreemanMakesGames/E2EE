@@ -15,9 +15,21 @@ AKeyItem::AKeyItem()
 	PickupComponent = CreateDefaultSubobject<UPickupComponent>( TEXT( "Pickup" ) );
 
 	HightlightComponent = CreateDefaultSubobject<UHighlightComponent>( TEXT( "Highlight" ) );
+
+	KeyItemInfo = NewObject<UKeyItemInfo>();
 }
 
 UItemInfo* AKeyItem::GetItemInfo()
 {
 	return KeyItemInfo;
+}
+
+int AKeyItem::GetKeyId()
+{
+	return KeyItemInfo->GetKeyId();
+}
+
+void AKeyItem::SetKeyId( int InKeyId )
+{
+	KeyItemInfo->SetKeyId( InKeyId );
 }

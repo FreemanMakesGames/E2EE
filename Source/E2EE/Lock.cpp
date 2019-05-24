@@ -15,9 +15,21 @@ ALock::ALock()
 	PickupComponent = CreateDefaultSubobject<UPickupComponent>( TEXT( "Pickup" ) );
 
 	HightlightComponent = CreateDefaultSubobject<UHighlightComponent>( TEXT( "Highlight" ) );
+
+	LockItemInfo = NewObject<ULockItemInfo>();
 }
 
 UItemInfo* ALock::GetItemInfo()
 {
 	return LockItemInfo;
+}
+
+int ALock::GetLockId()
+{
+	return LockItemInfo->GetLockId();
+}
+
+void ALock::SetLockId( int InLockId )
+{
+	LockItemInfo->SetLockId( InLockId );
 }

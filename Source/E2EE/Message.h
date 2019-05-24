@@ -16,6 +16,10 @@ class E2EE_API AMessage : public AItem
 
 public:
 
+	AMessage();
+
+public:
+
 	virtual UItemInfo* GetItemInfo() override;
 
 protected:

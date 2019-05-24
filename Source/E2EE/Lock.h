@@ -38,6 +38,12 @@ public:
 
 	virtual UItemInfo* GetItemInfo() override;
 
+	UFUNCTION( BlueprintCallable )
+	int GetLockId();
+
+	UFUNCTION( BlueprintCallable )
+	void SetLockId( int InLockId );
+
 protected:
 
 	UPROPERTY()

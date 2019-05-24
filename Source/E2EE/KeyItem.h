@@ -12,7 +12,7 @@ class UPickupComponent;
 class UHighlightComponent;
 
 /**
- * 
+ * It is named KeyItem because a class named "Key" already exists...
  */
 UCLASS()
 class E2EE_API AKeyItem : public AItem
@@ -37,6 +37,12 @@ public:
 public:
 
 	virtual UItemInfo* GetItemInfo() override;
+
+	UFUNCTION( BlueprintCallable )
+	int GetKeyId();
+
+	UFUNCTION( BlueprintCallable )
+	void SetKeyId( int InKeyId );
 
 protected:
 
