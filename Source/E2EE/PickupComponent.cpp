@@ -48,9 +48,7 @@ void UPickupComponent::PickUp( UPrimitiveComponent* TouchedComponent, FKey Butto
 		return;
 	}
 
-	// Add OwnerItem to ActiveInventory.
-	ActiveInventory->AddItem( OwnerItem );
+	ActiveInventory->AddItem( OwnerItem->GetItemInfo() );
 
-	// TODO: Pickup: Change this to destroy OwnerItem.
-	UGameUtilities::DisableActor( OwnerItem );
+	OwnerItem->Destroy();
 }

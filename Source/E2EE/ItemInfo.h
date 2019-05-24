@@ -10,7 +10,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS( Blueprintable, BlueprintType )
 class E2EE_API UItemInfo : public UObject
 {
 	GENERATED_BODY()

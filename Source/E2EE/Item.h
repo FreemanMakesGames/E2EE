@@ -9,7 +9,7 @@
 class UItemInfo;
 class UItemWidget;
 
-UCLASS( BlueprintType )
+UCLASS( Blueprintable, BlueprintType )
 class E2EE_API AItem : public AActor
 {
 	GENERATED_BODY()

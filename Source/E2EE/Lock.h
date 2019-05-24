@@ -23,10 +23,6 @@ public:
 
 	ALock();
 
-protected:
-
-	virtual void BeginPlay() override;
-
 public:
 
 	UPROPERTY( VisibleAnywhere, BlueprintReadOnly )
