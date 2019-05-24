@@ -43,6 +43,7 @@ void UItemClicker::SetItemInfo( UItemInfo* ItemToSet )
 	int ItemTypeId = ItemInfo->GetItemTypeId();
 	TSubclassOf<UItemWidget>* ItemWidgetClass = ItemDefinitionList->TypeIdToItemWidgetClass.Find( ItemTypeId );
 
+	// Spawn Item Widget.
 	if ( ItemWidgetClass )
 	{
 		UItemWidget* ItemWidget = CreateWidget<UItemWidget>( this, *ItemWidgetClass );

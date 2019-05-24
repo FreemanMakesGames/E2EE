@@ -14,11 +14,9 @@ class E2EE_API AMessage : public AItem
 {
 	GENERATED_BODY()
 
-public:
+protected:
 
-	AMessage( const FObjectInitializer& ObjectInitializer );
-
-	virtual void PostInitProperties() override;
+	virtual void BeginPlay() override;
 
 public:
 

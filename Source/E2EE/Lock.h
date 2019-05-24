@@ -23,6 +23,10 @@ public:
 
 	ALock( const FObjectInitializer& ObjectInitializer );
 
+protected:
+
+	virtual void BeginPlay() override;
+
 public:
 
 	UPROPERTY( VisibleAnywhere, BlueprintReadOnly )

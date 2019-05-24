@@ -15,8 +15,11 @@ AKeyItem::AKeyItem( const FObjectInitializer& ObjectInitializer ) : Super( Objec
 	PickupComponent = CreateDefaultSubobject<UPickupComponent>( TEXT( "Pickup" ) );
 
 	HightlightComponent = CreateDefaultSubobject<UHighlightComponent>( TEXT( "Highlight" ) );
+}
 
-	KeyItemInfo = NewObject<UKeyItemInfo>();
+void AKeyItem::BeginPlay()
+{
+	KeyItemInfo = NewObject<UKeyItemInfo>( this );
 }
 
 UItemInfo* AKeyItem::GetItemInfo()

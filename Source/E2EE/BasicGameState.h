@@ -28,7 +28,7 @@ protected:
 	UPROPERTY( EditDefaultsOnly )
 	TSubclassOf<AItemDefinitionList> ItemDefinitionListClass;
 
-	UPROPERTY( EditDefaultsOnly, BlueprintReadOnly )
+	UPROPERTY( BlueprintReadOnly )
 	AItemDefinitionList* ItemDefinitionList;
 
 	UPROPERTY( VisibleAnywhere, BlueprintReadOnly )

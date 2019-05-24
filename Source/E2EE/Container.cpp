@@ -15,8 +15,11 @@ AContainer::AContainer( const FObjectInitializer& ObjectInitializer ) : Super( O
 	PickupComponent = CreateDefaultSubobject<UPickupComponent>( TEXT( "Pickup" ) );
 
 	HightlightComponent = CreateDefaultSubobject<UHighlightComponent>( TEXT( "Highlight" ) );
+}
 
-	ContainerItemInfo = NewObject<UContainerItemInfo>();
+void AContainer::BeginPlay()
+{
+	ContainerItemInfo = NewObject<UContainerItemInfo>( this );
 }
 
 UItemInfo* AContainer::GetItemInfo()
