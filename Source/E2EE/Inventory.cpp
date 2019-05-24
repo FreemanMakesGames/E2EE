@@ -1,10 +1,16 @@
 #include "Inventory.h"
 
 #include "Item.h"
+#include "ItemCombiner.h"
 #include "DropItemComponent.h"
 #include "BasicCharacter.h"
 
 #include "Net/UnrealNetwork.h"
+
+UInventory::UInventory( const FObjectInitializer& ObjectInitializer ) : Super( ObjectInitializer )
+{
+	ItemCombiner = NewObject<UItemCombiner>();
+}
 
 TArray<UItemInfo*> UInventory::GetItems()
 {
@@ -49,7 +55,8 @@ void UInventory::DropItem( UItemInfo* ItemToDrop )
 
 void UInventory::CombineItems( TArray<UItemInfo*> SourceItems )
 {
-	TArray<UItemInfo*> ResultItems = CombineItemsWithItemCombiner( SourceItems );
+	//TArray<UItemInfo*> ResultItems = CombineItemsWithItemCombiner( SourceItems );
+	TArray<UItemInfo*> ResultItems = ItemCombiner->CombineItems( SourceItems );
 
 	if ( ResultItems == SourceItems )
 	{

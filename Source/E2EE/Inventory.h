@@ -5,6 +5,7 @@
 #include "Inventory.generated.h"
 
 class UItemInfo;
+class UItemCombiner;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnItemAdded, UItemInfo*, Item );
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnItemRemoved, UItemInfo*, Item );
@@ -16,6 +17,10 @@ UCLASS( Blueprintable, BlueprintType, ClassGroup = ( Custom ), meta = ( Blueprin
 class E2EE_API UInventory : public UActorComponent
 {
 	GENERATED_BODY()
+
+public:
+
+	UInventory( const FObjectInitializer& ObjectInitializer );
 
 public:
 
@@ -34,6 +39,9 @@ protected:
 
 	UPROPERTY( VisibleInstanceOnly )
 	TArray<UItemInfo*> Items;
+
+	UPROPERTY()
+	UItemCombiner* ItemCombiner;
 
 public:
 
