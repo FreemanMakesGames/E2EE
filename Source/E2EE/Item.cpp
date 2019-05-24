@@ -15,18 +15,3 @@ AItem::AItem()
 	bAlwaysRelevant = true;
 	NetDormancy = ENetDormancy::DORM_Never;
 }
-
-void AItem::BeginPlay()
-{
-	Super::BeginPlay();
-}
-
-void AItem::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-}
-
-TArray<EItemUsage> AItem::GetItemUsages()
-{
-	return ItemUsages;
-}

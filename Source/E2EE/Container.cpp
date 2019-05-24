@@ -17,19 +17,7 @@ AContainer::AContainer()
 	HightlightComponent = CreateDefaultSubobject<UHighlightComponent>( TEXT( "Highlight" ) );
 }
 
-void AContainer::BeginPlay()
-{
-	Super::BeginPlay();
-
-	ContainerItemWidget = CreateWidget<UContainerItemWidget>( GetWorld()->GetFirstPlayerController() );
-}
-
 UItemInfo* AContainer::GetItemInfo()
 {
 	return ContainerItemInfo;
-}
-
-UItemWidget* AContainer::GetItemWidget()
-{
-	return ContainerItemWidget;
 }

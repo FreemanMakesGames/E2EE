@@ -5,7 +5,7 @@
 #include "ItemDefinitionList.generated.h"
 
 class AItem;
-class AItemWidget;
+class UItemWidget;
 
 /**
  * 

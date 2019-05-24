@@ -5,6 +5,7 @@
 #include "DropItemComponent.generated.h"
 
 class AItem;
+class UItemInfo;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class E2EE_API UDropItemComponent : public USceneComponent
@@ -26,9 +27,9 @@ public:
 public:
 
 	UFUNCTION( Server, Reliable, WithValidation, BlueprintCallable )
-	void ServerDropItem( AItem* ItemToDrop );
+	void ServerDropItem( UItemInfo* ItemToDrop );
 
 	UFUNCTION( NetMulticast, Reliable, BlueprintCallable )
-	void MulticastDropItem( AItem* ItemToDrop );
+	void MulticastDropItem( UItemInfo* ItemToDrop );
 
 };

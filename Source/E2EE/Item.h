@@ -18,14 +18,6 @@ public:
 
 	AItem();
 
-protected:
-
-	virtual void BeginPlay() override;
-
-public:	
-
-	virtual void Tick(float DeltaTime) override;
-
 public:
 
 	UFUNCTION( BlueprintCallable )
@@ -34,29 +26,9 @@ public:
 	UFUNCTION( BlueprintCallable )
 	virtual void SetItemInfo( UItemInfo* InItemInfo ) PURE_VIRTUAL( , );
 
-	UFUNCTION( BlueprintCallable )
-	virtual UItemWidget* GetItemWidget() PURE_VIRTUAL( , return ItemWidget; );
-
-	UFUNCTION( BlueprintCallable )
-	virtual void SetItemWidget( UUserWidget* ItemWidgetToSet ) PURE_VIRTUAL( , );
-
-	UFUNCTION( BlueprintCallable )
-	TArray<EItemUsage> GetItemUsages();
-
 protected:
 
 	UPROPERTY()
 	UItemInfo* ItemInfo;
-
-	UPROPERTY( BlueprintReadWrite )
-	UItemWidget* ItemWidget;
-
-	UPROPERTY( EditDefaultsOnly, BlueprintReadOnly )
-	TArray<EItemUsage> ItemUsages;
-
-public:
-
-	UFUNCTION( BlueprintImplementableEvent, BlueprintCallable )
-	AItem* Duplicate();
 
 };

@@ -1,6 +1,6 @@
 #include "ItemMenu.h"
 
-#include "Item.h"
+#include "ItemInfo.h"
 
 #include "Components/VerticalBox.h"
 #include "Components/Button.h"
@@ -38,7 +38,7 @@ void UItemMenu::NativeOnInitialized()
 	VerticalBox_Buttons->ClearChildren();
 }
 
-void UItemMenu::Display( AItem* Item )
+void UItemMenu::Display( UItemInfo* Item )
 {
 	CurrentItem = Item;
 
@@ -54,7 +54,7 @@ void UItemMenu::Display( AItem* Item )
 		}
 		else
 		{
-			UE_LOG( LogTemp, Error, TEXT( "UItemMenu found an EItemUsage from an AItem, that doesn't match any UButton in the TMap." ) );
+			UE_LOG( LogTemp, Error, TEXT( "UItemMenu found an EItemUsage from a UItemInfo, that doesn't match any UButton in the TMap." ) );
 		}
 	}
 }

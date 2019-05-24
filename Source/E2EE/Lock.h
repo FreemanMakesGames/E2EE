@@ -42,14 +42,9 @@ public:
 
 	virtual UItemInfo* GetItemInfo() override;
 
-	virtual UItemWidget* GetItemWidget() override;
-
 protected:
 
 	UPROPERTY()
 	ULockItemInfo* LockItemInfo;
-
-	UPROPERTY( BlueprintReadOnly )
-	ULockItemWidget* LockItemWidget;
 	
 };

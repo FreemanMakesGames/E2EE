@@ -1,7 +1,9 @@
 #include "DropItemComponent.h"
 
-#include "GameUtilities.h"
 #include "Item.h"
+#include "ItemInfo.h"
+#include "BasicGameState.h"
+#include "DevUtilities.h"
 
 #include "Engine/World.h"
 #include "Components/PrimitiveComponent.h"
@@ -23,34 +25,32 @@ void UDropItemComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAc
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 }
 
-void UDropItemComponent::ServerDropItem_Implementation( AItem* ItemToDrop )
+void UDropItemComponent::ServerDropItem_Implementation( UItemInfo* ItemToDrop )
 {
 	MulticastDropItem( ItemToDrop );
 }
 
-bool UDropItemComponent::ServerDropItem_Validate( AItem* ItemToDrop )
+bool UDropItemComponent::ServerDropItem_Validate( UItemInfo* ItemToDrop )
 {
 	return true;
 }
 
-void UDropItemComponent::MulticastDropItem_Implementation( AItem* ItemToDrop )
+void UDropItemComponent::MulticastDropItem_Implementation( UItemInfo* ItemToDrop )
 {
 	if ( !ItemToDrop )
 	{
-		UE_LOG( LogTemp, Error, TEXT( "Server is dropping a NULL AItem!" ) );
+		UE_LOG( LogTemp, Error, TEXT( "Server is dropping a null AItem!" ) );
 		return;
 	}
 
-	UPrimitiveComponent* PrimitiveComponent = ItemToDrop->FindComponentByClass<UPrimitiveComponent>();
+	TSubclassOf<AItem> ItemClass = GetWorld()->GetGameState<ABasicGameState>()->GetItemDefinitionList()->TypeIdToItemClass[ItemToDrop->GetItemTypeId()];
 
-	if ( PrimitiveComponent )
+	if ( ItemClass )
 	{
-		UGameUtilities::EnableActor( ItemToDrop );
-
-		ItemToDrop->SetActorTransform( GetComponentTransform() );
+		GetWorld()->SpawnActor<AItem>( ItemClass, GetComponentTransform() );
 	}
 	else
 	{
-		UE_LOG( LogTemp, Error, TEXT( "UDropItemComponent tries to drop %s, which doesn't have a UPrimitiveComponent!" ) );
+		UDevUtilities::PrintError( "UDropItemComponent gets an UItemInfo whose ID doesn't match to any AItem class!" );
 	}
 }

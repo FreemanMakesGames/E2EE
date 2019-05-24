@@ -1,8 +1,11 @@
 #pragma once
 
+#include "ItemUsage.h"
+
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
 #include "ItemInfo.generated.h"
+
 
 /**
  * 
@@ -20,10 +23,15 @@ public:
 	UFUNCTION( BlueprintCallable )
 	void SetItemTypeId( int InItemTypeId );
 
+	UFUNCTION( BlueprintCallable )
+	TArray<EItemUsage> GetItemUsages();
+
 protected:
 
 	/** Map this to 3D models, and 2D item widgets, in the definition list. */
 	int ItemTypeId;
+
+	TArray<EItemUsage> ItemUsages;
 
 public:
 

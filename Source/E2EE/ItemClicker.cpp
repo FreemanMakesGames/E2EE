@@ -1,7 +1,9 @@
 #include "ItemClicker.h"
 
-#include "Item.h"
+#include "ItemInfo.h"
 #include "ItemWidget.h"
+#include "ItemDefinitionList.h"
+#include "BasicGameState.h"
 
 #include "Components/Button.h"
 #include "Components/NamedSlot.h"
@@ -16,14 +18,14 @@ void UItemClicker::NativeOnInitialized()
 	Button_Clicker->OnClicked.AddDynamic( this, &UItemClicker::HandleOnButtonClicked );
 }
 
-AItem* UItemClicker::GetItem()
+UItemInfo* UItemClicker::GetItemInfo()
 {
-	return Item;
+	return ItemInfo;
 }
 
-void UItemClicker::SetItem( AItem* ItemToSet )
+void UItemClicker::SetItemInfo( UItemInfo* ItemToSet )
 {
-	Item = ItemToSet;
+	ItemInfo = ItemToSet;
 
 	if ( NamedSlot_ItemWidgetSlot->HasAnyChildren() )
 	{
@@ -32,7 +34,11 @@ void UItemClicker::SetItem( AItem* ItemToSet )
 		NamedSlot_ItemWidgetSlot->ClearChildren();
 	}
 
-	NamedSlot_ItemWidgetSlot->AddChild( Item->GetItemWidget() );
+	TSubclassOf<UItemWidget> ItemWidgetClass = GetWorld()->GetGameState<ABasicGameState>()->GetItemDefinitionList()->TypeIdToItemWidgetClass[ItemInfo->GetItemTypeId()];
+
+	UItemWidget* ItemWidget = CreateWidget<UItemWidget>( this, ItemWidgetClass );
+	
+	NamedSlot_ItemWidgetSlot->AddChild( ItemWidget );
 }
 
 void UItemClicker::HandleOnButtonClicked()

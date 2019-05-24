@@ -4,10 +4,10 @@
 #include "UObject/NoExportTypes.h"
 #include "Inventory.generated.h"
 
-class AItem;
+class UItemInfo;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnItemAdded, AItem*, Item );
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnItemRemoved, AItem*, Item );
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnItemAdded, UItemInfo*, Item );
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnItemRemoved, UItemInfo*, Item );
 
 /**
  * 
@@ -28,15 +28,12 @@ public:
 public:
 
 	UFUNCTION( BlueprintCallable )
-	TArray<AItem*> GetItems();
+	TArray<UItemInfo*> GetItems();
 
 protected:
 
-	UPROPERTY( ReplicatedUsing=OnRep_Items )
-	TArray<AItem*> Items;
-
-	UPROPERTY()
-	AItem* TempNewItem;
+	UPROPERTY( VisibleInstanceOnly )
+	TArray<UItemInfo*> Items;
 
 public:
 
@@ -44,30 +41,24 @@ public:
 	int CountItems();
 
 	UFUNCTION( BlueprintCallable )
-	void AddItem( AItem* ItemToAdd );
-
-	UFUNCTION()
-	void OnRep_Items();
+	void AddItem( UItemInfo* ItemToAdd );
 
 	UFUNCTION( BlueprintCallable )
-	void RemoveItem( AItem* ItemToRemove );
+	void RemoveItem( UItemInfo* ItemToRemove );
 
 	UFUNCTION( BlueprintCallable )
-	void DropItem( AItem* ItemToDrop );
-
-	UFUNCTION( Server, Reliable, WithValidation, BlueprintCallable )
-	void ServerDuplicateItem( AItem* ItemToDuplicate );
+	void DropItem( UItemInfo* ItemToDrop );
 
 	UFUNCTION( BlueprintImplementableEvent, BlueprintCallable )
-	void OpenItem( AItem* ItemToOpen );
+	void OpenItem( UItemInfo* ItemToOpen );
 
 	UFUNCTION( BlueprintImplementableEvent, BlueprintCallable )
-	void ReadItem( AItem* ItemToRead );
+	void ReadItem( UItemInfo* ItemToRead );
 
 	UFUNCTION( BlueprintCallable )
-	void CombineItems( TArray<AItem*> SourceItems );
+	void CombineItems( TArray<UItemInfo*> SourceItems );
 
 	UFUNCTION( BlueprintImplementableEvent )
-	TArray<AItem*> CombineItemsWithItemCombiner( const TArray<AItem*>& SourceItems );
+	TArray<UItemInfo*> CombineItemsWithItemCombiner( const TArray<UItemInfo*>& SourceItems );
 	
 };

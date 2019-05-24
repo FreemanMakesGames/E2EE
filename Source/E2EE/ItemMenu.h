@@ -8,14 +8,14 @@
 
 class UVerticalBox;
 class UButton;
-class AItem;
+class UItemInfo;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnButtonDestroyClicked, AItem*, TargetItem );
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnButtonDropClicked, AItem*, TargetItem );
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnButtonDuplicateClicked, AItem*, TargetItem );
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnButtonOpenClicked, AItem*, TargetItem );
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnButtonReadClicked, AItem*, TargetItem );
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnButtonForCombinationClicked, AItem*, TargetItem );
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnButtonDestroyClicked, UItemInfo*, TargetItem );
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnButtonDropClicked, UItemInfo*, TargetItem );
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnButtonDuplicateClicked, UItemInfo*, TargetItem );
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnButtonOpenClicked, UItemInfo*, TargetItem );
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnButtonReadClicked, UItemInfo*, TargetItem );
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnButtonForCombinationClicked, UItemInfo*, TargetItem );
 
 /**
  * 
@@ -88,12 +88,12 @@ protected:
 	TMap<EItemUsage, UButton*> ItemUsageToButton;
 
 	UPROPERTY( VisibleAnywhere )
-	AItem* CurrentItem;
+	UItemInfo* CurrentItem;
 
 public:
 
 	UFUNCTION()
-	void Display( AItem* Item );
+	void Display( UItemInfo* Item );
 
 protected:
 

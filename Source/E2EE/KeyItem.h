@@ -23,10 +23,6 @@ public:
 
 	AKeyItem();
 
-protected:
-
-	virtual void BeginPlay() override;
-
 public:
 
 	UPROPERTY( VisibleAnywhere, BlueprintReadOnly )
@@ -42,14 +38,9 @@ public:
 
 	virtual UItemInfo* GetItemInfo() override;
 
-	virtual UItemWidget* GetItemWidget() override;
-
 protected:
 
 	UPROPERTY()
 	UKeyItemInfo* KeyItemInfo;
-
-	UPROPERTY( BlueprintReadOnly )
-	UKeyItemWidget* KeyItemWidget;
 	
 };

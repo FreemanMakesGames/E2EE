@@ -82,11 +82,11 @@ void UInventoryMenu::HideInventory()
 /**
  * Create a new ItemClicker with ItemWidget content, and add it to the WrapBox.
  */
-UItemClicker* UInventoryMenu::AddNewItemClicker( AItem* Item )
+UItemClicker* UInventoryMenu::AddNewItemClicker( UItemInfo* Item )
 {
 	UItemClicker* ItemClicker = CreateWidget<UItemClicker>( this, ItemClickerClass );
 
-	ItemClicker->SetItem( Item );
+	ItemClicker->SetItemInfo( Item );
 
 	ItemClicker->OnClicked.AddDynamic( this, &UInventoryMenu::HandleOnItemClickerClicked );
 
@@ -111,7 +111,7 @@ void UInventoryMenu::ReloadInventoryDisplay()
 		return;
 	}
 
-	TArray<AItem*> Items = Inventory->GetItems();
+	TArray<UItemInfo*> Items = Inventory->GetItems();
 
 	for ( int i = 0; i < Items.Num(); i++ )
 	{
@@ -122,11 +122,11 @@ void UInventoryMenu::ReloadInventoryDisplay()
 #pragma region My UI event handlers
 void UInventoryMenu::HandleOnItemClickerClicked( UItemClicker* ClickedItemClicker )
 {
-	AItem* TargetItem = ClickedItemClicker->GetItem();
+	UItemInfo* TargetItem = ClickedItemClicker->GetItemInfo();
 
 	if ( bIsCombining )
 	{
-		TArray<AItem*> CombiningItems;
+		TArray<UItemInfo*> CombiningItems;
 		CombiningItems.Add( FirstItemForCombination );
 		CombiningItems.Add( TargetItem );
 
@@ -149,44 +149,44 @@ void UInventoryMenu::HandleOnButtonHideInventoryMenuClicked()
 #pragma endregion
 
 #pragma region Item Menu event handlers
-void UInventoryMenu::HandleOnItemMenuButtonDestroyClicked( AItem* TargetItem )
+void UInventoryMenu::HandleOnItemMenuButtonDestroyClicked( UItemInfo* TargetItem )
 {
 	Inventory->RemoveItem( TargetItem );
 }
 
-void UInventoryMenu::HandleOnItemMenuButtonDropClicked( AItem* TargetItem )
+void UInventoryMenu::HandleOnItemMenuButtonDropClicked( UItemInfo* TargetItem )
 {
 	Inventory->DropItem( TargetItem );
 }
 
-void UInventoryMenu::HandleOnItemMenuButtonDuplicateClicked( AItem* TargetItem )
+void UInventoryMenu::HandleOnItemMenuButtonDuplicateClicked( UItemInfo* TargetItem )
 {
-	Inventory->ServerDuplicateItem( TargetItem );
+
 }
 
-void UInventoryMenu::HandleOnItemMenuButtonOpenClicked( AItem* TargetItem )
+void UInventoryMenu::HandleOnItemMenuButtonOpenClicked( UItemInfo* TargetItem )
 {
 	Inventory->OpenItem( TargetItem );
 }
 
-void UInventoryMenu::HandleOnItemMenuButtonReadClicked( AItem* TargetItem )
+void UInventoryMenu::HandleOnItemMenuButtonReadClicked( UItemInfo* TargetItem )
 {
 	Inventory->ReadItem( TargetItem );
 }
 
-void UInventoryMenu::HandleOnItemMenuButtonForCombinationClicked( AItem* TargetItem )
+void UInventoryMenu::HandleOnItemMenuButtonForCombinationClicked( UItemInfo* TargetItem )
 {
 	bIsCombining = true;
 }
 #pragma endregion
 
 #pragma region Inventory event handlers
-void UInventoryMenu::HandleOnItemAdded( AItem* ItemAdded )
+void UInventoryMenu::HandleOnItemAdded( UItemInfo* ItemAdded )
 {
 	UItemClicker* ItemClicker = AddNewItemClicker( ItemAdded );
 }
 
-void UInventoryMenu::HandleOnItemRemoved( AItem* ItemRemoved )
+void UInventoryMenu::HandleOnItemRemoved( UItemInfo* ItemRemoved )
 {
 	UItemClicker** pItemClicker = ItemToItemClicker.Find( ItemRemoved );
 

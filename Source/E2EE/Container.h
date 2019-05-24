@@ -23,10 +23,6 @@ public:
 
 	AContainer();
 
-protected:
-
-	virtual void BeginPlay() override;
-
 public:
 
 	UPROPERTY( VisibleAnywhere, BlueprintReadOnly )
@@ -40,18 +36,11 @@ public:
 
 public:
 
-
-
 	virtual UItemInfo* GetItemInfo() override;
-
-	virtual UItemWidget* GetItemWidget() override;
 
 protected:
 
 	UPROPERTY()
 	UContainerItemInfo* ContainerItemInfo;
-
-	UPROPERTY( BlueprintReadOnly )
-	UContainerItemWidget* ContainerItemWidget;
 
 };

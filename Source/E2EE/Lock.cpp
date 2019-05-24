@@ -17,19 +17,7 @@ ALock::ALock()
 	HightlightComponent = CreateDefaultSubobject<UHighlightComponent>( TEXT( "Highlight" ) );
 }
 
-void ALock::BeginPlay()
-{
-	Super::BeginPlay();
-
-	LockItemWidget = CreateWidget<ULockItemWidget>( GetWorld()->GetFirstPlayerController() );
-}
-
 UItemInfo* ALock::GetItemInfo()
 {
 	return LockItemInfo;
-}
-
-UItemWidget* ALock::GetItemWidget()
-{
-	return LockItemWidget;
 }

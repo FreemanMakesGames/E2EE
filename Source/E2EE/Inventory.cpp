@@ -6,7 +6,7 @@
 
 #include "Net/UnrealNetwork.h"
 
-TArray<AItem*> UInventory::GetItems()
+TArray<UItemInfo*> UInventory::GetItems()
 {
 	return Items;
 }
@@ -16,28 +16,21 @@ int UInventory::CountItems()
 	return Items.Num();
 }
 
-void UInventory::AddItem( AItem* ItemToAdd )
+void UInventory::AddItem( UItemInfo* ItemToAdd )
 {
-	TempNewItem = ItemToAdd;
-
 	Items.Add( ItemToAdd );
 
 	OnItemAdded.Broadcast( ItemToAdd );
 }
 
-void UInventory::OnRep_Items()
-{
-	OnItemAdded.Broadcast( TempNewItem );
-}
-
-void UInventory::RemoveItem( AItem* ItemToRemove )
+void UInventory::RemoveItem( UItemInfo* ItemToRemove )
 {
 	Items.Remove( ItemToRemove );
 
 	OnItemRemoved.Broadcast( ItemToRemove );
 }
 
-void UInventory::DropItem( AItem* ItemToDrop )
+void UInventory::DropItem( UItemInfo* ItemToDrop )
 {
 	UDropItemComponent* DropItemComponent = GetOwner()->FindComponentByClass<UDropItemComponent>();
 
@@ -54,28 +47,9 @@ void UInventory::DropItem( AItem* ItemToDrop )
 	RemoveItem( ItemToDrop );
 }
 
-void UInventory::ServerDuplicateItem_Implementation( AItem* ItemToDuplicate )
+void UInventory::CombineItems( TArray<UItemInfo*> SourceItems )
 {
-	AItem* Clone = ItemToDuplicate->Duplicate();
-
-	if ( Clone )
-	{
-		AddItem( Clone );
-	}
-	else
-	{
-		UE_LOG( LogTemp, Warning, TEXT( "Item duplication failed?!" ) );
-	}
-}
-
-bool UInventory::ServerDuplicateItem_Validate( AItem* ItemToDuplicate )
-{
-	return true;
-}
-
-void UInventory::CombineItems( TArray<AItem*> SourceItems )
-{
-	TArray<AItem*> ResultItems = CombineItemsWithItemCombiner( SourceItems );
+	TArray<UItemInfo*> ResultItems = CombineItemsWithItemCombiner( SourceItems );
 
 	if ( ResultItems == SourceItems )
 	{
@@ -83,21 +57,14 @@ void UInventory::CombineItems( TArray<AItem*> SourceItems )
 	}
 	else
 	{
-		for ( AItem* Item : SourceItems )
+		for ( UItemInfo* Item : SourceItems )
 		{
 			RemoveItem( Item );
 		}
 
-		for ( AItem* Item : ResultItems )
+		for ( UItemInfo* Item : ResultItems )
 		{
 			AddItem( Item );
 		}
 	}
-}
-
-void UInventory::GetLifetimeReplicatedProps( TArray<FLifetimeProperty>& OutLifetimeProps ) const
-{
-	Super::GetLifetimeReplicatedProps( OutLifetimeProps );
-
-	DOREPLIFETIME( UInventory, Items );
 }

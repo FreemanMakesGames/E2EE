@@ -17,19 +17,7 @@ AKeyItem::AKeyItem()
 	HightlightComponent = CreateDefaultSubobject<UHighlightComponent>( TEXT( "Highlight" ) );
 }
 
-void AKeyItem::BeginPlay()
-{
-	Super::BeginPlay();
-
-	KeyItemWidget = CreateWidget<UKeyItemWidget>( GetWorld()->GetFirstPlayerController() );
-}
-
 UItemInfo* AKeyItem::GetItemInfo()
 {
 	return KeyItemInfo;
-}
-
-UItemWidget* AKeyItem::GetItemWidget()
-{
-	return KeyItemWidget;
 }

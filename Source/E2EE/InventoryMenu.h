@@ -7,7 +7,7 @@
 class UItemClicker;
 class UInventory;
 class UItemWidget;
-class AItem;
+class UItemInfo;
 class UWrapBox;
 class UButton;
 class UItemMenu;
@@ -30,7 +30,7 @@ protected:
 	TSubclassOf<UItemClicker> ItemClickerClass;
 
 	UPROPERTY()
-	TMap<AItem*, UItemClicker*> ItemToItemClicker;
+	TMap<UItemInfo*, UItemClicker*> ItemToItemClicker;
 
 	UPROPERTY( meta = ( BindWidget ) )
 	UWrapBox* WrapBox_ItemClickers;
@@ -54,7 +54,7 @@ public:
 
 protected:
 
-	UItemClicker* AddNewItemClicker( AItem* Item );
+	UItemClicker* AddNewItemClicker( UItemInfo* Item );
 
 	void ReloadInventoryDisplay();
 
@@ -68,36 +68,36 @@ protected:
 
 #pragma region Item Menu event handlers
 	UFUNCTION()
-	void HandleOnItemMenuButtonDestroyClicked( AItem* TargetItem );
+	void HandleOnItemMenuButtonDestroyClicked( UItemInfo* TargetItem );
 
 	UFUNCTION()
-	void HandleOnItemMenuButtonDropClicked( AItem* TargetItem );
+	void HandleOnItemMenuButtonDropClicked( UItemInfo* TargetItem );
 
 	UFUNCTION()
-	void HandleOnItemMenuButtonDuplicateClicked( AItem* TargetItem );
+	void HandleOnItemMenuButtonDuplicateClicked( UItemInfo* TargetItem );
 
 	UFUNCTION()
-	void HandleOnItemMenuButtonOpenClicked( AItem* TargetItem );
+	void HandleOnItemMenuButtonOpenClicked( UItemInfo* TargetItem );
 
 	UFUNCTION()
-	void HandleOnItemMenuButtonReadClicked( AItem* TargetItem );
+	void HandleOnItemMenuButtonReadClicked( UItemInfo* TargetItem );
 
 	UFUNCTION()
-	void HandleOnItemMenuButtonForCombinationClicked( AItem* TargetItem );
+	void HandleOnItemMenuButtonForCombinationClicked( UItemInfo* TargetItem );
 #pragma endregion
 
 #pragma region Inventory event handlers
 	UFUNCTION()
-	void HandleOnItemAdded( AItem* ItemAdded );
+	void HandleOnItemAdded( UItemInfo* ItemAdded );
 
 	UFUNCTION()
-	void HandleOnItemRemoved( AItem* ItemRemoved );
+	void HandleOnItemRemoved( UItemInfo* ItemRemoved );
 #pragma endregion
 
 protected:
 
 	UPROPERTY( VisibleAnywhere )
-	AItem* FirstItemForCombination;
+	UItemInfo* FirstItemForCombination;
 
 	UPROPERTY( VisibleAnywhere )
 	bool bIsCombining;

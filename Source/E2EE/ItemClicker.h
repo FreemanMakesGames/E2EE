@@ -4,7 +4,7 @@
 #include "Blueprint/UserWidget.h"
 #include "ItemClicker.generated.h"
 
-class AItem;
+class UItemInfo;
 class UItemWidget;
 class UButton;
 class UNamedSlot;
@@ -35,10 +35,10 @@ public:
 public:
 
 	UFUNCTION( BlueprintCallable )
-	AItem* GetItem();
+	UItemInfo* GetItemInfo();
 
 	UFUNCTION( BlueprintCallable )
-	void SetItem( AItem* ItemToSet );
+	void SetItemInfo( UItemInfo* ItemToSet );
 
 protected:
 
@@ -49,7 +49,7 @@ protected:
 	UNamedSlot* NamedSlot_ItemWidgetSlot;
 
 	UPROPERTY( BlueprintReadWrite )
-	AItem* Item;
+	UItemInfo* ItemInfo;
 
 protected:
 
