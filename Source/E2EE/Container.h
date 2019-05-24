@@ -21,7 +21,7 @@ class E2EE_API AContainer : public AItem
 
 public:
 
-	AContainer();
+	AContainer( const FObjectInitializer& ObjectInitializer );
 
 public:
 

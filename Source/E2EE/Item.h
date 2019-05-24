@@ -16,7 +16,7 @@ class E2EE_API AItem : public AActor
 	
 public:	
 
-	AItem();
+	AItem( const FObjectInitializer& ObjectInitializer );
 
 public:
 

@@ -16,7 +16,9 @@ class E2EE_API AMessage : public AItem
 
 public:
 
-	AMessage();
+	AMessage( const FObjectInitializer& ObjectInitializer );
+
+	virtual void PostInitProperties() override;
 
 public:
 

@@ -4,6 +4,7 @@
 #include "ItemCombiner.h"
 #include "DropItemComponent.h"
 #include "BasicCharacter.h"
+#include "DevUtilities.h"
 
 #include "Net/UnrealNetwork.h"
 
@@ -24,6 +25,12 @@ int UInventory::CountItems()
 
 void UInventory::AddItem( UItemInfo* ItemToAdd )
 {
+	if ( !ItemToAdd )
+	{
+		UDevUtilities::PrintError( "UInventory::AddItem gets a null UItemInfo!" );
+		return;
+	}
+
 	Items.Add( ItemToAdd );
 
 	OnItemAdded.Broadcast( ItemToAdd );

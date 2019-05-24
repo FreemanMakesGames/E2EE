@@ -21,7 +21,7 @@ class E2EE_API AKeyItem : public AItem
 
 public:
 
-	AKeyItem();
+	AKeyItem( const FObjectInitializer& ObjectInitializer );
 
 public:
 

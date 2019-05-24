@@ -6,7 +6,7 @@
 
 #include "Net/UnrealNetwork.h"
 
-AItem::AItem()
+AItem::AItem( const FObjectInitializer& ObjectInitializer ) : Super( ObjectInitializer )
 {
 	PrimaryActorTick.bCanEverTick = true;
 

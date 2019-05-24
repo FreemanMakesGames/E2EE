@@ -13,6 +13,10 @@ class E2EE_API ABasicGameState : public AGameStateBase
 {
 	GENERATED_BODY()
 
+protected:
+
+	virtual void BeginPlay() override;
+
 public:
 
 	UFUNCTION( BlueprintCallable )
@@ -20,7 +24,11 @@ public:
 
 protected:
 
-	UPROPERTY( BlueprintReadOnly )
+	/** This class is used to spawn the Item Definitino List. */
+	UPROPERTY( EditDefaultsOnly )
+	TSubclassOf<AItemDefinitionList> ItemDefinitionListClass;
+
+	UPROPERTY( EditDefaultsOnly, BlueprintReadOnly )
 	AItemDefinitionList* ItemDefinitionList;
 
 	UPROPERTY( VisibleAnywhere, BlueprintReadOnly )

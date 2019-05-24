@@ -2,9 +2,16 @@
 
 #include "MessageItemInfo.h"
 
-AMessage::AMessage()
+AMessage::AMessage( const FObjectInitializer& ObjectInitializer ) : Super( ObjectInitializer )
 {
-	MessageItemInfo = NewObject<UMessageItemInfo>();
+	//MessageItemInfo = ObjectInitializer.CreateDefaultSubobject<UMessageItemInfo>( this, TEXT( "MessageItemInfo" ) );
+}
+
+void AMessage::PostInitProperties()
+{
+	Super::PostInitProperties();
+
+	MessageItemInfo = NewObject<UMessageItemInfo>( this );
 }
 
 UItemInfo* AMessage::GetItemInfo()

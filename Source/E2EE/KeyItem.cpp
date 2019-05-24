@@ -7,7 +7,7 @@
 
 #include "Components/StaticMeshComponent.h"
 
-AKeyItem::AKeyItem()
+AKeyItem::AKeyItem( const FObjectInitializer& ObjectInitializer ) : Super( ObjectInitializer )
 {
 	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>( TEXT( "StaticMesh" ) );
 	StaticMeshComponent->SetupAttachment( RootComponent );

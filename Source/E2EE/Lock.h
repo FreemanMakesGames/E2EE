@@ -21,7 +21,7 @@ class E2EE_API ALock : public AItem
 
 public:
 
-	ALock();
+	ALock( const FObjectInitializer& ObjectInitializer );
 
 public:
 

@@ -4,6 +4,13 @@
 #include "Lock.h"
 #include "KeyItem.h"
 
+#include "Engine/World.h"
+
+void ABasicGameState::BeginPlay()
+{
+	ItemDefinitionList = GetWorld()->SpawnActor<AItemDefinitionList>( FVector::ZeroVector, FRotator::ZeroRotator );
+}
+
 AItemDefinitionList* ABasicGameState::GetItemDefinitionList()
 {
 	return ItemDefinitionList;
