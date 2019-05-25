@@ -43,14 +43,5 @@ void UDropItemComponent::MulticastDropItem_Implementation( UItemInfo* ItemToDrop
 		return;
 	}
 
-	TSubclassOf<AItem> ItemClass = GetWorld()->GetGameState<ABasicGameState>()->GetItemDefinitionList()->TypeIdToItemClass[ItemToDrop->GetClass()];
-
-	if ( ItemClass )
-	{
-		GetWorld()->SpawnActor<AItem>( ItemClass, GetComponentTransform() );
-	}
-	else
-	{
-		UDevUtilities::PrintError( "UDropItemComponent gets an UItemInfo whose ID doesn't match to any AItem class!" );
-	}
+	GetWorld()->SpawnActor<AItem>( ItemToDrop->GetItemClass(), GetComponentTransform() );
 }

@@ -40,24 +40,6 @@ void UItemClicker::SetItemInfo( UItemInfo* InItemInfo )
 	UItemWidget* ItemWidget = CreateWidget<UItemWidget>( this, ItemInfo->GetItemWidgetClass() );
 
 	NamedSlot_ItemWidgetSlot->AddChild( ItemWidget );
-
-// 	// Get Item Widget class through Game State.
-// 	ABasicGameState* GameState = Cast<ABasicGameState>( UGameplayStatics::GetGameState( GetWorld() ) );
-// 	AItemDefinitionList* ItemDefinitionList = GameState->GetItemDefinitionList();
-// 	int ItemTypeId = ItemInfo->GetItemTypeId();
-// 	TSubclassOf<UItemWidget>* ItemWidgetClass = ItemDefinitionList->TypeIdToItemWidgetClass.Find( ItemInfo->StaticClass() );
-// 
-// 	// Spawn Item Widget.
-// 	if ( ItemWidgetClass )
-// 	{
-// 		UItemWidget* ItemWidget = CreateWidget<UItemWidget>( this, *ItemWidgetClass );
-// 
-// 		NamedSlot_ItemWidgetSlot->AddChild( ItemWidget );
-// 	}
-// 	else
-// 	{
-// 		UDevUtilities::PrintError( "UItemClicker::SetItemInfo gets a UItemInfo whose Type ID doesn't match any UItemWidget class in the definition list." );
-// 	}
 }
 
 void UItemClicker::HandleOnButtonClicked()
