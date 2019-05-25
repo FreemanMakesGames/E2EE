@@ -2,6 +2,9 @@
 
 #include "Item.h"
 #include "ItemInfo.h"
+#include "LockItemInfo.h"
+#include "KeyItemInfo.h"
+#include "ContainerItemInfo.h"
 #include "DevUtilities.h"
 
 #include "UObject/ConstructorHelpers.h"
@@ -25,29 +28,29 @@ UItemCombiner::UItemCombiner()
 
 	/* All possible combination among Item types */
 
-	TArray<TSubclassOf<AItem>> LockAndContainer;
-	LockAndContainer.Add( LockClass );
-	LockAndContainer.Add( ContainerClass );
+	TArray<TSubclassOf<UItemInfo>> LockAndContainer;
+	LockAndContainer.Add( ULockItemInfo::StaticClass() );
+	LockAndContainer.Add( UContainerItemInfo::StaticClass() );
 	FArrayOfItemClasses ArrayOfLockAndContainerClasses( LockAndContainer );
 	FunctionMap.Add( ArrayOfLockAndContainerClasses, &UItemCombiner::LockContainer );
 
-	TArray<TSubclassOf<AItem>> KeyAndContainer;
-	KeyAndContainer.Add( KeyClass );
-	KeyAndContainer.Add( ContainerClass );
+	TArray<TSubclassOf<UItemInfo>> KeyAndContainer;
+	KeyAndContainer.Add( UKeyItemInfo::StaticClass() );
+	KeyAndContainer.Add( UContainerItemInfo::StaticClass() );
 	FArrayOfItemClasses ArrayOfKeyAndContainerClasses( KeyAndContainer );
 	FunctionMap.Add( ArrayOfKeyAndContainerClasses, &UItemCombiner::UnlockContainer );
 
-	TArray<TSubclassOf<AItem>> ContainerAndLock;
-	ContainerAndLock.Add( ContainerClass );
-	ContainerAndLock.Add( LockClass );
-
-	TArray<TSubclassOf<AItem>> ContainerAndKey;
-	ContainerAndKey.Add( ContainerClass );
-	ContainerAndKey.Add( KeyClass );
-
-	TArray<TSubclassOf<AItem>> ContainerAndMessage;
-	ContainerAndMessage.Add( ContainerClass );
-	ContainerAndMessage.Add( MessageClass );
+// 	TArray<TSubclassOf<AItem>> ContainerAndLock;
+// 	ContainerAndLock.Add( ContainerClass );
+// 	ContainerAndLock.Add( LockClass );
+// 
+// 	TArray<TSubclassOf<AItem>> ContainerAndKey;
+// 	ContainerAndKey.Add( ContainerClass );
+// 	ContainerAndKey.Add( KeyClass );
+// 
+// 	TArray<TSubclassOf<AItem>> ContainerAndMessage;
+// 	ContainerAndMessage.Add( ContainerClass );
+// 	ContainerAndMessage.Add( MessageClass );
 }
 
 TArray<UItemInfo*> UItemCombiner::CombineItems(TArray<UItemInfo*> SourceItems)
@@ -55,7 +58,11 @@ TArray<UItemInfo*> UItemCombiner::CombineItems(TArray<UItemInfo*> SourceItems)
 	FArrayOfItemClasses SourceItemClasses;
 	for ( int i = 0; i < SourceItems.Num(); i++ )
 	{
-		SourceItemClasses.ItemClasses.Add( SourceItems[i]->GetClass() );
+		UClass* ItemClass = SourceItems[i]->StaticClass();
+
+		SourceItemClasses.ItemClasses.Add( ItemClass );
+
+		UDevUtilities::PrintInfo( ItemClass->GetName() );
 	}
 
 	FCombineFunction* CombineFunctionPointer = FunctionMap.Find( SourceItemClasses );

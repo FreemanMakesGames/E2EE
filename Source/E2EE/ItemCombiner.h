@@ -16,13 +16,13 @@ public:
 
 	FArrayOfItemClasses() {}
 
-	FArrayOfItemClasses( TArray<TSubclassOf<AItem>> ItemClasses )
+	FArrayOfItemClasses( TArray<TSubclassOf<UItemInfo>> ItemClasses )
 	{
 		this->ItemClasses = ItemClasses;
 	}
 
 	UPROPERTY()
-	TArray<TSubclassOf<AItem>> ItemClasses;
+	TArray<TSubclassOf<UItemInfo>> ItemClasses;
 
 	bool operator==( const FArrayOfItemClasses& Other ) const
 	{

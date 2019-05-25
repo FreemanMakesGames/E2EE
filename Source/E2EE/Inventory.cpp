@@ -67,20 +67,13 @@ void UInventory::CombineItems( TArray<UItemInfo*> SourceItems )
 	//TArray<UItemInfo*> ResultItems = CombineItemsWithItemCombiner( SourceItems );
 	TArray<UItemInfo*> ResultItems = ItemCombiner->CombineItems( SourceItems );
 
-	if ( ResultItems == SourceItems )
+	for ( UItemInfo* Item : SourceItems )
 	{
-		return;
+		RemoveItem( Item );
 	}
-	else
-	{
-		for ( UItemInfo* Item : SourceItems )
-		{
-			RemoveItem( Item );
-		}
 
-		for ( UItemInfo* Item : ResultItems )
-		{
-			AddItem( Item );
-		}
+	for ( UItemInfo* Item : ResultItems )
+	{
+		AddItem( Item );
 	}
 }
