@@ -1,6 +1,7 @@
 #include "MessageItemWidget.h"
 
 #include "MessageItemInfo.h"
+#include "DevUtilities.h"
 
 #include "Components/Image.h"
 #include "Engine/Texture2D.h"
@@ -14,7 +15,7 @@ void UMessageItemWidget::SetItemInfo( UItemInfo* InItemInfo )
 	}
 	else
 	{
-
+		UDevUtilities::PrintError( "UMessageItemWidget::SetItemInfo gets a non-MessageItemInfo!" );
 	}
 }
 

@@ -1,6 +1,7 @@
 #include "KeyItemWidget.h"
 
 #include "KeyItemInfo.h"
+#include "DevUtilities.h"
 
 #include "Components/Image.h"
 #include "Engine/Texture2D.h"
@@ -17,7 +18,7 @@ void UKeyItemWidget::SetItemInfo( UItemInfo* InItemInfo )
 	}
 	else
 	{
-
+		UDevUtilities::PrintError( "UKeyItemWidget::SetItemInfo gets a non-KeyItemInfo!" );
 	}
 }
 

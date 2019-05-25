@@ -36,16 +36,16 @@ public:
 
 protected:
 
-	UFUNCTION( BlueprintImplementableEvent )
+	UFUNCTION( BlueprintImplementableEvent, BlueprintCallable )
 	void HandleOnOccupied();
 
-	UFUNCTION( BlueprintImplementableEvent )
+	UFUNCTION( BlueprintImplementableEvent, BlueprintCallable )
 	void HandleOnVacated();
 
-	UFUNCTION( BlueprintImplementableEvent )
+	UFUNCTION( BlueprintImplementableEvent, BlueprintCallable )
 	void HandleOnLocked();
 
-	UFUNCTION( BlueprintImplementableEvent )
+	UFUNCTION( BlueprintImplementableEvent, BlueprintCallable )
 	void HandleOnUnlocked();
 
 };

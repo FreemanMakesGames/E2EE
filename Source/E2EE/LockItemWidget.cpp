@@ -1,6 +1,7 @@
 #include "LockItemWidget.h"
 
 #include "LockItemInfo.h"
+#include "DevUtilities.h"
 
 #include "Components/Image.h"
 #include "Engine/Texture2D.h"
@@ -17,7 +18,7 @@ void ULockItemWidget::SetItemInfo( UItemInfo* InItemInfo )
 	}
 	else
 	{
-
+		UDevUtilities::PrintError( "ULockItemWidget::SetItemInfo gets a non-LockItemInfo!" );
 	}
 }
 

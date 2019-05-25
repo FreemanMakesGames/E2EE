@@ -19,7 +19,7 @@ void UContainerItemWidget::SetItemInfo( UItemInfo* InItemInfo )
 	}
 	else
 	{
-		UDevUtilities::PrintError( TEXT( "ContainerItemWidget gets a non-ContainerItemInfo!" ) );
+		UDevUtilities::PrintError( TEXT( "UContainerItemWidget::SetItemInfo gets a non-ContainerItemInfo!" ) );
 	}
 }
 

@@ -38,6 +38,7 @@ void UItemClicker::SetItemInfo( UItemInfo* InItemInfo )
 	}
 
 	UItemWidget* ItemWidget = CreateWidget<UItemWidget>( this, ItemInfo->GetItemWidgetClass() );
+	ItemWidget->SetItemInfo( ItemInfo );
 
 	NamedSlot_ItemWidgetSlot->AddChild( ItemWidget );
 }
