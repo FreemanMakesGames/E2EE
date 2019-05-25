@@ -23,10 +23,6 @@ public:
 
 	AContainer( const FObjectInitializer& ObjectInitializer );
 
-protected:
-
-	virtual void BeginPlay() override;
-
 public:
 
 	UPROPERTY( VisibleAnywhere, BlueprintReadOnly )
@@ -37,14 +33,5 @@ public:
 
 	UPROPERTY( VisibleAnywhere, BlueprintReadOnly )
 	UHighlightComponent* HightlightComponent;
-
-public:
-
-	virtual UItemInfo* GetItemInfo() override;
-
-protected:
-
-	UPROPERTY()
-	UContainerItemInfo* ContainerItemInfo;
 
 };

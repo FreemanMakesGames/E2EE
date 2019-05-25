@@ -1,10 +1,21 @@
 #include "ContainerItemInfo.h"
 
+#include "Container.h"
 #include "ContainerItemWidget.h"
 #include "LockItemInfo.h"
 #include "DevUtilities.h"
 
 #include "Engine/Engine.h"
+#include "UObject/ConstructorHelpers.h"
+
+UContainerItemInfo::UContainerItemInfo()
+{
+	static ConstructorHelpers::FClassFinder<AContainer> ContainerItemClassFinder( TEXT( "/Game/Items/Blueprints/BP_Container" ) );
+	ItemClass = ContainerItemClassFinder.Class;
+
+	static ConstructorHelpers::FClassFinder<UContainerItemWidget> ContainerItemWidgetClassFinder( TEXT( "/Game/UI/InventorySystem/ItemWidgets/WBP_Container" ) );
+	ItemWidgetClass = ContainerItemWidgetClassFinder.Class;
+}
 
 UItemInfo* UContainerItemInfo::GetContainedItem()
 {

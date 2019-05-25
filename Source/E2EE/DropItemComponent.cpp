@@ -43,7 +43,7 @@ void UDropItemComponent::MulticastDropItem_Implementation( UItemInfo* ItemToDrop
 		return;
 	}
 
-	TSubclassOf<AItem> ItemClass = GetWorld()->GetGameState<ABasicGameState>()->GetItemDefinitionList()->TypeIdToItemClass[ItemToDrop->GetItemTypeId()];
+	TSubclassOf<AItem> ItemClass = GetWorld()->GetGameState<ABasicGameState>()->GetItemDefinitionList()->TypeIdToItemClass[ItemToDrop->GetClass()];
 
 	if ( ItemClass )
 	{

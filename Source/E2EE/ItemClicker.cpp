@@ -25,9 +25,9 @@ UItemInfo* UItemClicker::GetItemInfo()
 	return ItemInfo;
 }
 
-void UItemClicker::SetItemInfo( UItemInfo* ItemToSet )
+void UItemClicker::SetItemInfo( UItemInfo* InItemInfo )
 {
-	ItemInfo = ItemToSet;
+	ItemInfo = InItemInfo;
 
 	// Check and clear Named Slot's content.
 	if ( NamedSlot_ItemWidgetSlot->HasAnyChildren() )
@@ -37,23 +37,27 @@ void UItemClicker::SetItemInfo( UItemInfo* ItemToSet )
 		NamedSlot_ItemWidgetSlot->ClearChildren();
 	}
 
-	// Get Item Widget class through Game State.
-	ABasicGameState* GameState = Cast<ABasicGameState>( UGameplayStatics::GetGameState( GetWorld() ) );
-	AItemDefinitionList* ItemDefinitionList = GameState->GetItemDefinitionList();
-	int ItemTypeId = ItemInfo->GetItemTypeId();
-	TSubclassOf<UItemWidget>* ItemWidgetClass = ItemDefinitionList->TypeIdToItemWidgetClass.Find( ItemTypeId );
+	UItemWidget* ItemWidget = CreateWidget<UItemWidget>( this, ItemInfo->GetItemWidgetClass() );
 
-	// Spawn Item Widget.
-	if ( ItemWidgetClass )
-	{
-		UItemWidget* ItemWidget = CreateWidget<UItemWidget>( this, *ItemWidgetClass );
+	NamedSlot_ItemWidgetSlot->AddChild( ItemWidget );
 
-		NamedSlot_ItemWidgetSlot->AddChild( ItemWidget );
-	}
-	else
-	{
-		UDevUtilities::PrintError( "UItemClicker::SetItemInfo gets a UItemInfo whose Type ID doesn't match any UItemWidget class in the definition list." );
-	}
+// 	// Get Item Widget class through Game State.
+// 	ABasicGameState* GameState = Cast<ABasicGameState>( UGameplayStatics::GetGameState( GetWorld() ) );
+// 	AItemDefinitionList* ItemDefinitionList = GameState->GetItemDefinitionList();
+// 	int ItemTypeId = ItemInfo->GetItemTypeId();
+// 	TSubclassOf<UItemWidget>* ItemWidgetClass = ItemDefinitionList->TypeIdToItemWidgetClass.Find( ItemInfo->StaticClass() );
+// 
+// 	// Spawn Item Widget.
+// 	if ( ItemWidgetClass )
+// 	{
+// 		UItemWidget* ItemWidget = CreateWidget<UItemWidget>( this, *ItemWidgetClass );
+// 
+// 		NamedSlot_ItemWidgetSlot->AddChild( ItemWidget );
+// 	}
+// 	else
+// 	{
+// 		UDevUtilities::PrintError( "UItemClicker::SetItemInfo gets a UItemInfo whose Type ID doesn't match any UItemWidget class in the definition list." );
+// 	}
 }
 
 void UItemClicker::HandleOnButtonClicked()

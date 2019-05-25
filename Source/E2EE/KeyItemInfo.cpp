@@ -1,5 +1,19 @@
 #include "KeyItemInfo.h"
 
+#include "KeyItem.h"
+#include "KeyItemWidget.h"
+
+#include "UObject/ConstructorHelpers.h"
+
+UKeyItemInfo::UKeyItemInfo()
+{
+	static ConstructorHelpers::FClassFinder<AKeyItem> KeyItemClassFinder( TEXT( "/Game/Items/Blueprints/BP_Key" ) );
+	ItemClass = KeyItemClassFinder.Class;
+
+	static ConstructorHelpers::FClassFinder<UKeyItemWidget> KeyItemWidgetClassFinder( TEXT( "/Game/UI/InventorySystem/ItemWidgets/WBP_Key" ) );
+	ItemWidgetClass = KeyItemWidgetClassFinder.Class;
+}
+
 int UKeyItemInfo::GetKeyId()
 {
 	return KeyId;

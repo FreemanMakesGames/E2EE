@@ -5,8 +5,8 @@
 #include "BasicGameState.generated.h"
 
 class AItemDefinitionList;
-class ALock;
-class AKeyItem;
+class ULockItemInfo;
+class UKeyItemInfo;
 
 UCLASS()
 class E2EE_API ABasicGameState : public AGameStateBase
@@ -37,7 +37,7 @@ protected:
 public:
 
 	UFUNCTION( BlueprintCallable )
-	void SetIdForKeyPair( ALock* InLock, AKeyItem* InKey );
+	void SetIdForKeyPair( ULockItemInfo* InLock, UKeyItemInfo* InKey );
 
 protected:
 

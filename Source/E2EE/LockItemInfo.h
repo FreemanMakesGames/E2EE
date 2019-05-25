@@ -14,6 +14,10 @@ class E2EE_API ULockItemInfo : public UItemInfo
 
 public:
 
+	ULockItemInfo();
+
+public:
+
 	UFUNCTION( BlueprintCallable )
 	int GetLockId();
 

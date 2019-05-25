@@ -5,6 +5,7 @@
 #include "ItemDefinitionList.generated.h"
 
 class AItem;
+class UItemInfo;
 class UItemWidget;
 
 /**
@@ -18,9 +19,9 @@ class E2EE_API AItemDefinitionList : public AInfo
 public:
 
 	UPROPERTY( EditDefaultsOnly, BlueprintReadOnly )
-	TMap<int, TSubclassOf<AItem>> TypeIdToItemClass;
+	TMap<TSubclassOf<UItemInfo>, TSubclassOf<AItem>> TypeIdToItemClass;
 
 	UPROPERTY( EditDefaultsOnly, BlueprintReadOnly )
-	TMap<int, TSubclassOf<UItemWidget>> TypeIdToItemWidgetClass;
+	TMap<TSubclassOf<UItemInfo>, TSubclassOf<UItemWidget>> TypeIdToItemWidgetClass;
 	
 };

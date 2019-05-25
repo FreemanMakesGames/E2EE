@@ -24,6 +24,10 @@ class E2EE_API UContainerItemInfo : public UItemInfo
 
 public:
 
+	UContainerItemInfo();
+
+public:
+
 	UPROPERTY( BlueprintAssignable )
 	FOnOccupied OnOccupied;
 

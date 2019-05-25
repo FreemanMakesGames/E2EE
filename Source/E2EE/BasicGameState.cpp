@@ -1,8 +1,8 @@
 #include "BasicGameState.h"
 
 #include "ItemDefinitionList.h"
-#include "Lock.h"
-#include "KeyItem.h"
+#include "LockItemInfo.h"
+#include "KeyItemInfo.h"
 
 #include "Engine/World.h"
 
@@ -16,7 +16,7 @@ AItemDefinitionList* ABasicGameState::GetItemDefinitionList()
 	return ItemDefinitionList;
 }
 
-void ABasicGameState::SetIdForKeyPair( ALock* InLock, AKeyItem* InKey )
+void ABasicGameState::SetIdForKeyPair( ULockItemInfo* InLock, UKeyItemInfo* InKey )
 {
 	InLock->SetLockId( NextUsableKeyPairId );
 	InKey->SetKeyId( NextUsableKeyPairId );

@@ -14,6 +14,10 @@ class E2EE_API UMessageItemInfo : public UItemInfo
 
 public:
 
+	UMessageItemInfo();
+
+public:
+
 	virtual UMessageItemInfo* Duplicate() override;
 	
 };

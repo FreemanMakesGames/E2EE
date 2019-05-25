@@ -23,10 +23,6 @@ public:
 
 	AKeyItem( const FObjectInitializer& ObjectInitializer );
 
-protected:
-
-	virtual void BeginPlay() override;
-
 public:
 
 	UPROPERTY( VisibleAnywhere, BlueprintReadOnly )
@@ -37,20 +33,5 @@ public:
 
 	UPROPERTY( VisibleAnywhere, BlueprintReadOnly )
 	UHighlightComponent* HightlightComponent;
-
-public:
-
-	virtual UItemInfo* GetItemInfo() override;
-
-	UFUNCTION( BlueprintCallable )
-	int GetKeyId();
-
-	UFUNCTION( BlueprintCallable )
-	void SetKeyId( int InKeyId );
-
-protected:
-
-	UPROPERTY()
-	UKeyItemInfo* KeyItemInfo;
 	
 };

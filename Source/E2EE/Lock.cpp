@@ -16,25 +16,3 @@ ALock::ALock( const FObjectInitializer& ObjectInitializer ) : Super( ObjectIniti
 
 	HightlightComponent = CreateDefaultSubobject<UHighlightComponent>( TEXT( "Highlight" ) );
 }
-
-void ALock::BeginPlay()
-{
-	Super::BeginPlay();
-
-	LockItemInfo = NewObject<ULockItemInfo>( this );
-}
-
-UItemInfo* ALock::GetItemInfo()
-{
-	return LockItemInfo;
-}
-
-int ALock::GetLockId()
-{
-	return LockItemInfo->GetLockId();
-}
-
-void ALock::SetLockId( int InLockId )
-{
-	LockItemInfo->SetLockId( InLockId );
-}

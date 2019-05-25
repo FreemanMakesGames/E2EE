@@ -14,6 +14,10 @@ class E2EE_API UKeyItemInfo : public UItemInfo
 
 public:
 
+	UKeyItemInfo();
+
+public:
+
 	UFUNCTION( BlueprintCallable )
 	int GetKeyId();
 

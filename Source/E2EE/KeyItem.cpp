@@ -16,23 +16,3 @@ AKeyItem::AKeyItem( const FObjectInitializer& ObjectInitializer ) : Super( Objec
 
 	HightlightComponent = CreateDefaultSubobject<UHighlightComponent>( TEXT( "Highlight" ) );
 }
-
-void AKeyItem::BeginPlay()
-{
-	KeyItemInfo = NewObject<UKeyItemInfo>( this );
-}
-
-UItemInfo* AKeyItem::GetItemInfo()
-{
-	return KeyItemInfo;
-}
-
-int AKeyItem::GetKeyId()
-{
-	return KeyItemInfo->GetKeyId();
-}
-
-void AKeyItem::SetKeyId( int InKeyId )
-{
-	KeyItemInfo->SetKeyId( InKeyId );
-}

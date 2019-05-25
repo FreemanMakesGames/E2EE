@@ -23,10 +23,6 @@ public:
 
 	ALock( const FObjectInitializer& ObjectInitializer );
 
-protected:
-
-	virtual void BeginPlay() override;
-
 public:
 
 	UPROPERTY( VisibleAnywhere, BlueprintReadOnly )
@@ -38,19 +34,4 @@ public:
 	UPROPERTY( VisibleAnywhere, BlueprintReadOnly )
 	UHighlightComponent* HightlightComponent;
 
-public:
-
-	virtual UItemInfo* GetItemInfo() override;
-
-	UFUNCTION( BlueprintCallable )
-	int GetLockId();
-
-	UFUNCTION( BlueprintCallable )
-	void SetLockId( int InLockId );
-
-protected:
-
-	UPROPERTY()
-	ULockItemInfo* LockItemInfo;
-	
 };
