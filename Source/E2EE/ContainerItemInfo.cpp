@@ -15,6 +15,12 @@ UContainerItemInfo::UContainerItemInfo()
 
 	static ConstructorHelpers::FClassFinder<UContainerItemWidget> ContainerItemWidgetClassFinder( TEXT( "/Game/UI/InventorySystem/ItemWidgets/WBP_Container" ) );
 	ItemWidgetClass = ContainerItemWidgetClassFinder.Class;
+
+	ItemUsages.Add( EItemUsage::Open );
+	ItemUsages.Add( EItemUsage::Contain );
+	ItemUsages.Add( EItemUsage::Duplicate );
+	ItemUsages.Add( EItemUsage::Drop );
+	ItemUsages.Add( EItemUsage::Destroy );
 }
 
 UItemInfo* UContainerItemInfo::GetContainedItem()

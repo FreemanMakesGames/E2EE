@@ -12,6 +12,9 @@ UMessageItemInfo::UMessageItemInfo()
 
 	static ConstructorHelpers::FClassFinder<UMessageItemWidget> MessageItemWidgetClassFinder( TEXT( "/Game/UI/InventorySystem/ItemWidgets/WBP_Message" ) );
 	ItemWidgetClass = MessageItemWidgetClassFinder.Class;
+
+	ItemUsages.Add( EItemUsage::Read );
+	ItemUsages.Add( EItemUsage::Duplicate );
 }
 
 UMessageItemInfo* UMessageItemInfo::Duplicate()

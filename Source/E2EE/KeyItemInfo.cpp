@@ -12,6 +12,11 @@ UKeyItemInfo::UKeyItemInfo()
 
 	static ConstructorHelpers::FClassFinder<UKeyItemWidget> KeyItemWidgetClassFinder( TEXT( "/Game/UI/InventorySystem/ItemWidgets/WBP_Key" ) );
 	ItemWidgetClass = KeyItemWidgetClassFinder.Class;
+
+	ItemUsages.Add( EItemUsage::Unlock );
+	ItemUsages.Add( EItemUsage::Duplicate );
+	ItemUsages.Add( EItemUsage::Drop );
+	ItemUsages.Add( EItemUsage::Destroy );
 }
 
 int UKeyItemInfo::GetKeyId()

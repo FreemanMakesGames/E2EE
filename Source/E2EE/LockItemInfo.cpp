@@ -12,6 +12,11 @@ ULockItemInfo::ULockItemInfo()
 
 	static ConstructorHelpers::FClassFinder<ULockItemWidget> LockItemWidgetClassFinder( TEXT( "/Game/UI/InventorySystem/ItemWidgets/WBP_Lock" ) );
 	ItemWidgetClass = LockItemWidgetClassFinder.Class;
+
+	ItemUsages.Add( EItemUsage::Lock );
+	ItemUsages.Add( EItemUsage::Duplicate );
+	ItemUsages.Add( EItemUsage::Drop );
+	ItemUsages.Add( EItemUsage::Destroy );
 }
 
 int ULockItemInfo::GetLockId()
