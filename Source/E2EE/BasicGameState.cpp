@@ -6,6 +6,11 @@
 
 #include "Engine/World.h"
 
+void ABasicGameState::BeginPlay()
+{
+	Super::BeginPlay();
+}
+
 void ABasicGameState::SetIdForKeyPair( ULockItemInfo* InLock, UKeyItemInfo* InKey )
 {
 	InLock->SetLockId( NextUsableKeyPairId );

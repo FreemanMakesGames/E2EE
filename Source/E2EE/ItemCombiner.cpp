@@ -58,11 +58,11 @@ TArray<UItemInfo*> UItemCombiner::CombineItems(TArray<UItemInfo*> SourceItems)
 		SourceItemClasses.ItemClasses.Add( SourceItems[i]->GetClass() );
 	}
 
-	//TArray<UItemInfo*> Results;
-
-	FCombineFunction CombineFunction = *( FunctionMap.Find( SourceItemClasses ) );
-	if ( CombineFunction )
+	FCombineFunction* CombineFunctionPointer = FunctionMap.Find( SourceItemClasses );
+	if ( CombineFunctionPointer )
 	{
+		FCombineFunction CombineFunction = *CombineFunctionPointer;
+
 		return ( this->*( CombineFunction ) )( SourceItems );
 	}
 	else

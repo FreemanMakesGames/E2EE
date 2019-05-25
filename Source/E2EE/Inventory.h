@@ -18,9 +18,9 @@ class E2EE_API UInventory : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:
+protected:
 
-	UInventory( const FObjectInitializer& ObjectInitializer );
+	virtual void BeginPlay() override;
 
 public:
 

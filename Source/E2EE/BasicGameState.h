@@ -15,6 +15,10 @@ class E2EE_API ABasicGameState : public AGameStateBase
 
 protected:
 
+	virtual void BeginPlay() override;
+
+protected:
+
 	UPROPERTY( VisibleAnywhere, BlueprintReadOnly )
 	int NextUsableKeyPairId;
 

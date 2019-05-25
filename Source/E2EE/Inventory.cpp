@@ -8,8 +8,10 @@
 
 #include "Net/UnrealNetwork.h"
 
-UInventory::UInventory( const FObjectInitializer& ObjectInitializer ) : Super( ObjectInitializer )
+void UInventory::BeginPlay()
 {
+	Super::BeginPlay();
+
 	ItemCombiner = NewObject<UItemCombiner>();
 }
 
