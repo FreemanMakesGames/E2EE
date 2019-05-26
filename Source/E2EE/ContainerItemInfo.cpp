@@ -69,6 +69,7 @@ UItemInfo* UContainerItemInfo::ReleaseItem()
 	}
 }
 
+/** Simply set the lock. IsLocked should be checked outside. */
 void UContainerItemInfo::LockUp( ULockItemInfo* InLock )
 {
 	CurrentLock = InLock;
@@ -76,7 +77,8 @@ void UContainerItemInfo::LockUp( ULockItemInfo* InLock )
 	OnLocked.Broadcast();
 }
 
-void UContainerItemInfo::Unlock( UKeyItemInfo* Key )
+/** Simply unset the lock. ID checks should be done outside. */
+void UContainerItemInfo::Unlock()
 {
 	CurrentLock = nullptr;
 

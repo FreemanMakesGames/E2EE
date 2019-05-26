@@ -1,31 +1,12 @@
 #include "ItemCombiner.h"
 
-#include "Item.h"
-#include "ItemInfo.h"
 #include "LockItemInfo.h"
 #include "KeyItemInfo.h"
 #include "ContainerItemInfo.h"
 #include "DevUtilities.h"
 
-#include "UObject/ConstructorHelpers.h"
-#include "Templates/Function.h"
-
 UItemCombiner::UItemCombiner()
 {
-	/* All classes of combinable Items */
-
-	static ConstructorHelpers::FClassFinder<AItem> LockClassFinder( TEXT( "/Game/Items/Blueprints/BP_Lock" ) );
-	TSubclassOf<AItem> LockClass = LockClassFinder.Class;
-
-	static ConstructorHelpers::FClassFinder<AItem> KeyClassFinder( TEXT( "/Game/Items/Blueprints/BP_Key" ) );
-	TSubclassOf<AItem> KeyClass = KeyClassFinder.Class;
-
-	static ConstructorHelpers::FClassFinder<AItem> ContainerClassFinder( TEXT( "/Game/Items/Blueprints/BP_Container" ) );
-	TSubclassOf<AItem> ContainerClass = ContainerClassFinder.Class;
-
-	static ConstructorHelpers::FClassFinder<AItem> MessageClassFinder( TEXT( "/Game/Items/Blueprints/BP_Message" ) );
-	TSubclassOf<AItem> MessageClass = MessageClassFinder.Class;
-
 	/* All possible combination among Item types */
 
 	FArrayOfItemTypeId LockAndContainer;
@@ -64,14 +45,73 @@ TArray<UItemInfo*> UItemCombiner::CombineItems(TArray<UItemInfo*> SourceItems)
 
 TArray<UItemInfo*> UItemCombiner::LockContainer( TArray<UItemInfo*> SourceItems )
 {
-	UDevUtilities::PrintInfo( "Lock container!" );
+	TArray<UItemInfo*> Results;
 
-	return SourceItems;
+	ULockItemInfo* Lock = Cast<ULockItemInfo>( SourceItems[0] );
+	UContainerItemInfo* Container = Cast<UContainerItemInfo>( SourceItems[1] );
+
+	if ( Lock && Container )
+	{
+		if ( !Container->IsLocked() )
+		{
+			Container->LockUp( Lock );
+
+			Results.Add( Container );
+
+			return Results;
+		}
+		else
+		{
+			// TODO: Item Combination: Notify player that the container isn't locked.
+
+			return SourceItems;
+		}
+	}
+	else
+	{
+		ensureMsgf( false, TEXT( "Function map is probably setup wrong with Item Type ID" ) );
+
+		return SourceItems;
+	}
 }
 
 TArray<UItemInfo*> UItemCombiner::UnlockContainer( TArray<UItemInfo*> SourceItems )
 {
-	UDevUtilities::PrintInfo( "Unlock container!" );
+	TArray<UItemInfo*> Results;
 
-	return SourceItems;
+	UKeyItemInfo* Key = Cast<UKeyItemInfo>( SourceItems[0] );
+	UContainerItemInfo* Container = Cast<UContainerItemInfo>( SourceItems[1] );
+
+	if ( Key && Container )
+	{
+		if ( Container->IsLocked() )
+		{
+			if ( Container->GetLockId() == Key->GetKeyId() )
+			{
+				Container->Unlock();
+
+				Results.Add( Container );
+
+				return Results;
+			}
+			else
+			{
+				// TODO: Item Combination: Notify player that the key doesn't match the lock.
+
+				return SourceItems;
+			}
+		}
+		else
+		{
+			// TODO: Item Combination: Notify player that the container isn't locked.
+
+			return SourceItems;
+		}
+	}
+	else
+	{
+		ensureMsgf( false, TEXT( "Function map is probably setup wrong with Item Type ID" ) );
+
+		return SourceItems;
+	}
 }

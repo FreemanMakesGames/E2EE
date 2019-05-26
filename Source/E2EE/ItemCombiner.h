@@ -8,34 +8,6 @@ class AItem;
 class UItemInfo;
 
 USTRUCT()
-struct FArrayOfItemClasses
-{
-	GENERATED_BODY()
-
-public:
-
-	FArrayOfItemClasses() {}
-
-	FArrayOfItemClasses( TArray<TSubclassOf<UItemInfo>> ItemClasses )
-	{
-		this->ItemClasses = ItemClasses;
-	}
-
-	UPROPERTY()
-	TArray<TSubclassOf<UItemInfo>> ItemClasses;
-
-	bool operator==( const FArrayOfItemClasses& Other ) const
-	{
-		return ItemClasses == Other.ItemClasses;
-	}
-};
-
-FORCEINLINE uint32 GetTypeHash( const FArrayOfItemClasses& ArrayOfItems )
-{
-	return FCrc::MemCrc_DEPRECATED( &ArrayOfItems, sizeof( FArrayOfItemClasses ) );
-}
-
-USTRUCT()
 struct FArrayOfItemTypeId
 {
 	GENERATED_BODY()
@@ -78,21 +50,6 @@ public:
 public:
 
 	UItemCombiner();
-
-// Blueprint classes
-// protected:
-// 	
-// 	UPROPERTY( EditDefaultsOnly )
-// 	TSubclassOf<AItem> LockClass;
-// 	
-// 	UPROPERTY( EditDefaultsOnly )
-// 	TSubclassOf<AItem> KeyClass;
-// 	
-// 	UPROPERTY( EditDefaultsOnly )
-// 	TSubclassOf<AItem> ContainerClass;
-// 	
-// 	UPROPERTY( EditDefaultsOnly )
-// 	TSubclassOf<AItem> MessageClass;
 
 protected:
 

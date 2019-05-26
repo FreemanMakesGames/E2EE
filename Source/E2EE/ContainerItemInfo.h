@@ -74,7 +74,7 @@ public:
 	void LockUp( ULockItemInfo* InLock );
 
 	UFUNCTION( BlueprintCallable )
-	void Unlock( UKeyItemInfo* Key );
+	void Unlock();
 
 	UFUNCTION( BlueprintCallable )
 	bool IsOccupied();
