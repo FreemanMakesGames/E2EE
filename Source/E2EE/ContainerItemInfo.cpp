@@ -39,6 +39,18 @@ UContainerItemInfo* UContainerItemInfo::Duplicate()
 {
 	UContainerItemInfo* Clone = NewObject<UContainerItemInfo>();
 
+	if ( IsOccupied() )
+	{
+		ensureMsgf( !Cast<UContainerItemInfo>( ContainedItem ), TEXT( "This container contains another container!!!" ) );
+
+		Clone->ContainItem( ContainedItem->Duplicate() );
+	}
+
+	if ( IsLocked() )
+	{
+		Clone->LockUp( CurrentLock->Duplicate() );
+	}
+
 	return Clone;
 }
 

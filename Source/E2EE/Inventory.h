@@ -57,6 +57,12 @@ public:
 	UFUNCTION( BlueprintCallable )
 	void DropItem( UItemInfo* ItemToDrop );
 
+	UFUNCTION( Server, Reliable, WithValidation, BlueprintCallable )
+	void ServerDuplicateItem( UItemInfo* TargetItem );
+
+	UFUNCTION( NetMulticast, Reliable )
+	void MulticastDuplicateItem( UItemInfo* TargetItem );
+
 	UFUNCTION( BlueprintImplementableEvent, BlueprintCallable )
 	void OpenItem( UItemInfo* ItemToOpen );
 

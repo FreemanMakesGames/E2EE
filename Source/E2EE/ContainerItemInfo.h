@@ -81,19 +81,5 @@ public:
 
 	UFUNCTION( BlueprintCallable )
 	bool IsLocked();
-
-// protected:
-// 
-// 	UFUNCTION( BlueprintCallable )
-// 	void LockVisually();
-// 
-// 	UFUNCTION( BlueprintCallable )
-// 	void UnlockVisually();
-// 
-// 	UFUNCTION( BlueprintCallable )
-// 	void ContainVisually();
-// 
-// 	UFUNCTION( BlueprintCallable )
-// 	void OpenVisually();
 	
 };

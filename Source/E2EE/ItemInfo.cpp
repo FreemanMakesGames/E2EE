@@ -24,6 +24,7 @@ TArray<EItemUsage> UItemInfo::GetItemUsages()
 	return ItemUsages;
 }
 
+// FIXME: This needs a World passed onto it or something.
 AItem* UItemInfo::SpawnItem( const FTransform& SpawnTransform )
 {
 	AItem* Item = nullptr;

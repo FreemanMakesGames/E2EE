@@ -161,7 +161,7 @@ void UInventoryMenu::HandleOnItemMenuButtonDropClicked( UItemInfo* TargetItem )
 
 void UInventoryMenu::HandleOnItemMenuButtonDuplicateClicked( UItemInfo* TargetItem )
 {
-
+	Inventory->ServerDuplicateItem( TargetItem );
 }
 
 void UInventoryMenu::HandleOnItemMenuButtonOpenClicked( UItemInfo* TargetItem )

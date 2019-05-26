@@ -1,6 +1,6 @@
 #include "Inventory.h"
 
-#include "Item.h"
+#include "ItemInfo.h"
 #include "ItemCombiner.h"
 #include "DropItemComponent.h"
 #include "BasicCharacter.h"
@@ -55,11 +55,26 @@ void UInventory::DropItem( UItemInfo* ItemToDrop )
 	}
 	else
 	{
-		UE_LOG( LogTemp, Error, TEXT( "The owner of this UInventory doesn't have a UDropItemComponent! Aborted." ) );
+		ensureMsgf( false, TEXT( "The owner of this UInventory doesn't have a UDropItemComponent! Aborted." ) );
 		return;
 	}
 
 	RemoveItem( ItemToDrop );
+}
+
+void UInventory::ServerDuplicateItem_Implementation( UItemInfo* TargetItem )
+{
+	MulticastDuplicateItem( TargetItem );
+}
+
+bool UInventory::ServerDuplicateItem_Validate( UItemInfo* TargetItem )
+{
+	return true;
+}
+
+void UInventory::MulticastDuplicateItem_Implementation( UItemInfo* TargetItem )
+{
+	AddItem( TargetItem->Duplicate() );
 }
 
 void UInventory::CombineItems( TArray<UItemInfo*> SourceItems )
