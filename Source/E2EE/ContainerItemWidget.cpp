@@ -16,10 +16,20 @@ void UContainerItemWidget::SetItemInfo( UItemInfo* InItemInfo )
 		ContainerItemInfo->OnVacated.AddDynamic( this, &UContainerItemWidget::HandleOnVacated );
 		ContainerItemInfo->OnLocked.AddDynamic( this, &UContainerItemWidget::HandleOnLocked );
 		ContainerItemInfo->OnUnlocked.AddDynamic( this, &UContainerItemWidget::HandleOnUnlocked );
+
+		if ( ContainerItemInfo->IsOccupied() )
+		{
+			HandleOnOccupied();
+		}
+
+		if ( ContainerItemInfo->IsLocked() )
+		{
+			HandleOnLocked();
+		}
 	}
 	else
 	{
-		UDevUtilities::PrintError( TEXT( "UContainerItemWidget::SetItemInfo gets a non-ContainerItemInfo!" ) );
+		ensure( false );
 	}
 }
 
