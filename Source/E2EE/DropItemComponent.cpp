@@ -43,5 +43,5 @@ void UDropItemComponent::MulticastDropItem_Implementation( UItemInfo* ItemToDrop
 		return;
 	}
 
-	GetWorld()->SpawnActor<AItem>( ItemToDrop->GetItemClass(), GetComponentTransform() );
+	ItemToDrop->SpawnItem( GetComponentTransform() );
 }

@@ -18,6 +18,8 @@ UItemCombiner::UItemCombiner()
 	KeyAndContainer.ItemTypeIds.Add( 1 );
 	KeyAndContainer.ItemTypeIds.Add( 2 );
 	FunctionMap.Add( KeyAndContainer, &UItemCombiner::UnlockContainer );
+
+	FunctionMapForWildCards.Add( 2, &UItemCombiner::ContainItem );
 }
 
 TArray<UItemInfo*> UItemCombiner::CombineItems(TArray<UItemInfo*> SourceItems)
@@ -44,8 +46,12 @@ TArray<UItemInfo*> UItemCombiner::CombineItems(TArray<UItemInfo*> SourceItems)
 		SourceItemTypeIds.ItemTypeIds.Add( ItemTypeId );
 	}
 
-	// Find the combine function and combine.
 	FCombineFunction* CombineFunctionPointer = FunctionMap.Find( SourceItemTypeIds );
+	if ( !CombineFunctionPointer )
+	{
+		CombineFunctionPointer = FunctionMapForWildCards.Find( SourceItemTypeIds.ItemTypeIds[0] );
+	}
+
 	if ( CombineFunctionPointer )
 	{
 		FCombineFunction CombineFunction = *CombineFunctionPointer;
@@ -54,7 +60,6 @@ TArray<UItemInfo*> UItemCombiner::CombineItems(TArray<UItemInfo*> SourceItems)
 
 		return Results;
 	}
-	// Or return SourceItems un-touched.
 	else
 	{
 		return SourceItems;
@@ -128,7 +133,7 @@ TArray<UItemInfo*> UItemCombiner::UnlockContainer( TArray<UItemInfo*> SourceItem
 	}
 }
 
-TArray<UItemInfo*> ContainItem( TArray<UItemInfo*> SourceItems )
+TArray<UItemInfo*> UItemCombiner::ContainItem( TArray<UItemInfo*> SourceItems )
 {
 	TArray<UItemInfo*> Results;
 

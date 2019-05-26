@@ -7,6 +7,7 @@
 class AItem;
 class UItemInfo;
 
+// FIXME: Item Combination: TMap can't handle this struct as key properly. 
 USTRUCT()
 struct FArrayOfItemTypeId
 {
@@ -55,6 +56,8 @@ protected:
 
 	TMap<FArrayOfItemTypeId, FCombineFunction> FunctionMap;
 
+	TMap<int, FCombineFunction> FunctionMapForWildCards;
+
 public:
 
 	UFUNCTION( BlueprintCallable )
@@ -67,5 +70,8 @@ protected:
 
 	UFUNCTION( BlueprintCallable )
 	TArray<UItemInfo*> UnlockContainer( TArray<UItemInfo*> SourceItems );
+
+	UFUNCTION( BlueprintCallable )
+	TArray<UItemInfo*> ContainItem( TArray<UItemInfo*> SourceItems );
 	
 };
