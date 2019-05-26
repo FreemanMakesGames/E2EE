@@ -64,7 +64,6 @@ void UInventory::DropItem( UItemInfo* ItemToDrop )
 
 void UInventory::CombineItems( TArray<UItemInfo*> SourceItems )
 {
-	//TArray<UItemInfo*> ResultItems = CombineItemsWithItemCombiner( SourceItems );
 	TArray<UItemInfo*> ResultItems = ItemCombiner->CombineItems( SourceItems );
 
 	for ( UItemInfo* Item : SourceItems )

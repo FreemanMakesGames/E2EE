@@ -65,8 +65,5 @@ public:
 
 	UFUNCTION( BlueprintCallable )
 	void CombineItems( TArray<UItemInfo*> SourceItems );
-
-	UFUNCTION( BlueprintImplementableEvent )
-	TArray<UItemInfo*> CombineItemsWithItemCombiner( const TArray<UItemInfo*>& SourceItems );
 	
 };

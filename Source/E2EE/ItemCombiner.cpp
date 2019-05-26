@@ -22,6 +22,20 @@ UItemCombiner::UItemCombiner()
 
 TArray<UItemInfo*> UItemCombiner::CombineItems(TArray<UItemInfo*> SourceItems)
 {
+	TArray<UItemInfo*> Results;
+
+	// TODO: Item Combination: There may be a better way to prevent combining an item with itself.
+	// Prevent combination with itself.
+	if ( SourceItems[0] == SourceItems[1] )
+	{
+		// TODO: Item Combination: Notify player to select a different item to combine.
+
+		Results.Add( SourceItems[0] );
+
+		return Results;
+	}
+
+	// Gather Item Type IDs.
 	FArrayOfItemTypeId SourceItemTypeIds;
 	for ( int i = 0; i < SourceItems.Num(); i++ )
 	{
@@ -30,13 +44,17 @@ TArray<UItemInfo*> UItemCombiner::CombineItems(TArray<UItemInfo*> SourceItems)
 		SourceItemTypeIds.ItemTypeIds.Add( ItemTypeId );
 	}
 
+	// Find the combine function and combine.
 	FCombineFunction* CombineFunctionPointer = FunctionMap.Find( SourceItemTypeIds );
 	if ( CombineFunctionPointer )
 	{
 		FCombineFunction CombineFunction = *CombineFunctionPointer;
 
-		return ( this->*( CombineFunction ) )( SourceItems );
+		Results = ( this->*( CombineFunction ) )( SourceItems );
+
+		return Results;
 	}
+	// Or return SourceItems un-touched.
 	else
 	{
 		return SourceItems;
@@ -52,20 +70,18 @@ TArray<UItemInfo*> UItemCombiner::LockContainer( TArray<UItemInfo*> SourceItems 
 
 	if ( Lock && Container )
 	{
-		if ( !Container->IsLocked() )
-		{
-			Container->LockUp( Lock );
-
-			Results.Add( Container );
-
-			return Results;
-		}
-		else
+		if ( Container->IsLocked() )
 		{
 			// TODO: Item Combination: Notify player that the container isn't locked.
 
 			return SourceItems;
 		}
+
+		Container->LockUp( Lock );
+
+		Results.Add( Container );
+
+		return Results;
 	}
 	else
 	{
@@ -84,29 +100,69 @@ TArray<UItemInfo*> UItemCombiner::UnlockContainer( TArray<UItemInfo*> SourceItem
 
 	if ( Key && Container )
 	{
-		if ( Container->IsLocked() )
-		{
-			if ( Container->GetLockId() == Key->GetKeyId() )
-			{
-				Container->Unlock();
-
-				Results.Add( Container );
-
-				return Results;
-			}
-			else
-			{
-				// TODO: Item Combination: Notify player that the key doesn't match the lock.
-
-				return SourceItems;
-			}
-		}
-		else
+		if ( !Container->IsLocked() )
 		{
 			// TODO: Item Combination: Notify player that the container isn't locked.
 
 			return SourceItems;
 		}
+
+		if ( Container->GetLockId() != Key->GetKeyId() )
+		{
+			// TODO: Item Combination: Notify player that the key doesn't match the lock.
+
+			return SourceItems;
+		}
+
+		Container->Unlock();
+
+		Results.Add( Container );
+
+		return Results;
+	}
+	else
+	{
+		ensureMsgf( false, TEXT( "Function map is probably setup wrong with Item Type ID" ) );
+
+		return SourceItems;
+	}
+}
+
+TArray<UItemInfo*> ContainItem( TArray<UItemInfo*> SourceItems )
+{
+	TArray<UItemInfo*> Results;
+
+	UContainerItemInfo* Container = Cast<UContainerItemInfo>( SourceItems[0] );
+	UItemInfo* Item = SourceItems[1];
+
+	if ( Cast<UContainerItemInfo>( Item ) )
+	{
+		// TODO: Item Combination: Notify the player that they can't contain a container.
+
+		return SourceItems;
+	}
+
+	if ( Container )
+	{
+		if ( Container->IsLocked() )
+		{
+			// TODO: Item Combination: Notify player that the container is locked.
+
+			return SourceItems;
+		}
+
+		if ( Container->IsOccupied() )
+		{
+			// TODO: Item Combination: Notify player that the container is occupied.
+
+			return SourceItems;
+		}
+
+		Container->ContainItem( Item );
+
+		Results.Add( Container );
+
+		return Results;
 	}
 	else
 	{
