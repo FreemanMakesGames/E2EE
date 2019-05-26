@@ -17,6 +17,8 @@ UKeyItemInfo::UKeyItemInfo()
 	ItemUsages.Add( EItemUsage::Duplicate );
 	ItemUsages.Add( EItemUsage::Drop );
 	ItemUsages.Add( EItemUsage::Destroy );
+
+	ItemTypeId = 1;
 }
 
 int UKeyItemInfo::GetKeyId()

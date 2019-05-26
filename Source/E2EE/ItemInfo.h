@@ -30,9 +30,6 @@ public:
 	int GetItemTypeId();
 
 	UFUNCTION( BlueprintCallable )
-	void SetItemTypeId( int InItemTypeId );
-
-	UFUNCTION( BlueprintCallable )
 	TArray<EItemUsage> GetItemUsages();
 
 protected:
@@ -43,7 +40,6 @@ protected:
 	UPROPERTY( VisibleAnywhere, BlueprintReadOnly )
 	TSubclassOf<UItemWidget> ItemWidgetClass;
 
-	/** Map this to 3D models, and 2D item widgets, in the definition list. */
 	int ItemTypeId;
 
 	TArray<EItemUsage> ItemUsages;

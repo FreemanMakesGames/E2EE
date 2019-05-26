@@ -28,44 +28,28 @@ UItemCombiner::UItemCombiner()
 
 	/* All possible combination among Item types */
 
-	TArray<TSubclassOf<UItemInfo>> LockAndContainer;
-	LockAndContainer.Add( ULockItemInfo::StaticClass() );
-	LockAndContainer.Add( UContainerItemInfo::StaticClass() );
-	FArrayOfItemClasses ArrayOfLockAndContainerClasses( LockAndContainer );
-	FunctionMap.Add( ArrayOfLockAndContainerClasses, &UItemCombiner::LockContainer );
+	FArrayOfItemTypeId LockAndContainer;
+	LockAndContainer.ItemTypeIds.Add( 0 );
+	LockAndContainer.ItemTypeIds.Add( 2 );
+	FunctionMap.Add( LockAndContainer, &UItemCombiner::LockContainer );
 
-	TArray<TSubclassOf<UItemInfo>> KeyAndContainer;
-	KeyAndContainer.Add( UKeyItemInfo::StaticClass() );
-	KeyAndContainer.Add( UContainerItemInfo::StaticClass() );
-	FArrayOfItemClasses ArrayOfKeyAndContainerClasses( KeyAndContainer );
-	FunctionMap.Add( ArrayOfKeyAndContainerClasses, &UItemCombiner::UnlockContainer );
-
-// 	TArray<TSubclassOf<AItem>> ContainerAndLock;
-// 	ContainerAndLock.Add( ContainerClass );
-// 	ContainerAndLock.Add( LockClass );
-// 
-// 	TArray<TSubclassOf<AItem>> ContainerAndKey;
-// 	ContainerAndKey.Add( ContainerClass );
-// 	ContainerAndKey.Add( KeyClass );
-// 
-// 	TArray<TSubclassOf<AItem>> ContainerAndMessage;
-// 	ContainerAndMessage.Add( ContainerClass );
-// 	ContainerAndMessage.Add( MessageClass );
+	FArrayOfItemTypeId KeyAndContainer;
+	KeyAndContainer.ItemTypeIds.Add( 1 );
+	KeyAndContainer.ItemTypeIds.Add( 2 );
+	FunctionMap.Add( KeyAndContainer, &UItemCombiner::UnlockContainer );
 }
 
 TArray<UItemInfo*> UItemCombiner::CombineItems(TArray<UItemInfo*> SourceItems)
 {
-	FArrayOfItemClasses SourceItemClasses;
+	FArrayOfItemTypeId SourceItemTypeIds;
 	for ( int i = 0; i < SourceItems.Num(); i++ )
 	{
-		UClass* ItemClass = SourceItems[i]->StaticClass();
+		int ItemTypeId = SourceItems[i]->GetItemTypeId();
 
-		SourceItemClasses.ItemClasses.Add( ItemClass );
-
-		UDevUtilities::PrintInfo( ItemClass->GetName() );
+		SourceItemTypeIds.ItemTypeIds.Add( ItemTypeId );
 	}
 
-	FCombineFunction* CombineFunctionPointer = FunctionMap.Find( SourceItemClasses );
+	FCombineFunction* CombineFunctionPointer = FunctionMap.Find( SourceItemTypeIds );
 	if ( CombineFunctionPointer )
 	{
 		FCombineFunction CombineFunction = *CombineFunctionPointer;

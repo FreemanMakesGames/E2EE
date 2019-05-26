@@ -35,6 +35,34 @@ FORCEINLINE uint32 GetTypeHash( const FArrayOfItemClasses& ArrayOfItems )
 	return FCrc::MemCrc_DEPRECATED( &ArrayOfItems, sizeof( FArrayOfItemClasses ) );
 }
 
+USTRUCT()
+struct FArrayOfItemTypeId
+{
+	GENERATED_BODY()
+
+public:
+
+	FArrayOfItemTypeId() {}
+
+	FArrayOfItemTypeId( TArray<int> InItemTypeIds )
+	{
+		ItemTypeIds = InItemTypeIds;
+	}
+
+	UPROPERTY()
+	TArray<int> ItemTypeIds;
+
+	bool operator==( const FArrayOfItemTypeId& Other ) const
+	{
+		return ItemTypeIds == Other.ItemTypeIds;
+	}
+};
+
+FORCEINLINE uint32 GetTypeHash( const FArrayOfItemTypeId& ArrayOfItems )
+{
+	return FCrc::MemCrc_DEPRECATED( &ArrayOfItems, sizeof( FArrayOfItemTypeId ) );
+}
+
 /**
  * 
  */
@@ -68,8 +96,7 @@ public:
 
 protected:
 
-	TMap<FArrayOfItemClasses, FCombineFunction> FunctionMap;
-	//FCombineFunction CombineFunctions[30];
+	TMap<FArrayOfItemTypeId, FCombineFunction> FunctionMap;
 
 public:
 

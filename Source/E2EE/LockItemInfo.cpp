@@ -17,6 +17,8 @@ ULockItemInfo::ULockItemInfo()
 	ItemUsages.Add( EItemUsage::Duplicate );
 	ItemUsages.Add( EItemUsage::Drop );
 	ItemUsages.Add( EItemUsage::Destroy );
+
+	ItemTypeId = 0;
 }
 
 int ULockItemInfo::GetLockId()

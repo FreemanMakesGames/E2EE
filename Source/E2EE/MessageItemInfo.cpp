@@ -15,6 +15,8 @@ UMessageItemInfo::UMessageItemInfo()
 
 	ItemUsages.Add( EItemUsage::Read );
 	ItemUsages.Add( EItemUsage::Duplicate );
+
+	ItemTypeId = 3;
 }
 
 UMessageItemInfo* UMessageItemInfo::Duplicate()

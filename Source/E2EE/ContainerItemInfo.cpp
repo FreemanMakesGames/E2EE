@@ -21,6 +21,8 @@ UContainerItemInfo::UContainerItemInfo()
 	ItemUsages.Add( EItemUsage::Duplicate );
 	ItemUsages.Add( EItemUsage::Drop );
 	ItemUsages.Add( EItemUsage::Destroy );
+
+	ItemTypeId = 2;
 }
 
 UItemInfo* UContainerItemInfo::GetContainedItem()
