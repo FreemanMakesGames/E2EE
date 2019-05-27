@@ -37,7 +37,9 @@ int UContainerItemInfo::GetLockId()
 
 UContainerItemInfo* UContainerItemInfo::Duplicate()
 {
-	UContainerItemInfo* Clone = NewObject<UContainerItemInfo>();
+	ensure( GetWorld() );
+
+	UContainerItemInfo* Clone = NewObject<UContainerItemInfo>( GetWorld() );
 
 	if ( IsOccupied() )
 	{

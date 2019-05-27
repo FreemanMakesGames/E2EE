@@ -33,7 +33,9 @@ void UKeyItemInfo::SetKeyId( int InKeyId )
 
 UKeyItemInfo* UKeyItemInfo::Duplicate()
 {
-	UKeyItemInfo* Clone = NewObject<UKeyItemInfo>();
+	ensure( GetWorld() );
+
+	UKeyItemInfo* Clone = NewObject<UKeyItemInfo>( GetWorld() );
 
 	Clone->SetKeyId( KeyId );
 

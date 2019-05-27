@@ -21,7 +21,9 @@ UMessageItemInfo::UMessageItemInfo()
 
 UMessageItemInfo* UMessageItemInfo::Duplicate()
 {
-	UMessageItemInfo* Clone = NewObject<UMessageItemInfo>();
+	ensure( GetWorld() );
+
+	UMessageItemInfo* Clone = NewObject<UMessageItemInfo>( GetWorld() );
 
 	return Clone;
 }
