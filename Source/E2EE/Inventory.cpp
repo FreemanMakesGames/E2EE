@@ -8,6 +8,11 @@
 
 #include "Net/UnrealNetwork.h"
 
+UInventory::UInventory( const FObjectInitializer& ObjectInitializer ) : Super( ObjectInitializer )
+{
+	bReplicates = true;
+}
+
 void UInventory::BeginPlay()
 {
 	Super::BeginPlay();
@@ -27,7 +32,7 @@ int UInventory::CountItems()
 
 void UInventory::AddItem( UItemInfo* ItemToAdd )
 {
-	ensure( ItemToAdd );
+	ensureAlways( ItemToAdd );
 
 	Items.Add( ItemToAdd );
 
@@ -86,4 +91,11 @@ void UInventory::CombineItems( TArray<UItemInfo*> SourceItems )
 	{
 		AddItem( Item );
 	}
+}
+
+void UInventory::GetLifetimeReplicatedProps( TArray<FLifetimeProperty>& OutLifetimeProps ) const
+{
+	Super::GetLifetimeReplicatedProps( OutLifetimeProps );
+
+	DOREPLIFETIME( UInventory, Items );
 }

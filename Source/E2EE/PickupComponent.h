@@ -29,7 +29,7 @@ protected:
 
 protected:
 
-	UFUNCTION()
-	void PickUp( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed );
+	UFUNCTION( Server, Reliable, WithValidation )
+	void ServerPickUp( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed );
 		
 };

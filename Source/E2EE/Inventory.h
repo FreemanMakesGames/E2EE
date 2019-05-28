@@ -18,6 +18,10 @@ class E2EE_API UInventory : public UActorComponent
 {
 	GENERATED_BODY()
 
+public:
+
+	UInventory( const FObjectInitializer& ObjectInitializer );
+
 protected:
 
 	virtual void BeginPlay() override;
@@ -37,7 +41,7 @@ public:
 
 protected:
 
-	UPROPERTY( VisibleInstanceOnly )
+	UPROPERTY( Replicated, VisibleInstanceOnly )
 	TArray<UItemInfo*> Items;
 
 	UPROPERTY()

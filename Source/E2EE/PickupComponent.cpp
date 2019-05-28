@@ -30,11 +30,11 @@ void UPickupComponent::BeginPlay()
 	UPrimitiveComponent* OwnerPrimitiveComponent = GetOwner()->FindComponentByClass<UPrimitiveComponent>();
 	if ( OwnerPrimitiveComponent )
 	{
-		OwnerPrimitiveComponent->OnClicked.AddDynamic( this, &UPickupComponent::PickUp );
+		OwnerPrimitiveComponent->OnClicked.AddDynamic( this, &UPickupComponent::ServerPickUp );
 	}
 }
 
-void UPickupComponent::PickUp( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed )
+void UPickupComponent::ServerPickUp_Implementation( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed )
 {
 	// Get ActiveCharacter and ActiveInventory.
 	ABasicCharacter* ActiveCharacter = Cast<ABasicPlayerController>( GetWorld()->GetFirstPlayerController() )->GetActiveCharacter();
@@ -49,13 +49,13 @@ void UPickupComponent::PickUp( UPrimitiveComponent* TouchedComponent, FKey Butto
 		return;
 	}
 
-	// FIXME: OwnerItem's ItemInfo is null here when client picks up.
 	if ( UItemInfo* OwnerItemInfo = OwnerItem->GetItemInfo() )
 	{
 		ActiveInventory->AddItem( OwnerItemInfo );
 
 		// FIXME: Should it be ActiveInventory, or ActiveInventory->GetOuter()?
-		OwnerItemInfo->Rename( *OwnerItemInfo->GetName(), ActiveInventory );
+		FString NewName = "test";
+		OwnerItemInfo->Rename( nullptr, ActiveInventory );
 	}
 	else
 	{
@@ -64,4 +64,9 @@ void UPickupComponent::PickUp( UPrimitiveComponent* TouchedComponent, FKey Butto
 	}
 
 	OwnerItem->Destroy();
+}
+
+bool UPickupComponent::ServerPickUp_Validate( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed )
+{
+	return true;
 }
