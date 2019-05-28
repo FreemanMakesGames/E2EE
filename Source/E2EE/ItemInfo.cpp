@@ -35,6 +35,8 @@ AItem* UItemInfo::SpawnItem( const FTransform& SpawnTransform )
 		 Item = GetWorld()->SpawnActor<AItem>( ItemClass, SpawnTransform );
 
 		 Item->SetItemInfo( this );
+
+		 this->Rename( *GetName(), Item );
 	}
 	else
 	{

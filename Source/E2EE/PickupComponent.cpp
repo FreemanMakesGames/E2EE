@@ -4,6 +4,7 @@
 #include "BasicCharacter.h"
 #include "Inventory.h"
 #include "Item.h"
+#include "ItemInfo.h"
 #include "GameUtilities.h"
 #include "DevUtilities.h"
 
@@ -51,6 +52,8 @@ void UPickupComponent::PickUp( UPrimitiveComponent* TouchedComponent, FKey Butto
 	// FIXME: OwnerItem's ItemInfo is null here when client picks up.
 	UItemInfo* OwnerItemInfo = OwnerItem->GetItemInfo();
 	ActiveInventory->AddItem( OwnerItemInfo );
+
+	OwnerItemInfo->Rename( *OwnerItemInfo->GetName(), GetWorld() );
 
 	OwnerItem->Destroy();
 }
