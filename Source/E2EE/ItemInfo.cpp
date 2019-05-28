@@ -4,6 +4,8 @@
 #include "ItemWidget.h"
 #include "DevUtilities.h"
 
+#include "Net/UnrealNetwork.h"
+
 TSubclassOf<AItem> UItemInfo::GetItemClass()
 {
 	return ItemClass;
@@ -34,9 +36,9 @@ AItem* UItemInfo::SpawnItem( const FTransform& SpawnTransform )
 	{
 		 Item = GetWorld()->SpawnActor<AItem>( ItemClass, SpawnTransform );
 
-		 Item->SetItemInfo( this );
-
 		 this->Rename( *GetName(), Item );
+
+		 Item->SetItemInfo( this );
 	}
 	else
 	{
@@ -44,4 +46,11 @@ AItem* UItemInfo::SpawnItem( const FTransform& SpawnTransform )
 	}
 
 	return Item;
+}
+
+void UItemInfo::GetLifetimeReplicatedProps( TArray<FLifetimeProperty>& OutLifetimeProps ) const
+{
+	Super::GetLifetimeReplicatedProps( OutLifetimeProps );
+
+	DOREPLIFETIME( UItemInfo, ItemUsages );
 }

@@ -35,7 +35,7 @@ ULockItemInfo* ULockItemInfo::Duplicate()
 {
 	ensure( GetWorld() );
 
-	ULockItemInfo* Clone = NewObject<ULockItemInfo>( GetWorld() );
+	ULockItemInfo* Clone = NewObject<ULockItemInfo>( GetOuter() );
 
 	Clone->SetLockId( LockId );
 

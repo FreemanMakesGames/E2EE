@@ -32,6 +32,11 @@ public:
 	UFUNCTION( BlueprintCallable )
 	TArray<EItemUsage> GetItemUsages();
 
+	virtual bool IsSupportedForNetworking() const override
+	{
+		return true;
+	}
+
 protected:
 
 	UPROPERTY( VisibleAnywhere, BlueprintReadOnly )
@@ -42,6 +47,7 @@ protected:
 
 	int ItemTypeId;
 
+	UPROPERTY( Replicated )
 	TArray<EItemUsage> ItemUsages;
 
 public:

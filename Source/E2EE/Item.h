@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ItemUsage.h"
+#include "ItemInfo.h"
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
@@ -28,7 +29,11 @@ public:
 
 protected:
 
-	UPROPERTY( BlueprintReadOnly )
+	UPROPERTY( Replicated, BlueprintReadOnly )
 	UItemInfo* ItemInfo;
+
+public:
+
+	virtual bool ReplicateSubobjects( class UActorChannel* Channel, class FOutBunch* Bunch, FReplicationFlags* RepFlags ) override;
 
 };

@@ -50,10 +50,18 @@ void UPickupComponent::PickUp( UPrimitiveComponent* TouchedComponent, FKey Butto
 	}
 
 	// FIXME: OwnerItem's ItemInfo is null here when client picks up.
-	UItemInfo* OwnerItemInfo = OwnerItem->GetItemInfo();
-	ActiveInventory->AddItem( OwnerItemInfo );
+	if ( UItemInfo* OwnerItemInfo = OwnerItem->GetItemInfo() )
+	{
+		ActiveInventory->AddItem( OwnerItemInfo );
 
-	OwnerItemInfo->Rename( *OwnerItemInfo->GetName(), GetWorld() );
+		// FIXME: Should it be ActiveInventory, or ActiveInventory->GetOuter()?
+		OwnerItemInfo->Rename( *OwnerItemInfo->GetName(), ActiveInventory );
+	}
+	else
+	{
+		ensureAlways( false );
+		return;
+	}
 
 	OwnerItem->Destroy();
 }
