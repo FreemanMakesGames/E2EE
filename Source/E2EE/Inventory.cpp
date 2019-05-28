@@ -27,11 +27,7 @@ int UInventory::CountItems()
 
 void UInventory::AddItem( UItemInfo* ItemToAdd )
 {
-	if ( !ItemToAdd )
-	{
-		UDevUtilities::PrintError( "UInventory::AddItem gets a null UItemInfo!" );
-		return;
-	}
+	ensure( ItemToAdd );
 
 	Items.Add( ItemToAdd );
 

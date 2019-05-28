@@ -12,7 +12,7 @@
 
 UPickupComponent::UPickupComponent()
 {
-	PickupRange = 300.0f;
+	PickupRange = 3000.0f;
 }
 
 void UPickupComponent::BeginPlay()
@@ -48,7 +48,9 @@ void UPickupComponent::PickUp( UPrimitiveComponent* TouchedComponent, FKey Butto
 		return;
 	}
 
-	ActiveInventory->AddItem( OwnerItem->GetItemInfo() );
+	// FIXME: OwnerItem's ItemInfo is null here when client picks up.
+	UItemInfo* OwnerItemInfo = OwnerItem->GetItemInfo();
+	ActiveInventory->AddItem( OwnerItemInfo );
 
 	OwnerItem->Destroy();
 }
