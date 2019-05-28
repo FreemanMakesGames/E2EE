@@ -40,15 +40,15 @@ void UInventoryMenu::NativeOnInitialized()
  * Show a specified Inventory.
  * Only reload and reset if it's a different inventory.
  */
-void UInventoryMenu::ShowInventory( UInventory* InventoryToSet )
+void UInventoryMenu::ShowInventory( UInventory* TargetInventory )
 {
-	if ( !InventoryToSet )
+	if ( !TargetInventory )
 	{
-		UE_LOG( LogTemp, Error, TEXT( "UInventoryMenu.ShowInventory: InventoryToSet is nullptr!" ) );
+		ensureAlways( false );
 		return;
 	}
 
-	if ( Inventory != InventoryToSet )
+	if ( Inventory != TargetInventory )
 	{
 		if ( Inventory )
 		{
@@ -56,7 +56,7 @@ void UInventoryMenu::ShowInventory( UInventory* InventoryToSet )
 			Inventory->OnItemRemoved.RemoveAll( this );
 		}
 
-		Inventory = InventoryToSet;
+		Inventory = TargetInventory;
 
 		ReloadInventoryDisplay();
 
@@ -107,7 +107,7 @@ void UInventoryMenu::ReloadInventoryDisplay()
 
 	if ( !Inventory )
 	{
-		UE_LOG( LogTemp, Warning, TEXT( "UInventoryMenu.ReloadInventoryDisplay: Inventory is nullptr!" ) );	
+		ensureAlways( false );
 		return;
 	}
 
@@ -115,7 +115,10 @@ void UInventoryMenu::ReloadInventoryDisplay()
 
 	for ( int i = 0; i < Items.Num(); i++ )
 	{
-		UItemClicker* ItemClicker = AddNewItemClicker( Items[ i ] );
+		if ( ensureAlways( Items[i] ) )
+		{
+			UItemClicker* ItemClicker = AddNewItemClicker( Items[i] );
+		}
 	}
 }
 

@@ -45,7 +45,7 @@ void UPickupComponent::ServerPickUp_Implementation( UPrimitiveComponent* Touched
 	float Distance = FVector::Distance( ActiveCharacter->GetActorLocation(), GetOwner()->GetActorLocation() );
 	if ( Distance > PickupRange )
 	{
-		//UGameUtilities::DisplayNotification( "Too far to pick up this item!" );
+		// TODO: Notify the player that the character is too far.
 		return;
 	}
 
@@ -54,7 +54,6 @@ void UPickupComponent::ServerPickUp_Implementation( UPrimitiveComponent* Touched
 		ActiveInventory->AddItem( OwnerItemInfo );
 
 		// FIXME: Should it be ActiveInventory, or ActiveInventory->GetOuter()?
-		FString NewName = "test";
 		OwnerItemInfo->Rename( nullptr, ActiveInventory );
 	}
 	else
