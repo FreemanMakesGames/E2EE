@@ -1,6 +1,6 @@
 #include "Inventory.h"
 
-#include "ItemInfo.h"
+#include "ContainerItemInfo.h"
 #include "ItemCombiner.h"
 #include "DropItemComponent.h"
 #include "BasicCharacter.h"
@@ -10,7 +10,7 @@
 
 UInventory::UInventory( const FObjectInitializer& ObjectInitializer ) : Super( ObjectInitializer )
 {
-	bReplicates = true;
+	
 }
 
 void UInventory::BeginPlay()
@@ -76,6 +76,46 @@ bool UInventory::ServerDuplicateItem_Validate( UItemInfo* TargetItem )
 void UInventory::MulticastDuplicateItem_Implementation( UItemInfo* TargetItem )
 {
 	AddItem( TargetItem->Duplicate() );
+}
+
+void UInventory::OpenItem( UItemInfo* TargetItem )
+{
+	UContainerItemInfo* Container = Cast<UContainerItemInfo>( TargetItem );
+	if ( Container )
+	{
+		if ( Container->IsLocked() )
+		{
+			// TODO: Notify the player that the container is locked.
+
+			return;
+		}
+
+		if ( !Container->IsOccupied() )
+		{
+			// TODO: Notify the player that the container is empty.
+
+			return;
+		}
+
+		AddItem( Container->ReleaseItem() );
+	}
+	else
+	{
+		ensureAlwaysMsgf( false, TEXT( "How can a non-Container have the option to open?" ) );
+	}
+}
+
+void UInventory::ReadItem( UItemInfo* ItemToRead )
+{
+	ABasicCharacter* Owner = Cast<ABasicCharacter>( GetOwner() );
+	if ( Owner )
+	{
+		Owner->ReadItem( ItemToRead );
+	}
+	else
+	{
+		ensureAlwaysMsgf( false, TEXT( "Inventory not owned by characters isn't implemented." ) );
+	}
 }
 
 void UInventory::CombineItems( TArray<UItemInfo*> SourceItems )

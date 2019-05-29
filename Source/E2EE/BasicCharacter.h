@@ -26,6 +26,9 @@ public:
 
 	ABasicCharacter();
 
+#pragma region Unreal Engine default input setup
+public:
+
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseTurnRate;
@@ -63,6 +66,8 @@ protected:
 	/** Handler for when a touch input stops. */
 	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
 
+#pragma endregion
+
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
@@ -70,6 +75,12 @@ protected:
 
 	virtual void BeginPlay() override;
 
+public:
+
+	UPROPERTY( EditInstanceOnly, BlueprintReadOnly )
+	ACameraActor* Camera;
+
+#pragma region Getters and setters
 public:
 
 	UFUNCTION( BlueprintCallable )
@@ -86,6 +97,7 @@ public:
 
 	UFUNCTION( BlueprintCallable )
 	FString GetUsername();
+#pragma endregion
 
 protected:
 
@@ -103,17 +115,11 @@ protected:
 
 public:
 
-	UFUNCTION( Server, Reliable, WithValidation, BlueprintCallable )
-	void ServerDisablePickedUpActor( AActor* PickedUpActor );
-
-	UFUNCTION( NetMulticast, Reliable, BlueprintCallable )
-	void MulticastDisablePickedUpActor( AActor* PickedUpActor );
+	UFUNCTION( BlueprintImplementableEvent, BlueprintCallable )
+	void ReadItem( UItemInfo* ItemToRead );
 
 	UFUNCTION( BlueprintImplementableEvent )
 	void ToggleWidget( bool On );
-
-	UPROPERTY( EditInstanceOnly, BlueprintReadOnly )
-	ACameraActor* Camera;
 
 protected:
 

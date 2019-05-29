@@ -67,10 +67,10 @@ public:
 	UFUNCTION( NetMulticast, Reliable )
 	void MulticastDuplicateItem( UItemInfo* TargetItem );
 
-	UFUNCTION( BlueprintImplementableEvent, BlueprintCallable )
-	void OpenItem( UItemInfo* ItemToOpen );
+	UFUNCTION( BlueprintCallable )
+	void OpenItem( UItemInfo* TargetItem );
 
-	UFUNCTION( BlueprintImplementableEvent, BlueprintCallable )
+	UFUNCTION( BlueprintCallable )
 	void ReadItem( UItemInfo* ItemToRead );
 
 	UFUNCTION( BlueprintCallable )

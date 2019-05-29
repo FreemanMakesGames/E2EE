@@ -47,11 +47,13 @@ ABasicCharacter::ABasicCharacter()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
+
+	// Below are custom code.
+
+	Inventory = CreateDefaultSubobject<UInventory>( TEXT( "Inventory" ) );
 }
 
-//////////////////////////////////////////////////////////////////////////
-// Input
-
+#pragma region Unreal Engine default input setup
 void ABasicCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
 	// Set up gameplay key bindings
@@ -133,6 +135,7 @@ void ABasicCharacter::MoveRight(float Value)
 		AddMovementInput(Direction, Value);
 	}
 }
+#pragma endregion
 
 void ABasicCharacter::BeginPlay()
 {
@@ -141,6 +144,7 @@ void ABasicCharacter::BeginPlay()
 	GetCapsuleComponent()->OnClicked.AddDynamic( this, &ABasicCharacter::HandleOnCapsuleClicked );
 }
 
+#pragma region Getters and setters
 UInventory* ABasicCharacter::GetInventory()
 {
 	return Inventory;
@@ -165,21 +169,7 @@ FString ABasicCharacter::GetUsername()
 {
 	return Username;
 }
-
-void ABasicCharacter::ServerDisablePickedUpActor_Implementation( AActor* PickedUpActor )
-{
-	MulticastDisablePickedUpActor( PickedUpActor );
-}
-
-bool ABasicCharacter::ServerDisablePickedUpActor_Validate( AActor* PickedUpActor )
-{
-	return true;
-}
-
-void ABasicCharacter::MulticastDisablePickedUpActor_Implementation( AActor* PickedUpActor )
-{
-	UGameUtilities::DisableActor( PickedUpActor );
-}
+#pragma endregion
 
 void ABasicCharacter::HandleOnCapsuleClicked( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed )
 {
