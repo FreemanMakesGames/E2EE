@@ -58,6 +58,7 @@ protected:
 	UPROPERTY( meta = ( BindWidget ) )
 	UVerticalBox* VerticalBox_Buttons;
 
+// TODO: Improvement: Make a subclass of UButton UItemUsageButton, which has EItemUsage as an extended member.
 #pragma region UButtons
 	UPROPERTY( meta = ( BindWidget ) )
 	UButton* Button_Destroy;
