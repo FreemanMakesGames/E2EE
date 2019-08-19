@@ -66,6 +66,6 @@ public:
 	void ShowInventoryMenu();
 
 	UFUNCTION( BlueprintImplementableEvent, BlueprintCallable )
-	void DisplayNotification( const FString& NotificationString );
+	void DisplayNotification( const FText& NotificationText );
 
 };

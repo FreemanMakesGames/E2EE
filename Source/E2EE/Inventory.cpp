@@ -85,16 +85,23 @@ void UInventory::OpenItem( UItemInfo* TargetItem )
 	UContainerItemInfo* Container = Cast<UContainerItemInfo>( TargetItem );
 	if ( Container )
 	{
+		// Player controller for notification
+		ABasicPlayerController* PlayerController = Cast<ABasicPlayerController>( GetWorld()->GetFirstPlayerController() );
+
 		if ( Container->IsLocked() )
 		{
-			Cast<ABasicPlayerController>( GetWorld()->GetFirstPlayerController() )->DisplayNotification( "This container is locked!" );
+			FFormatNamedArguments Args;
+			Args.Add( "Lock ID", Container->GetLockId() );
+			FText NotificationText = FText::Format( NSLOCTEXT( "", "", "This container is locked by lock #{Lock ID}" ), Args );
+
+			PlayerController->DisplayNotification( NotificationText );
 
 			return;
 		}
 
 		if ( !Container->IsOccupied() )
 		{
-			Cast<ABasicPlayerController>( GetWorld()->GetFirstPlayerController() )->DisplayNotification( "This container is empty!" );
+			PlayerController->DisplayNotification( NSLOCTEXT( "", "", "This container is empty!" ) );
 
 			return;
 		}
