@@ -38,7 +38,7 @@ TArray<UItemInfo*> UItemCombiner::CombineItems(TArray<UItemInfo*> SourceItems)
 	// Prevent combination with itself.
 	if ( SourceItems[0] == SourceItems[1] )
 	{
-		Cast<ABasicPlayerController>( GetWorld()->GetFirstPlayerController() )->DisplayNotification( NSLOCTEXT( "", "", "You can't combine an item with itself!" ) );
+		PlayerController->DisplayNotification( NSLOCTEXT( "", "", "You can't combine an item with itself!" ) );
 
 		Results.Add( SourceItems[0] );
 
@@ -87,9 +87,7 @@ TArray<UItemInfo*> UItemCombiner::LockContainer( TArray<UItemInfo*> SourceItems 
 		{
 			FFormatNamedArguments Args;
 			Args.Add( "Lock ID", Container->GetLockId() );
-			
-
-			Cast<ABasicPlayerController>( GetWorld()->GetFirstPlayerController() )->DisplayNotification( NSLOCTEXT( "", "", "The container is already locked by lock #{Lock ID}!" ) );
+			PlayerController->DisplayNotification( FText::Format( NSLOCTEXT( "", "", "The container is already locked by lock #{Lock ID}!" ), Args ) );
 
 			return SourceItems;
 		}
@@ -117,9 +115,6 @@ TArray<UItemInfo*> UItemCombiner::UnlockContainer( TArray<UItemInfo*> SourceItem
 
 	if ( Key && Container )
 	{
-		// Player controller for notifications
-		ABasicPlayerController* PlayerController = Cast<ABasicPlayerController>( GetWorld()->GetFirstPlayerController() );
-
 		if ( !Container->IsLocked() )
 		{
 			PlayerController->DisplayNotification( NSLOCTEXT( "", "", "The container isn't locked!" ) );
@@ -156,9 +151,6 @@ TArray<UItemInfo*> UItemCombiner::UnlockContainer( TArray<UItemInfo*> SourceItem
 
 TArray<UItemInfo*> UItemCombiner::ContainItem( TArray<UItemInfo*> SourceItems )
 {
-	// Player controller for notifications
-	ABasicPlayerController* PlayerController = Cast<ABasicPlayerController>( GetWorld()->GetFirstPlayerController() );
-
 	TArray<UItemInfo*> Results;
 
 	UContainerItemInfo* Container = Cast<UContainerItemInfo>( SourceItems[0] );
