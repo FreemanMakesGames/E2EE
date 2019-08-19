@@ -6,6 +6,7 @@
 
 class AItem;
 class UItemInfo;
+class ABasicPlayerController;
 
 // FIXME: Item Combination: TMap can't handle this struct as key properly. 
 USTRUCT()
@@ -51,6 +52,15 @@ public:
 public:
 
 	UItemCombiner();
+
+public:
+
+	void SetPlayerController( ABasicPlayerController* InPlayerController );
+
+protected:
+
+	// Player controller for notifications
+	ABasicPlayerController* PlayerController;
 
 protected:
 

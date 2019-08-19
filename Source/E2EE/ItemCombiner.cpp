@@ -3,7 +3,10 @@
 #include "LockItemInfo.h"
 #include "KeyItemInfo.h"
 #include "ContainerItemInfo.h"
+#include "BasicPlayerController.h"
 #include "DevUtilities.h"
+
+#include "Engine/World.h"
 
 UItemCombiner::UItemCombiner()
 {
@@ -22,6 +25,11 @@ UItemCombiner::UItemCombiner()
 	FunctionMapForWildCards.Add( 2, &UItemCombiner::ContainItem );
 }
 
+void UItemCombiner::SetPlayerController( ABasicPlayerController* InPlayerController )
+{
+	PlayerController = InPlayerController;
+}
+
 TArray<UItemInfo*> UItemCombiner::CombineItems(TArray<UItemInfo*> SourceItems)
 {
 	TArray<UItemInfo*> Results;
@@ -30,7 +38,7 @@ TArray<UItemInfo*> UItemCombiner::CombineItems(TArray<UItemInfo*> SourceItems)
 	// Prevent combination with itself.
 	if ( SourceItems[0] == SourceItems[1] )
 	{
-		// TODO: Item Combination: Notify player to select a different item to combine.
+		Cast<ABasicPlayerController>( GetWorld()->GetFirstPlayerController() )->DisplayNotification( NSLOCTEXT( "", "", "You can't combine an item with itself!" ) );
 
 		Results.Add( SourceItems[0] );
 
@@ -77,7 +85,11 @@ TArray<UItemInfo*> UItemCombiner::LockContainer( TArray<UItemInfo*> SourceItems 
 	{
 		if ( Container->IsLocked() )
 		{
-			// TODO: Item Combination: Notify player that the container isn't locked.
+			FFormatNamedArguments Args;
+			Args.Add( "Lock ID", Container->GetLockId() );
+			
+
+			Cast<ABasicPlayerController>( GetWorld()->GetFirstPlayerController() )->DisplayNotification( NSLOCTEXT( "", "", "The container is already locked by lock #{Lock ID}!" ) );
 
 			return SourceItems;
 		}
@@ -105,16 +117,25 @@ TArray<UItemInfo*> UItemCombiner::UnlockContainer( TArray<UItemInfo*> SourceItem
 
 	if ( Key && Container )
 	{
+		// Player controller for notifications
+		ABasicPlayerController* PlayerController = Cast<ABasicPlayerController>( GetWorld()->GetFirstPlayerController() );
+
 		if ( !Container->IsLocked() )
 		{
-			// TODO: Item Combination: Notify player that the container isn't locked.
+			PlayerController->DisplayNotification( NSLOCTEXT( "", "", "The container isn't locked!" ) );
 
 			return SourceItems;
 		}
 
-		if ( Container->GetLockId() != Key->GetKeyId() )
+		int LockId = Container->GetLockId();
+		int KeyId = Key->GetKeyId();
+
+		if ( LockId != KeyId )
 		{
-			// TODO: Item Combination: Notify player that the key doesn't match the lock.
+			FFormatNamedArguments Args;
+			Args.Add( "Lock ID", LockId );
+			Args.Add( "Key ID", KeyId );
+			PlayerController->DisplayNotification( FText::Format( NSLOCTEXT( "", "", "The container is locked with lock #{Lock ID}, but the key is #{Key ID}." ), Args ) );
 
 			return SourceItems;
 		}
@@ -135,6 +156,9 @@ TArray<UItemInfo*> UItemCombiner::UnlockContainer( TArray<UItemInfo*> SourceItem
 
 TArray<UItemInfo*> UItemCombiner::ContainItem( TArray<UItemInfo*> SourceItems )
 {
+	// Player controller for notifications
+	ABasicPlayerController* PlayerController = Cast<ABasicPlayerController>( GetWorld()->GetFirstPlayerController() );
+
 	TArray<UItemInfo*> Results;
 
 	UContainerItemInfo* Container = Cast<UContainerItemInfo>( SourceItems[0] );
@@ -142,7 +166,7 @@ TArray<UItemInfo*> UItemCombiner::ContainItem( TArray<UItemInfo*> SourceItems )
 
 	if ( Cast<UContainerItemInfo>( Item ) )
 	{
-		// TODO: Item Combination: Notify the player that they can't contain a container.
+		PlayerController->DisplayNotification( NSLOCTEXT( "", "", "Putting a container into another container isn't allowed!" ) );
 
 		return SourceItems;
 	}
@@ -151,14 +175,16 @@ TArray<UItemInfo*> UItemCombiner::ContainItem( TArray<UItemInfo*> SourceItems )
 	{
 		if ( Container->IsLocked() )
 		{
-			// TODO: Item Combination: Notify player that the container is locked.
+			FFormatNamedArguments Args;
+			Args.Add( "Lock ID", Container->GetLockId() );
+			PlayerController->DisplayNotification( FText::Format( NSLOCTEXT( "", "", "The container is locked by lock #{Lock ID}" ), Args ) );
 
 			return SourceItems;
 		}
 
 		if ( Container->IsOccupied() )
 		{
-			// TODO: Item Combination: Notify player that the container is occupied.
+			PlayerController->DisplayNotification( NSLOCTEXT( "", "", "The container is occupied!" ) );
 
 			return SourceItems;
 		}

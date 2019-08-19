@@ -20,6 +20,7 @@ void UInventory::BeginPlay()
 	Super::BeginPlay();
 
 	ItemCombiner = NewObject<UItemCombiner>();
+	ItemCombiner->SetPlayerController( Cast<ABasicPlayerController>( GetWorld()->GetFirstPlayerController() ) );
 }
 
 TArray<UItemInfo*> UInventory::GetItems()
@@ -92,9 +93,7 @@ void UInventory::OpenItem( UItemInfo* TargetItem )
 		{
 			FFormatNamedArguments Args;
 			Args.Add( "Lock ID", Container->GetLockId() );
-			FText NotificationText = FText::Format( NSLOCTEXT( "", "", "This container is locked by lock #{Lock ID}" ), Args );
-
-			PlayerController->DisplayNotification( NotificationText );
+			PlayerController->DisplayNotification( FText::Format( NSLOCTEXT( "", "", "This container is locked by lock #{Lock ID}" ), Args ) );
 
 			return;
 		}
