@@ -14,7 +14,7 @@ class E2EE_API UNotification : public UUserWidget
 
 public:
 
-	UFUNCTION( BlueprintImplementableEvent )
+	UFUNCTION( BlueprintImplementableEvent, BlueprintCallable )
 	void DisplayNotification( const FString& NotificationString );
 	
 };

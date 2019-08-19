@@ -65,4 +65,7 @@ public:
 	UFUNCTION( BlueprintCallable )
 	void ShowInventoryMenu();
 
+	UFUNCTION( BlueprintImplementableEvent, BlueprintCallable )
+	void DisplayNotification( const FString& NotificationString );
+
 };

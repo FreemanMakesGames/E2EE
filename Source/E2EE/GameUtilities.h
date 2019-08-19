@@ -9,13 +9,14 @@ class AActor;
 /**
  * 
  */
-UCLASS()
+UCLASS( Blueprintable )
 class E2EE_API UGameUtilities : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 
 public:
 	
+# pragma region Actor Disabling/Enabling
 	UFUNCTION( BlueprintCallable )
 	static void DisableActor( AActor* TargetActor );
 
@@ -24,5 +25,6 @@ public:
 
 	UFUNCTION( BlueprintCallable )
 	static void ToggleActor( AActor* TargetActor, bool IsActive );
+# pragma endregion
 	
 };

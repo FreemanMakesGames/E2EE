@@ -4,8 +4,10 @@
 #include "ItemCombiner.h"
 #include "DropItemComponent.h"
 #include "BasicCharacter.h"
+#include "BasicPlayerController.h"
 #include "DevUtilities.h"
 
+#include "Engine/World.h"
 #include "Net/UnrealNetwork.h"
 
 UInventory::UInventory( const FObjectInitializer& ObjectInitializer ) : Super( ObjectInitializer )
@@ -85,14 +87,14 @@ void UInventory::OpenItem( UItemInfo* TargetItem )
 	{
 		if ( Container->IsLocked() )
 		{
-			// TODO: Notify the player that the container is locked.
+			Cast<ABasicPlayerController>( GetWorld()->GetFirstPlayerController() )->DisplayNotification( "This container is locked!" );
 
 			return;
 		}
 
 		if ( !Container->IsOccupied() )
 		{
-			// TODO: Notify the player that the container is empty.
+			Cast<ABasicPlayerController>( GetWorld()->GetFirstPlayerController() )->DisplayNotification( "This container is empty!" );
 
 			return;
 		}

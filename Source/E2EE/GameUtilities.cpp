@@ -1,8 +1,11 @@
 #include "GameUtilities.h"
 
+#include "BasicPlayerController.h"
+
 #include "GameFramework/Actor.h"
 #include "Components/PrimitiveComponent.h"
 
+# pragma region Actor Disabling/Enabling
 void UGameUtilities::DisableActor( AActor* TargetActor )
 {
 	TargetActor->SetActorHiddenInGame( true );
@@ -49,3 +52,4 @@ void UGameUtilities::ToggleActor( AActor* TargetActor, bool ToggleOn )
 	}
 }
 
+# pragma endregion
