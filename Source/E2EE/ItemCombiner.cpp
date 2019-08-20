@@ -30,9 +30,9 @@ void UItemCombiner::SetPlayerController( ABasicPlayerController* InPlayerControl
 	PlayerController = InPlayerController;
 }
 
-TArray<UItemInfo*> UItemCombiner::CombineItems(TArray<UItemInfo*> SourceItems)
+FItemCombinationResult UItemCombiner::CombineItems(TArray<UItemInfo*> SourceItems)
 {
-	TArray<UItemInfo*> Results;
+	FItemCombinationResult Result;
 
 	// TODO: Item Combination: There may be a better way to prevent combining an item with itself.
 	// Prevent combination with itself.
@@ -40,9 +40,7 @@ TArray<UItemInfo*> UItemCombiner::CombineItems(TArray<UItemInfo*> SourceItems)
 	{
 		PlayerController->DisplayNotification( NSLOCTEXT( "", "", "You can't combine an item with itself!" ) );
 
-		Results.Add( SourceItems[0] );
-
-		return Results;
+		return Result;
 	}
 
 	// Gather Item Type IDs.
@@ -64,13 +62,16 @@ TArray<UItemInfo*> UItemCombiner::CombineItems(TArray<UItemInfo*> SourceItems)
 	{
 		FCombineFunction CombineFunction = *CombineFunctionPointer;
 
-		Results = ( this->*( CombineFunction ) )( SourceItems );
+		Result.ResultItems = ( this->*( CombineFunction ) )( SourceItems );
+		Result.Successful = true;
 
-		return Results;
+		return Result;
 	}
 	else
 	{
-		return SourceItems;
+		PlayerController->DisplayNotification( NSLOCTEXT( "", "", "These items can't be combined." ) );
+
+		return Result;
 	}
 }
 

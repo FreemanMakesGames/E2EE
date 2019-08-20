@@ -42,7 +42,7 @@ AItem* UItemInfo::SpawnItem( const FTransform& SpawnTransform )
 	}
 	else
 	{
-		UDevUtilities::PrintError( "UItemInfo::SpawnItem: World doesn't exist yet!" );
+		UDevUtilities::PrintError( "UItemInfo::SpawnItem: This UItemInfo doesn't know the world!" );
 	}
 
 	return Item;

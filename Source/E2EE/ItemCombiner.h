@@ -37,6 +37,28 @@ FORCEINLINE uint32 GetTypeHash( const FArrayOfItemTypeId& ArrayOfItems )
 	return FCrc::MemCrc_DEPRECATED( &ArrayOfItems, sizeof( FArrayOfItemTypeId ) );
 }
 
+USTRUCT( BlueprintType )
+struct FItemCombinationResult
+{
+	GENERATED_BODY()
+
+public:
+
+	FItemCombinationResult() {}
+
+	FItemCombinationResult( bool InSuccessful, TArray<UItemInfo*> InResultItems )
+	{
+		Successful = InSuccessful;
+		ResultItems = InResultItems;
+	}
+
+	UPROPERTY()
+		bool Successful;
+
+	UPROPERTY()
+		TArray<UItemInfo*> ResultItems;
+};
+
 /**
  * 
  */
@@ -71,7 +93,7 @@ protected:
 public:
 
 	UFUNCTION( BlueprintCallable )
-	TArray<UItemInfo*> CombineItems( TArray<UItemInfo*> SourceItems );
+	FItemCombinationResult CombineItems( TArray<UItemInfo*> SourceItems );
 
 protected:
 

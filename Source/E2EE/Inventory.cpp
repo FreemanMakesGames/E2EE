@@ -128,14 +128,16 @@ void UInventory::ReadItem( UItemInfo* ItemToRead )
 
 void UInventory::CombineItems( TArray<UItemInfo*> SourceItems )
 {
-	TArray<UItemInfo*> ResultItems = ItemCombiner->CombineItems( SourceItems );
+	FItemCombinationResult Result = ItemCombiner->CombineItems( SourceItems );
+
+	if ( !Result.Successful ) { return; }
 
 	for ( UItemInfo* Item : SourceItems )
 	{
 		RemoveItem( Item );
 	}
 
-	for ( UItemInfo* Item : ResultItems )
+	for ( UItemInfo* Item : Result.ResultItems )
 	{
 		AddItem( Item );
 	}
