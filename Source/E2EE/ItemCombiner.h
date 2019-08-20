@@ -44,7 +44,10 @@ struct FItemCombinationResult
 
 public:
 
-	FItemCombinationResult() {}
+	FItemCombinationResult()
+	{
+		Successful = false;
+	}
 
 	FItemCombinationResult( bool InSuccessful, TArray<UItemInfo*> InResultItems )
 	{
@@ -53,10 +56,10 @@ public:
 	}
 
 	UPROPERTY()
-		bool Successful;
+	bool Successful;
 
 	UPROPERTY()
-		TArray<UItemInfo*> ResultItems;
+	TArray<UItemInfo*> ResultItems;
 };
 
 /**
@@ -69,7 +72,7 @@ class E2EE_API UItemCombiner : public UObject
 
 public:
 
-	typedef TArray<UItemInfo*>( UItemCombiner::*FCombineFunction )( TArray <UItemInfo*> );
+	typedef FItemCombinationResult( UItemCombiner::*FCombineFunction )( TArray <UItemInfo*> );
 
 public:
 
@@ -98,12 +101,12 @@ public:
 protected:
 
 	UFUNCTION( BlueprintCallable )
-	TArray<UItemInfo*> LockContainer( TArray<UItemInfo*> SourceItems );
+	FItemCombinationResult LockContainer( TArray<UItemInfo*> SourceItems );
 
 	UFUNCTION( BlueprintCallable )
-	TArray<UItemInfo*> UnlockContainer( TArray<UItemInfo*> SourceItems );
+	FItemCombinationResult UnlockContainer( TArray<UItemInfo*> SourceItems );
 
 	UFUNCTION( BlueprintCallable )
-	TArray<UItemInfo*> ContainItem( TArray<UItemInfo*> SourceItems );
+	FItemCombinationResult ContainItem( TArray<UItemInfo*> SourceItems );
 	
 };

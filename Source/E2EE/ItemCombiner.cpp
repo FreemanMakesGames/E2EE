@@ -40,7 +40,7 @@ FItemCombinationResult UItemCombiner::CombineItems(TArray<UItemInfo*> SourceItem
 	{
 		PlayerController->DisplayNotification( NSLOCTEXT( "", "", "You can't combine an item with itself!" ) );
 
-		return Result;
+		return Result; // Empty unsuccessful result
 	}
 
 	// Gather Item Type IDs.
@@ -62,22 +62,21 @@ FItemCombinationResult UItemCombiner::CombineItems(TArray<UItemInfo*> SourceItem
 	{
 		FCombineFunction CombineFunction = *CombineFunctionPointer;
 
-		Result.ResultItems = ( this->*( CombineFunction ) )( SourceItems );
-		Result.Successful = true;
+		Result = ( this->*( CombineFunction ) )( SourceItems );
 
-		return Result;
+		return Result; // Result depends on the combination function.
 	}
 	else
 	{
 		PlayerController->DisplayNotification( NSLOCTEXT( "", "", "These items can't be combined." ) );
 
-		return Result;
+		return Result; // Empty unsuccessful result
 	}
 }
 
-TArray<UItemInfo*> UItemCombiner::LockContainer( TArray<UItemInfo*> SourceItems )
+FItemCombinationResult UItemCombiner::LockContainer( TArray<UItemInfo*> SourceItems )
 {
-	TArray<UItemInfo*> Results;
+	FItemCombinationResult Result;
 
 	ULockItemInfo* Lock = Cast<ULockItemInfo>( SourceItems[0] );
 	UContainerItemInfo* Container = Cast<UContainerItemInfo>( SourceItems[1] );
@@ -90,26 +89,27 @@ TArray<UItemInfo*> UItemCombiner::LockContainer( TArray<UItemInfo*> SourceItems 
 			Args.Add( "Lock ID", Container->GetLockId() );
 			PlayerController->DisplayNotification( FText::Format( NSLOCTEXT( "", "", "The container is already locked by lock #{Lock ID}!" ), Args ) );
 
-			return SourceItems;
+			return Result; // Empty unsuccessful result
 		}
 
 		Container->LockUp( Lock );
 
-		Results.Add( Container );
+		Result.ResultItems.Add( Container );
+		Result.Successful = true;
 
-		return Results;
+		return Result; // Successful result
 	}
 	else
 	{
 		ensureMsgf( false, TEXT( "Function map is probably setup wrong with Item Type ID" ) );
 
-		return SourceItems;
+		return Result; // Empty unsuccessful result
 	}
 }
 
-TArray<UItemInfo*> UItemCombiner::UnlockContainer( TArray<UItemInfo*> SourceItems )
+FItemCombinationResult UItemCombiner::UnlockContainer( TArray<UItemInfo*> SourceItems )
 {
-	TArray<UItemInfo*> Results;
+	FItemCombinationResult Result;
 
 	UKeyItemInfo* Key = Cast<UKeyItemInfo>( SourceItems[0] );
 	UContainerItemInfo* Container = Cast<UContainerItemInfo>( SourceItems[1] );
@@ -120,7 +120,7 @@ TArray<UItemInfo*> UItemCombiner::UnlockContainer( TArray<UItemInfo*> SourceItem
 		{
 			PlayerController->DisplayNotification( NSLOCTEXT( "", "", "The container isn't locked!" ) );
 
-			return SourceItems;
+			return Result; // Empty unsuccessful result
 		}
 
 		int LockId = Container->GetLockId();
@@ -133,26 +133,27 @@ TArray<UItemInfo*> UItemCombiner::UnlockContainer( TArray<UItemInfo*> SourceItem
 			Args.Add( "Key ID", KeyId );
 			PlayerController->DisplayNotification( FText::Format( NSLOCTEXT( "", "", "The container is locked with lock #{Lock ID}, but the key is #{Key ID}." ), Args ) );
 
-			return SourceItems;
+			return Result; // Empty unsuccessful result
 		}
 
 		Container->Unlock();
 
-		Results.Add( Container );
+		Result.ResultItems.Add( Container );
+		Result.Successful = true;
 
-		return Results;
+		return Result; // Successful result
 	}
 	else
 	{
 		ensureMsgf( false, TEXT( "Function map is probably setup wrong with Item Type ID" ) );
 
-		return SourceItems;
+		return Result; // Empty unsuccessful result
 	}
 }
 
-TArray<UItemInfo*> UItemCombiner::ContainItem( TArray<UItemInfo*> SourceItems )
+FItemCombinationResult UItemCombiner::ContainItem( TArray<UItemInfo*> SourceItems )
 {
-	TArray<UItemInfo*> Results;
+	FItemCombinationResult Result;
 
 	UContainerItemInfo* Container = Cast<UContainerItemInfo>( SourceItems[0] );
 	UItemInfo* Item = SourceItems[1];
@@ -161,7 +162,7 @@ TArray<UItemInfo*> UItemCombiner::ContainItem( TArray<UItemInfo*> SourceItems )
 	{
 		PlayerController->DisplayNotification( NSLOCTEXT( "", "", "Putting a container into another container isn't allowed!" ) );
 
-		return SourceItems;
+		return Result; // Empty unsuccessful result
 	}
 
 	if ( Container )
@@ -172,26 +173,27 @@ TArray<UItemInfo*> UItemCombiner::ContainItem( TArray<UItemInfo*> SourceItems )
 			Args.Add( "Lock ID", Container->GetLockId() );
 			PlayerController->DisplayNotification( FText::Format( NSLOCTEXT( "", "", "The container is locked by lock #{Lock ID}" ), Args ) );
 
-			return SourceItems;
+			return Result; // Empty unsuccessful result
 		}
 
 		if ( Container->IsOccupied() )
 		{
 			PlayerController->DisplayNotification( NSLOCTEXT( "", "", "The container is occupied!" ) );
 
-			return SourceItems;
+			return Result; // Empty unsuccessful result
 		}
 
 		Container->ContainItem( Item );
 
-		Results.Add( Container );
+		Result.ResultItems.Add( Container );
+		Result.Successful = true;
 
-		return Results;
+		return Result; // Successful result
 	}
 	else
 	{
 		ensureMsgf( false, TEXT( "Function map is probably setup wrong with Item Type ID" ) );
 
-		return SourceItems;
+		return Result; // Empty unsuccessful result
 	}
 }
