@@ -1,35 +1,43 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "Messenger.h"
+#include "Bot.h"
 #include "BasicPlayerController.h"
 #include "BasicCharacter.h"
 #include "Waypoint.h"
+#include "DevUtilities.h"
 
 #include "Runtime/Engine/Classes/Components/SkeletalMeshComponent.h"
 #include "Runtime/Engine/Classes/Components/CapsuleComponent.h"
 #include "Runtime/Engine/Classes/AI/NavigationSystemBase.h"
 #include "Runtime/AIModule/Classes/AIController.h"
 
-AMessenger::AMessenger()
+ABot::ABot()
 {
 	PrimaryActorTick.bCanEverTick = true;
+
+	GetCapsuleComponent()->OnClicked.AddDynamic( this, &ABot::OnCapsuleClicked );
 }
 
-void AMessenger::BeginPlay()
+void ABot::BeginPlay()
 {
 	Super::BeginPlay();
 
-	MyAIController = GetController<AAIController>();
+	AIController = GetController<AAIController>();
 }
 
-void AMessenger::SetupPlayerInputComponent( UInputComponent* PlayerInputComponent )
+void ABot::SetupPlayerInputComponent( UInputComponent* PlayerInputComponent )
 {
 	Super::SetupPlayerInputComponent( PlayerInputComponent );
 }
 
-void AMessenger::Summon()
+void ABot::OnCapsuleClicked( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed )
 {
-	UE_LOG( LogTemp, Display, TEXT( "Messenger is being summoned." ) );
+	Summon();
+}
+
+void ABot::Summon()
+{
+	UDevUtilities::PrintInfo( "Messenger is being summoned." );
 
 	AWaypoint* TargetWaypoint = nullptr;
 
@@ -41,22 +49,22 @@ void AMessenger::Summon()
 	{
 		if ( ActiveCharacter->GetUsername() == "Alice" ) { TargetWaypoint = Waypoint_Alice; }
 		else if ( ActiveCharacter->GetUsername() == "Bob" ) { TargetWaypoint = Waypoint_Bob; }
-		else { UE_LOG( LogTemp, Error, TEXT( "Messenger: Active character's name is an unexpected string." ) ); }
+		else { UDevUtilities::PrintError( "Messenger: Active character's name is an unexpected string." ); }
 	}
 	else
 	{
 		return;
 	}
 
-	MyAIController->MoveToActor( TargetWaypoint );
+	AIController->MoveToActor( TargetWaypoint );
 }
 
-AWaypoint* AMessenger::GetCurrentWaypoint()
+AWaypoint* ABot::GetCurrentWaypoint()
 {
 	return CurrentWaypoint;
 }
 
-void AMessenger::SetCurrentWaypoint( AWaypoint* TheWaypoint )
+void ABot::SetCurrentWaypoint( AWaypoint* TheWaypoint )
 {
 	CurrentWaypoint = TheWaypoint;
 }

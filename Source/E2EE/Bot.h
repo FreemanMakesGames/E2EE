@@ -4,31 +4,39 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "Messenger.generated.h"
+#include "Bot.generated.h"
 
 class AAIController;
 
-UCLASS()
-class E2EE_API AMessenger : public ACharacter
+UCLASS( Blueprintable )
+class E2EE_API ABot : public ACharacter
 {
 	GENERATED_BODY()
 
 public:
 
-	AMessenger();
+	ABot();
 
 protected:
 
 	virtual void BeginPlay() override;
 
-	UFUNCTION( BlueprintCallable )
-	void Summon();
+public:	
 
-	USkeletalMeshComponent* MySkeletalMeshComponent;
-	UCapsuleComponent* MyCapsuleComponent;
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+public:
+
+	UFUNCTION( BlueprintCallable )
+	AWaypoint* GetCurrentWaypoint();
+
+	UFUNCTION( BlueprintCallable )
+	void SetCurrentWaypoint( AWaypoint* TheWaypoint );
+
+protected:
 
 	UPROPERTY( BlueprintReadOnly )
-	AAIController* MyAIController;
+	AAIController* AIController;
 
 	UPROPERTY( EditInstanceOnly, BlueprintReadOnly )
 	AWaypoint* Waypoint_Alice;
@@ -39,14 +47,12 @@ protected:
 	UPROPERTY( VisibleInstanceOnly )
 	AWaypoint* CurrentWaypoint;
 
-public:	
+protected:
 
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-	UFUNCTION( BlueprintCallable )
-	AWaypoint* GetCurrentWaypoint();
+	UFUNCTION()
+	void OnCapsuleClicked( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed );
 
 	UFUNCTION( BlueprintCallable )
-	void SetCurrentWaypoint( AWaypoint* TheWaypoint );
+	void Summon();
 
 };

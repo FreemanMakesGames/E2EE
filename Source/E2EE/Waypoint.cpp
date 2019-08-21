@@ -2,7 +2,7 @@
 
 #include "Waypoint.h"
 #include "BasicCharacter.h"
-#include "Messenger.h"
+#include "Bot.h"
 
 #include "Runtime/Engine/Classes/Components/BoxComponent.h"
 
@@ -43,9 +43,9 @@ void AWaypoint::HandleOnBoxBeginOverlap( UPrimitiveComponent* OverlappedComponen
 		{
 			Cast<ABasicCharacter>( Occupant )->SetCurrentWaypoint( this );
 		}
-		else if ( Cast<AMessenger>( Occupant ) )
+		else if ( Cast<ABot>( Occupant ) )
 		{
-			Cast<AMessenger>( Occupant )->SetCurrentWaypoint( this );
+			Cast<ABot>( Occupant )->SetCurrentWaypoint( this );
 		}
 	}
 }
@@ -61,9 +61,9 @@ void AWaypoint::HandleOnBoxEndOverlap( UPrimitiveComponent* OverlappedComponent,
 		{
 			Cast<ABasicCharacter>( Occupant )->SetCurrentWaypoint( nullptr );
 		}
-		else if ( Cast<AMessenger>( Occupant ) )
+		else if ( Cast<ABot>( Occupant ) )
 		{
-			Cast<AMessenger>( Occupant )->SetCurrentWaypoint( nullptr );
+			Cast<ABot>( Occupant )->SetCurrentWaypoint( nullptr );
 		}
 	}
 }
