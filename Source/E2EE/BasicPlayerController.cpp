@@ -4,6 +4,7 @@
 #include "BasicCharacter.h"
 #include "InventoryMenu.h"
 #include "Inventory.h"
+#include "DevUtilities.h"
 
 #include "Engine/World.h"
 #include "UObject/ConstructorHelpers.h"
@@ -36,7 +37,7 @@ void ABasicPlayerController::BeginPlay()
 	}
 	else
 	{
-		UE_LOG( LogTemp, Error, TEXT( "AMyPlayerController's InventoryMenuClass isn't set!" ) );
+		UDevUtilities::PrintError( "AMyPlayerController's InventoryMenuClass isn't set!" );
 		return;
 	}
 }
@@ -58,7 +59,7 @@ void ABasicPlayerController::ServerSubmitTeamSelectionRequest_Implementation( ET
 		}
 		else
 		{
-			UE_LOG( LogTemp, Error, TEXT( "MPGameMode can't be found. Are we in Singleplayer?" ) );
+			UDevUtilities::PrintError( "MPGameMode can't be found. Are we in Singleplayer?" );
 		}
 	}
 }
@@ -122,10 +123,15 @@ void ABasicPlayerController::ClientReceiveCharacterInteractionResult_Implementat
 	}
 }
 
-void ABasicPlayerController::ShowInventoryMenu()
+void ABasicPlayerController::ShowActiveCharacterInventoryMenu()
 {
 	if ( ActiveCharacter )
 	{
 		InventoryMenu->ShowInventory( ActiveCharacter->GetInventory() );
 	}
+}
+
+void ABasicPlayerController::ShowBotInventory( UInventory* BotInventory )
+{
+	InventoryMenu->ShowInventory( BotInventory );
 }

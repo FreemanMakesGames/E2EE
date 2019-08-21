@@ -28,6 +28,8 @@ void ABot::BeginPlay()
 {
 	Super::BeginPlay();
 
+	PlayerController = Cast<ABasicPlayerController>( GetWorld()->GetFirstPlayerController() );
+
 	AIController = GetController<AAIController>();
 	AIController->ReceiveMoveCompleted.AddDynamic( this, &ABot::OnMoveCompleted );
 }
@@ -35,6 +37,11 @@ void ABot::BeginPlay()
 void ABot::SetupPlayerInputComponent( UInputComponent* PlayerInputComponent )
 {
 	Super::SetupPlayerInputComponent( PlayerInputComponent );
+}
+
+UInventory* ABot::GetInventory()
+{
+	return Inventory;
 }
 
 AWaypoint* ABot::GetCurrentWaypoint()
@@ -88,6 +95,8 @@ void ABot::OnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::Type R
 					return;
 				}
 			}
+
+			PlayerController->ShowBotInventory( Inventory );
 		}
 		else
 		{
@@ -103,8 +112,6 @@ void ABot::OnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::Type R
 void ABot::Summon()
 {
 	UDevUtilities::PrintInfo( "Messenger is being summoned." );
-
-	ABasicPlayerController* PlayerController = Cast<ABasicPlayerController>( GetWorld()->GetFirstPlayerController() );
 
 	// Get target waypoint.
 	// Don't move if there's no active character.

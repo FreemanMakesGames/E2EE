@@ -63,7 +63,10 @@ public:
 	void ClientReceiveCharacterInteractionResult( bool bSuccessful, ABasicCharacter* TargetCharacter );
 
 	UFUNCTION( BlueprintCallable )
-	void ShowInventoryMenu();
+	void ShowActiveCharacterInventoryMenu();
+
+	UFUNCTION( BlueprintCallable )
+	void ShowBotInventory( UInventory* BotInventory );
 
 	UFUNCTION( BlueprintImplementableEvent, BlueprintCallable )
 	void DisplayNotification( const FText& NotificationText );

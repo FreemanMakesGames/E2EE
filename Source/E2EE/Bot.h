@@ -30,6 +30,9 @@ public:
 public:
 
 	UFUNCTION( BlueprintCallable )
+	UInventory* GetInventory();
+
+	UFUNCTION( BlueprintCallable )
 	AWaypoint* GetCurrentWaypoint();
 
 	UFUNCTION( BlueprintCallable )
@@ -39,6 +42,8 @@ protected:
 
 	UPROPERTY( BlueprintReadWrite )
 	UInventory* Inventory;
+
+	ABasicPlayerController* PlayerController;
 
 	UPROPERTY( BlueprintReadOnly )
 	AAIController* AIController;
