@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include "Navigation/PathFollowingComponent.h"
+
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Bot.generated.h"
@@ -35,6 +37,7 @@ public:
 
 protected:
 
+	UPROPERTY( BlueprintReadWrite )
 	UInventory* Inventory;
 
 	UPROPERTY( BlueprintReadOnly )
@@ -47,12 +50,26 @@ protected:
 	AWaypoint* Waypoint_Bob;
 
 	UPROPERTY( VisibleInstanceOnly )
+	AWaypoint* TargetWaypoint;
+
+	UPROPERTY( VisibleInstanceOnly )
 	AWaypoint* CurrentWaypoint;
 
 protected:
 
 	UFUNCTION()
 	void OnCapsuleClicked( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed );
+
+	UFUNCTION()
+	void OnWaypointArrival( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult );
+
+	UFUNCTION()
+	void OnWaypointExit( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex );
+
+	UFUNCTION()
+	void OnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::Type Result );
+
+protected:
 
 	UFUNCTION( BlueprintCallable )
 	void Summon();
