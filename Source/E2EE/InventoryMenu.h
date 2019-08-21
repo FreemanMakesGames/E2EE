@@ -99,7 +99,10 @@ protected:
 	UPROPERTY( VisibleAnywhere )
 	UItemInfo* FirstItemForCombination;
 
-	UPROPERTY( VisibleAnywhere )
+	UPROPERTY( BlueprintReadOnly, VisibleAnywhere )
 	bool bIsCombining;
+
+	UPROPERTY( BlueprintReadOnly, VisibleAnywhere )
+	UItemClicker* LastClickedClicker;
 	
 };

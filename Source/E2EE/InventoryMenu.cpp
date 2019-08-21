@@ -136,13 +136,21 @@ void UInventoryMenu::HandleOnItemClickerClicked( UItemClicker* ClickedItemClicke
 		Inventory->CombineItems( CombiningItems );
 
 		bIsCombining = false;
+
+		if ( LastClickedClicker ) LastClickedClicker->Unhighlight();
+		if ( ClickedItemClicker ) ClickedItemClicker->Unhighlight();
 	}
 	else
 	{
 		ItemMenu->Display( TargetItem );
 
 		FirstItemForCombination = TargetItem;
+
+		if ( LastClickedClicker ) LastClickedClicker->Unhighlight();
+		ClickedItemClicker->HighlightForClicking();
 	}
+
+	LastClickedClicker = ClickedItemClicker;
 }
 
 void UInventoryMenu::HandleOnButtonHideInventoryMenuClicked()

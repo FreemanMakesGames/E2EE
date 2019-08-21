@@ -42,7 +42,7 @@ public:
 
 protected:
 
-	UPROPERTY( meta = ( BindWidget ) )
+	UPROPERTY( meta = ( BindWidget ), BlueprintReadOnly )
 	UButton* Button_Clicker;
 
 	UPROPERTY( meta = ( BindWidget ) )
@@ -55,5 +55,19 @@ protected:
 
 	UFUNCTION()
 	void HandleOnButtonClicked();
+
+#pragma region Aesthetics
+public:
+
+	UFUNCTION( BlueprintImplementableEvent, BlueprintCallable )
+	void Unhighlight();
+
+	/**
+	 * This should be called from UInventoryMenu,
+	 * When it's clicked, and it's not combining.
+	 */
+	UFUNCTION( BlueprintImplementableEvent, BlueprintCallable )
+	void HighlightForClicking();
+#pragma endregion
 	
 };
