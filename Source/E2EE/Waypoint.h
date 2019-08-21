@@ -7,6 +7,7 @@
 #include "Waypoint.generated.h"
 
 class UBoxComponent;
+class AItem;
 
 UCLASS()
 class E2EE_API AWaypoint : public ATargetPoint
@@ -17,11 +18,16 @@ public:
 
 	AWaypoint();
 
+public:
+
 	UFUNCTION( BlueprintPure )
 	FVector GetDefaultItemDropOffLocation();
 
 	UFUNCTION( BlueprintPure )
 	TArray<ACharacter*> GetOccupants();
+
+	UFUNCTION( BlueprintCallable )
+	TArray<AItem*> GetDroppedItems();
 
 protected:
 
@@ -31,13 +37,18 @@ protected:
 	UPROPERTY( VisibleInstanceOnly )
 	USceneComponent* DefaultItemDropOff;
 
+	UPROPERTY( VisibleInstanceOnly )
+	TArray<ACharacter*> Occupants;
+
+	UPROPERTY( VisibleInstanceOnly )
+	TArray<AItem*> DroppedItems;
+
+protected:
+
 	UFUNCTION()
 	void HandleOnBoxBeginOverlap( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult );
 
 	UFUNCTION()
 	void HandleOnBoxEndOverlap( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex );
-
-	UPROPERTY( VisibleAnywhere )
-	TArray<ACharacter*> Occupants;
 
 };

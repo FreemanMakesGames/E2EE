@@ -32,10 +32,14 @@ TArray<ACharacter*> AWaypoint::GetOccupants()
 	return Occupants;
 }
 
+TArray<AItem*> AWaypoint::GetDroppedItems()
+{
+	return DroppedItems;
+}
+
 void AWaypoint::HandleOnBoxBeginOverlap( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult )
 {
-	ACharacter* Occupant = Cast<ACharacter>( OtherActor );
-	if ( Occupant )
+	if ( ACharacter* Occupant = Cast<ACharacter>( OtherActor ) )
 	{
 		Occupants.Add( Occupant );
 
@@ -48,12 +52,15 @@ void AWaypoint::HandleOnBoxBeginOverlap( UPrimitiveComponent* OverlappedComponen
 			Cast<ABot>( Occupant )->SetCurrentWaypoint( this );
 		}
 	}
+	else if ( AItem* DroppedItem = Cast<AItem>( OtherActor ) )
+	{
+		DroppedItems.Add( DroppedItem );
+	}
 }
 
 void AWaypoint::HandleOnBoxEndOverlap( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex )
 {
-	ACharacter* Occupant = Cast<ACharacter>( OtherActor );
-	if ( Occupant )
+	if ( ACharacter* Occupant = Cast<ACharacter>( OtherActor ) )
 	{
 		Occupants.RemoveSwap( Occupant );
 
@@ -65,5 +72,9 @@ void AWaypoint::HandleOnBoxEndOverlap( UPrimitiveComponent* OverlappedComponent,
 		{
 			Cast<ABot>( Occupant )->SetCurrentWaypoint( nullptr );
 		}
+	}
+	else if ( AItem* DroppedItem = Cast<AItem>( OtherActor ) )
+	{
+		DroppedItems.RemoveSingleSwap( DroppedItem );
 	}
 }

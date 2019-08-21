@@ -35,6 +35,8 @@ public:
 
 protected:
 
+	UInventory* Inventory;
+
 	UPROPERTY( BlueprintReadOnly )
 	AAIController* AIController;
 

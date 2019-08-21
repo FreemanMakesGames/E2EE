@@ -41,22 +41,33 @@ void ABot::Summon()
 
 	AWaypoint* TargetWaypoint = nullptr;
 
+	ABasicPlayerController* PlayerController = Cast<ABasicPlayerController>( GetWorld()->GetFirstPlayerController() );
+
 	// Get target waypoint.
 	// Don't move if there's no active character.
-	ABasicPlayerController* PlayerController = Cast<ABasicPlayerController>( GetWorld()->GetFirstPlayerController() );
 	ABasicCharacter* ActiveCharacter = PlayerController->GetActiveCharacter();
 	if ( ActiveCharacter )
 	{
 		if ( ActiveCharacter->GetUsername() == "Alice" ) { TargetWaypoint = Waypoint_Alice; }
 		else if ( ActiveCharacter->GetUsername() == "Bob" ) { TargetWaypoint = Waypoint_Bob; }
-		else { UDevUtilities::PrintError( "Messenger: Active character's name is an unexpected string." ); }
+		else { UDevUtilities::PrintError( "Messenger: Active character's name is an unexpected string." ); return; }
 	}
 	else
 	{
+		PlayerController->DisplayNotification( NSLOCTEXT( "", "", "Select Alice/Bob before you summon the messenger." ) );
+
 		return;
 	}
 
-	AIController->MoveToActor( TargetWaypoint );
+	// Only move if there are dropped items in TargetWaypoint.
+	if ( TargetWaypoint->GetDroppedItems().Num() > 0 )
+	{
+		AIController->MoveToActor( TargetWaypoint );
+	}
+	else
+	{
+		PlayerController->DisplayNotification( NSLOCTEXT( "", "", "No item is dropped in the area for the messenger to send." ) );
+	}
 }
 
 AWaypoint* ABot::GetCurrentWaypoint()
