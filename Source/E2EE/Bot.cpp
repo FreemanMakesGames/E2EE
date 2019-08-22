@@ -38,14 +38,10 @@ void ABot::BeginPlay()
 	if ( InventoryMenuClass )
 	{
 		InventoryMenu = CreateWidget<UBotInventoryMenu>( GetWorld()->GetFirstPlayerController(), InventoryMenuClass );
-
 		InventoryMenu->SetupInventory( Inventory );
+		InventoryMenu->OnHidden.AddDynamic( this, &ABot::OnInventoryMenuHidden );
 	}
-	else
-	{
-		UDevUtilities::PrintError( "ABot's InventoryMenuClass isn't set!" );
-		return;
-	}
+	else { UDevUtilities::PrintError( "ABot's InventoryMenuClass isn't set!" ); return; }
 }
 
 void ABot::SetupPlayerInputComponent( UInputComponent* PlayerInputComponent )
@@ -100,24 +96,31 @@ void ABot::OnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::Type R
 {
 	if ( Result == EPathFollowingResult::Success )
 	{
-		if ( TargetWaypoint == CurrentWaypoint )
+		// If we've reached a target waypoint.
+		// ( There may be better ways of detecting this, such as adding a IsGoingToWaypoint global variable. This project currently doesn't need it. )
+		if ( CurrentWaypoint == TargetWaypoint )
 		{
-			for ( AItem* Item : TargetWaypoint->GetDroppedItems() )
+			if ( CurrentWaypoint == Waypoint_Alice || CurrentWaypoint == Waypoint_Bob )
 			{
-				if ( UItemInfo* ItemInfo = Item->GetItemInfo() )
+				for ( AItem* Item : CurrentWaypoint->GetDroppedItems() )
 				{
-					Inventory->AddItem( ItemInfo );
+					if ( UItemInfo* ItemInfo = Item->GetItemInfo() )
+					{
+						Inventory->AddItem( ItemInfo );
 
-					Item->Destroy();
-				}
-				else
-				{
-					ensureAlways( false );
-					return;
+						Item->Destroy();
+					}
+					else { ensureAlways( false ); return; }
+
+					ShowInventory();
+
+					PlayerController->DisplayNotification( NSLOCTEXT( "", "", "The messenger bot has collected the items." ) );
 				}
 			}
-
-			ShowInventory();
+			else if ( CurrentWaypoint == Waypoint_Middle )
+			{
+				// TODO: Duplicate items.
+			}
 		}
 		else
 		{
@@ -128,6 +131,13 @@ void ABot::OnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::Type R
 	{
 		UDevUtilities::PrintError( "Somehow Bot fails to reach the destination." );
 	}
+}
+
+void ABot::OnInventoryMenuHidden()
+{
+	UDevUtilities::PrintInfo( "Bot's inventory menu is hidden." );
+
+	// TODO: Proceed to next step.
 }
 
 void ABot::Summon()

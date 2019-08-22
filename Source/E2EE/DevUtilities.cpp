@@ -30,7 +30,7 @@ void UDevUtilities::PrintInfo( const FString& Info )
 {
 	if ( GEngine )
 	{
-		GEngine->AddOnScreenDebugMessage( -1, 5.0f, FColor::Blue, Info );
+		GEngine->AddOnScreenDebugMessage( -1, 5.0f, FColor( 70, 100, 255, 255 ), Info );
 	}
 	else
 	{

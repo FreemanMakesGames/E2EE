@@ -76,6 +76,9 @@ protected:
 	UFUNCTION()
 	void OnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::Type Result );
 
+	UFUNCTION()
+	void OnInventoryMenuHidden();
+
 protected:
 
 	UFUNCTION( BlueprintCallable )
@@ -90,6 +93,9 @@ protected:
 
 	UPROPERTY( EditInstanceOnly, BlueprintReadOnly )
 	AWaypoint* Waypoint_Bob;
+
+	UPROPERTY( EditInstanceOnly, BlueprintReadOnly )
+	AWaypoint* Waypoint_Middle;
 
 	UPROPERTY( VisibleInstanceOnly )
 	AWaypoint* TargetWaypoint;

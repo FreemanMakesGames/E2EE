@@ -50,7 +50,7 @@ public:
 	void ShowInventory();
 
 	UFUNCTION( BlueprintCallable )
-	void HideInventory();
+	virtual void HideInventory();
 
 protected:
 
