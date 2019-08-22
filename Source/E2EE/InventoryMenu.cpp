@@ -5,6 +5,7 @@
 #include "Inventory.h"
 #include "Item.h"
 #include "ItemWidget.h"
+#include "DevUtilities.h"
 
 #include "Components/WrapBox.h"
 #include "Components/Button.h"
@@ -14,25 +15,12 @@ void UInventoryMenu::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
 
-	UE_LOG( LogTemp, Warning, TEXT( "UInventoryMenu.NativeOnInitialized" ) );
-
-	/* Error checking */
-
 	if ( !ItemClickerClass )
 	{
-		UE_LOG( LogTemp, Error, TEXT( "InventoryMenu's ItemClickerClass isn't assigned!" ) );
+		UDevUtilities::PrintError( "InventoryMenu's ItemClickerClass isn't assigned!" );
 		return;
 	}
 
-	// Bind UItemMenu events.
-	ItemMenu->OnButtonDestroyClicked.AddDynamic( this, &UInventoryMenu::HandleOnItemMenuButtonDestroyClicked );
-	ItemMenu->OnButtonDropClicked.AddDynamic( this, &UInventoryMenu::HandleOnItemMenuButtonDropClicked );
-	ItemMenu->OnButtonDuplicateClicked.AddDynamic( this, &UInventoryMenu::HandleOnItemMenuButtonDuplicateClicked );
-	ItemMenu->OnButtonOpenClicked.AddDynamic( this, &UInventoryMenu::HandleOnItemMenuButtonOpenClicked );
-	ItemMenu->OnButtonReadClicked.AddDynamic( this, &UInventoryMenu::HandleOnItemMenuButtonReadClicked );
-	ItemMenu->OnButtonForCombinationClicked.AddDynamic( this, &UInventoryMenu::HandleOnItemMenuButtonForCombinationClicked );
-
-	// Bind my input events.
 	Button_HideInventoryMenu->OnClicked.AddDynamic( this, &UInventoryMenu::HandleOnButtonHideInventoryMenuClicked );
 }
 
@@ -122,76 +110,16 @@ void UInventoryMenu::ReloadInventoryDisplay()
 	}
 }
 
-#pragma region My UI event handlers
 void UInventoryMenu::HandleOnItemClickerClicked( UItemClicker* ClickedItemClicker )
 {
-	UItemInfo* TargetItem = ClickedItemClicker->GetItemInfo();
 
-	if ( bIsCombining )
-	{
-		TArray<UItemInfo*> CombiningItems;
-		CombiningItems.Add( FirstItemForCombination );
-		CombiningItems.Add( TargetItem );
-
-		Inventory->CombineItems( CombiningItems );
-
-		bIsCombining = false;
-
-		if ( LastClickedClicker ) LastClickedClicker->Unhighlight();
-		if ( ClickedItemClicker ) ClickedItemClicker->Unhighlight();
-	}
-	else
-	{
-		ItemMenu->Display( TargetItem );
-
-		FirstItemForCombination = TargetItem;
-
-		if ( LastClickedClicker ) LastClickedClicker->Unhighlight();
-		ClickedItemClicker->HighlightForClicking();
-	}
-
-	LastClickedClicker = ClickedItemClicker;
 }
 
 void UInventoryMenu::HandleOnButtonHideInventoryMenuClicked()
 {
 	HideInventory();
 }
-#pragma endregion
 
-#pragma region Item Menu event handlers
-void UInventoryMenu::HandleOnItemMenuButtonDestroyClicked( UItemInfo* TargetItem )
-{
-	Inventory->RemoveItem( TargetItem );
-}
-
-void UInventoryMenu::HandleOnItemMenuButtonDropClicked( UItemInfo* TargetItem )
-{
-	Inventory->DropItem( TargetItem );
-}
-
-void UInventoryMenu::HandleOnItemMenuButtonDuplicateClicked( UItemInfo* TargetItem )
-{
-	Inventory->ServerDuplicateItem( TargetItem );
-}
-
-void UInventoryMenu::HandleOnItemMenuButtonOpenClicked( UItemInfo* TargetItem )
-{
-	Inventory->OpenItem( TargetItem );
-}
-
-void UInventoryMenu::HandleOnItemMenuButtonReadClicked( UItemInfo* TargetItem )
-{
-	Inventory->ReadItem( TargetItem );
-}
-
-void UInventoryMenu::HandleOnItemMenuButtonForCombinationClicked( UItemInfo* TargetItem )
-{
-	bIsCombining = true;
-}
-#pragma endregion
-
-#pragma region Inventory event handlers
 void UInventoryMenu::HandleOnItemAdded( UItemInfo* ItemAdded )
 {
 	UItemClicker* ItemClicker = AddNewItemClicker( ItemAdded );
@@ -207,7 +135,6 @@ void UInventoryMenu::HandleOnItemRemoved( UItemInfo* ItemRemoved )
 	}
 	else
 	{
-		UE_LOG( LogTemp, Error, TEXT( "UInventoryMenu hears an Item removal event, but no UItemClicker matches the removed item!" ) );
+		UDevUtilities::PrintError( "UInventoryMenu hears an Item removal event, but no UItemClicker matches the removed item!" );
 	}
 }
-#pragma endregion
