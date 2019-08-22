@@ -2,10 +2,11 @@
 
 #include "Bot.h"
 
-#include "Item.h"
 #include "BasicPlayerController.h"
 #include "BasicCharacter.h"
 #include "Waypoint.h"
+#include "Item.h"
+#include "BotInventoryMenu.h"
 #include "DevUtilities.h"
 
 #include "Runtime/Engine/Classes/Components/SkeletalMeshComponent.h"
@@ -32,6 +33,19 @@ void ABot::BeginPlay()
 
 	AIController = GetController<AAIController>();
 	AIController->ReceiveMoveCompleted.AddDynamic( this, &ABot::OnMoveCompleted );
+
+	// Create InventoryMenu.
+	if ( InventoryMenuClass )
+	{
+		InventoryMenu = CreateWidget<UBotInventoryMenu>( GetWorld()->GetFirstPlayerController(), InventoryMenuClass );
+
+		InventoryMenu->SetupInventory( Inventory );
+	}
+	else
+	{
+		UDevUtilities::PrintError( "ABot's InventoryMenuClass isn't set!" );
+		return;
+	}
 }
 
 void ABot::SetupPlayerInputComponent( UInputComponent* PlayerInputComponent )
@@ -39,6 +53,7 @@ void ABot::SetupPlayerInputComponent( UInputComponent* PlayerInputComponent )
 	Super::SetupPlayerInputComponent( PlayerInputComponent );
 }
 
+#pragma region Getters and setters
 UInventory* ABot::GetInventory()
 {
 	return Inventory;
@@ -52,6 +67,12 @@ AWaypoint* ABot::GetCurrentWaypoint()
 void ABot::SetCurrentWaypoint( AWaypoint* TheWaypoint )
 {
 	CurrentWaypoint = TheWaypoint;
+}
+#pragma endregion
+
+void ABot::ShowInventory()
+{
+	InventoryMenu->ShowInventory();
 }
 
 void ABot::OnCapsuleClicked( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed )
@@ -96,7 +117,7 @@ void ABot::OnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::Type R
 				}
 			}
 
-			PlayerController->ShowBotInventory( Inventory );
+			ShowInventory();
 		}
 		else
 		{

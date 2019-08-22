@@ -31,7 +31,7 @@ void UInventoryMenu::NativeOnInitialized()
 void UInventoryMenu::SetupInventory( UInventory* InInventory )
 {
 	if ( !InInventory ) { ensureAlways( false ); return; }
-	if ( Inventory ) { ensureAlwaysMsgf( false, TEXT( "The current design is one menu is responsible for one unique inventory, and no other." ) ); return; }
+	if ( Inventory ) { ensureAlwaysMsgf( false, TEXT( "The current design is one menu for one unique inventory, and no other." ) ); return; }
 
 	Inventory = InInventory;
 

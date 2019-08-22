@@ -9,6 +9,7 @@
 #include "Bot.generated.h"
 
 class AAIController;
+class UBotInventoryMenu;
 
 UCLASS( Blueprintable )
 class E2EE_API ABot : public ACharacter
@@ -27,6 +28,7 @@ public:
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+#pragma region Getters and setters
 public:
 
 	UFUNCTION( BlueprintCallable )
@@ -37,13 +39,25 @@ public:
 
 	UFUNCTION( BlueprintCallable )
 	void SetCurrentWaypoint( AWaypoint* TheWaypoint );
+#pragma endregion
+
+public:
+
+	UFUNCTION( BlueprintCallable )
+	void ShowInventory();
+
+protected:
+
+	UPROPERTY( EditDefaultsOnly )
+	TSubclassOf<UBotInventoryMenu> InventoryMenuClass;
 
 protected:
 
 	UPROPERTY( BlueprintReadOnly )
 	UInventory* Inventory;
 
-	
+	UPROPERTY( BlueprintReadOnly )
+	UBotInventoryMenu* InventoryMenu;
 
 	UPROPERTY( BlueprintReadOnly )
 	AAIController* AIController;

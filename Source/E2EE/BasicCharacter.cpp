@@ -152,7 +152,7 @@ void ABasicCharacter::BeginPlay()
 	}
 	else
 	{
-		UDevUtilities::PrintError( "ABasicPlayerController's InventoryMenuClass isn't set!" );
+		UDevUtilities::PrintError( "ABasicCharacter's InventoryMenuClass isn't set!" );
 		return;
 	}
 }
