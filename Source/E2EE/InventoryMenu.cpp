@@ -28,26 +28,31 @@ void UInventoryMenu::NativeOnInitialized()
  * Show a specified Inventory.
  * Only reload and reset if it's a different inventory.
  */
-void UInventoryMenu::ShowInventory( UInventory* TargetInventory )
+void UInventoryMenu::SetupInventory( UInventory* InInventory )
 {
-	if ( !TargetInventory ) { ensureAlways( false ); return; }
+	if ( !InInventory ) { ensureAlways( false ); return; }
+	if ( Inventory ) { ensureAlwaysMsgf( false, TEXT( "The current design is one menu is responsible for one unique inventory, and no other." ) ); return; }
 
-	if ( Inventory != TargetInventory )
+	Inventory = InInventory;
+
+	Inventory->OnItemAdded.AddDynamic( this, &UInventoryMenu::HandleOnItemAdded );
+	Inventory->OnItemRemoved.AddDynamic( this, &UInventoryMenu::HandleOnItemRemoved );
+
+	ensureAlwaysMsgf( !WrapBox_ItemClickers->HasAnyChildren(), TEXT( "Somehow the wrap box already has children?" ) );
+
+	TArray<UItemInfo*> Items = Inventory->GetItems();
+
+	for ( int i = 0; i < Items.Num(); i++ )
 	{
-		if ( Inventory )
+		if ( ensureAlways( Items[i] ) )
 		{
-			Inventory->OnItemAdded.RemoveAll( this );
-			Inventory->OnItemRemoved.RemoveAll( this );
+			UItemClicker* ItemClicker = AddNewItemClicker( Items[i] );
 		}
-
-		Inventory = TargetInventory;
-
-		ReloadInventoryDisplay();
-
-		Inventory->OnItemAdded.AddDynamic( this, &UInventoryMenu::HandleOnItemAdded );
-		Inventory->OnItemRemoved.AddDynamic( this, &UInventoryMenu::HandleOnItemRemoved );
 	}
+}
 
+void UInventoryMenu::ShowInventory()
+{
 	AddToViewport();
 
 	for ( UItemClicker* ItemClicker : ClickersPendingForHighlightForAddition )
@@ -87,27 +92,6 @@ UItemClicker* UInventoryMenu::AddNewItemClicker( UItemInfo* Item )
 	return ItemClicker;
 }
 
-/**
- * Remove all the ItemClickers.
- * Add new ItemClickers based on Inventory's Items.
- */
-void UInventoryMenu::ReloadInventoryDisplay()
-{
-	WrapBox_ItemClickers->ClearChildren();
-
-	if ( !Inventory ) { ensureAlways( false ); return; }
-
-	TArray<UItemInfo*> Items = Inventory->GetItems();
-
-	for ( int i = 0; i < Items.Num(); i++ )
-	{
-		if ( ensureAlways( Items[i] ) )
-		{
-			UItemClicker* ItemClicker = AddNewItemClicker( Items[i] );
-		}
-	}
-}
-
 void UInventoryMenu::HandleOnItemClickerClicked( UItemClicker* ClickedItemClicker )
 {
 
@@ -142,6 +126,6 @@ void UInventoryMenu::HandleOnItemRemoved( UItemInfo* ItemRemoved )
 	}
 	else
 	{
-		UDevUtilities::PrintError( "UInventoryMenu hears an Item removal event, but no UItemClicker matches the removed item!" );
+		ensureAlwaysMsgf( false, TEXT( "UInventoryMenu hears an Item removal event, but no UItemClicker matches the removed item!" ) );
 	}
 }

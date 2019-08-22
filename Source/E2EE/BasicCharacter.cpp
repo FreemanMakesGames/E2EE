@@ -5,9 +5,11 @@
 #include "GameUtilities.h"
 #include "BasicPlayerController.h"
 #include "Inventory.h"
+#include "PlayerInventoryMenu.h"
 #include "Item.h"
 #include "HighlightComponent.h"
 #include "Waypoint.h"
+#include "DevUtilities.h"
 
 #include "Engine/World.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
@@ -47,8 +49,6 @@ ABasicCharacter::ABasicCharacter()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
-
-	// Below are custom code.
 
 	Inventory = CreateDefaultSubobject<UInventory>( TEXT( "Inventory" ) );
 }
@@ -142,6 +142,19 @@ void ABasicCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	GetCapsuleComponent()->OnClicked.AddDynamic( this, &ABasicCharacter::HandleOnCapsuleClicked );
+
+	// Create InventoryMenu.
+	if ( InventoryMenuClass )
+	{
+		InventoryMenu = CreateWidget<UPlayerInventoryMenu>( GetWorld()->GetFirstPlayerController(), InventoryMenuClass );
+
+		InventoryMenu->SetupInventory( Inventory );
+	}
+	else
+	{
+		UDevUtilities::PrintError( "ABasicPlayerController's InventoryMenuClass isn't set!" );
+		return;
+	}
 }
 
 #pragma region Getters and setters
@@ -170,6 +183,11 @@ FString ABasicCharacter::GetUsername()
 	return Username;
 }
 #pragma endregion
+
+void ABasicCharacter::ShowInventory()
+{
+	InventoryMenu->ShowInventory();
+}
 
 void ABasicCharacter::HandleOnCapsuleClicked( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed )
 {

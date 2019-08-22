@@ -10,11 +10,11 @@
 
 class AItem;
 class UInventory;
+class UPlayerInventoryMenu;
 class UUserWidget;
 class UHighlightComponent;
 class UDropItemComponent;
 class ACameraActor;
-
 class AWaypoint;
 
 UCLASS(config=Game)
@@ -101,19 +101,27 @@ public:
 
 protected:
 
-	UPROPERTY( BlueprintReadWrite )
-	UInventory* Inventory;
+	UPROPERTY( EditDefaultsOnly )
+	TSubclassOf<UPlayerInventoryMenu> InventoryMenuClass;
 
 	UPROPERTY( EditDefaultsOnly )
 	ETeam Team;
 
-	UPROPERTY( VisibleInstanceOnly )
-	AWaypoint* CurrentWaypoint;
-
 	UPROPERTY( EditInstanceOnly )
 	FString Username;
 
+protected:
+
+	UPROPERTY( BlueprintReadOnly )
+	UInventory* Inventory;
+
+	UPROPERTY( BlueprintReadOnly )
+	UPlayerInventoryMenu* InventoryMenu;
+
 public:
+
+	UFUNCTION( BlueprintCallable )
+	void ShowInventory();
 
 	UFUNCTION( BlueprintImplementableEvent, BlueprintCallable )
 	void ReadItem( UItemInfo* ItemToRead );
@@ -126,7 +134,10 @@ protected:
 	UFUNCTION()
 	void HandleOnCapsuleClicked( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed );
 
+protected:
 
+	UPROPERTY( VisibleInstanceOnly )
+	AWaypoint* CurrentWaypoint;
 
 };
 

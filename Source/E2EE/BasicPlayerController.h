@@ -39,12 +39,6 @@ public:
 
 protected:
 
-	UPROPERTY( EditDefaultsOnly )
-	TSubclassOf<UInventoryMenu> InventoryMenuClass;
-
-	UPROPERTY( BlueprintReadOnly )
-	UInventoryMenu* InventoryMenu;
-
 	UPROPERTY( VisibleAnywhere, BlueprintReadOnly )
 	ABasicCharacter* ActiveCharacter;
 

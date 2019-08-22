@@ -40,25 +40,13 @@ public:
 
 protected:
 
-	UPROPERTY( BlueprintReadWrite )
+	UPROPERTY( BlueprintReadOnly )
 	UInventory* Inventory;
 
-	ABasicPlayerController* PlayerController;
+	
 
 	UPROPERTY( BlueprintReadOnly )
 	AAIController* AIController;
-
-	UPROPERTY( EditInstanceOnly, BlueprintReadOnly )
-	AWaypoint* Waypoint_Alice;
-
-	UPROPERTY( EditInstanceOnly, BlueprintReadOnly )
-	AWaypoint* Waypoint_Bob;
-
-	UPROPERTY( VisibleInstanceOnly )
-	AWaypoint* TargetWaypoint;
-
-	UPROPERTY( VisibleInstanceOnly )
-	AWaypoint* CurrentWaypoint;
 
 protected:
 
@@ -78,5 +66,21 @@ protected:
 
 	UFUNCTION( BlueprintCallable )
 	void Summon();
+
+protected:
+
+	ABasicPlayerController* PlayerController;
+
+	UPROPERTY( EditInstanceOnly, BlueprintReadOnly )
+	AWaypoint* Waypoint_Alice;
+
+	UPROPERTY( EditInstanceOnly, BlueprintReadOnly )
+	AWaypoint* Waypoint_Bob;
+
+	UPROPERTY( VisibleInstanceOnly )
+	AWaypoint* TargetWaypoint;
+
+	UPROPERTY( VisibleInstanceOnly )
+	AWaypoint* CurrentWaypoint;
 
 };

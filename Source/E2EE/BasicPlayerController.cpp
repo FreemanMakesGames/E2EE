@@ -29,17 +29,6 @@ void ABasicPlayerController::BeginPlay()
 	bShowMouseCursor = true;
 	bEnableClickEvents = true;
 	bEnableMouseOverEvents = true;
-
-	// Create InventoryMenu.
-	if ( InventoryMenuClass )
-	{
-		InventoryMenu = CreateWidget<UInventoryMenu>( this, InventoryMenuClass );
-	}
-	else
-	{
-		UDevUtilities::PrintError( "AMyPlayerController's InventoryMenuClass isn't set!" );
-		return;
-	}
 }
 
 ABasicCharacter* ABasicPlayerController::GetActiveCharacter() 
@@ -127,11 +116,11 @@ void ABasicPlayerController::ShowActiveCharacterInventoryMenu()
 {
 	if ( ActiveCharacter )
 	{
-		InventoryMenu->ShowInventory( ActiveCharacter->GetInventory() );
+		ActiveCharacter->ShowInventory();
 	}
 }
 
 void ABasicPlayerController::ShowBotInventory( UInventory* BotInventory )
 {
-	InventoryMenu->ShowInventory( BotInventory );
+
 }
