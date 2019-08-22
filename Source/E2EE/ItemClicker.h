@@ -68,6 +68,11 @@ public:
 	 */
 	UFUNCTION( BlueprintImplementableEvent, BlueprintCallable )
 	void HighlightForClicking();
+
+	/** This is called from UInventoryMenu. */
+	UFUNCTION( BlueprintImplementableEvent, BlueprintCallable )
+	void HighlightForItemAddition();
+
 #pragma endregion
 	
 };

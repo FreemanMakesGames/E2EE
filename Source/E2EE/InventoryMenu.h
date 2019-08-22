@@ -82,5 +82,7 @@ protected:
 
 	UPROPERTY( BlueprintReadOnly, VisibleAnywhere )
 	UItemClicker* LastClickedClicker;
+
+	TArray<UItemClicker*> ClickersPendingForHighlightForAddition;
 	
 };

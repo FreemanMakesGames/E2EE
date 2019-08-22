@@ -30,11 +30,7 @@ void UInventoryMenu::NativeOnInitialized()
  */
 void UInventoryMenu::ShowInventory( UInventory* TargetInventory )
 {
-	if ( !TargetInventory )
-	{
-		ensureAlways( false );
-		return;
-	}
+	if ( !TargetInventory ) { ensureAlways( false ); return; }
 
 	if ( Inventory != TargetInventory )
 	{
@@ -53,6 +49,12 @@ void UInventoryMenu::ShowInventory( UInventory* TargetInventory )
 	}
 
 	AddToViewport();
+
+	for ( UItemClicker* ItemClicker : ClickersPendingForHighlightForAddition )
+	{
+		ItemClicker->HighlightForItemAddition();
+	}
+	ClickersPendingForHighlightForAddition.Empty();
 }
 
 void UInventoryMenu::HideInventory()
@@ -93,11 +95,7 @@ void UInventoryMenu::ReloadInventoryDisplay()
 {
 	WrapBox_ItemClickers->ClearChildren();
 
-	if ( !Inventory )
-	{
-		ensureAlways( false );
-		return;
-	}
+	if ( !Inventory ) { ensureAlways( false ); return; }
 
 	TArray<UItemInfo*> Items = Inventory->GetItems();
 
@@ -122,7 +120,16 @@ void UInventoryMenu::HandleOnButtonHideInventoryMenuClicked()
 
 void UInventoryMenu::HandleOnItemAdded( UItemInfo* ItemAdded )
 {
-	UItemClicker* ItemClicker = AddNewItemClicker( ItemAdded );
+	UItemClicker* NewItemClicker = AddNewItemClicker( ItemAdded );
+
+	if ( IsInViewport() )
+	{
+		NewItemClicker->HighlightForItemAddition();
+	}
+	else
+	{
+		ClickersPendingForHighlightForAddition.Add( NewItemClicker );
+	}
 }
 
 void UInventoryMenu::HandleOnItemRemoved( UItemInfo* ItemRemoved )
