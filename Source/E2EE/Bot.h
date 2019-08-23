@@ -28,6 +28,8 @@ public:
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	virtual void Tick( float DeltaSeconds ) override;
+
 #pragma region Getters and setters
 public:
 
@@ -68,10 +70,10 @@ protected:
 	void OnCapsuleClicked( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed );
 
 	UFUNCTION()
-	void OnWaypointArrival( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult );
+	void OnCapsuleBeginOverlap( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult );
 
 	UFUNCTION()
-	void OnWaypointExit( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex );
+	void OnCapsuleEndOverlap( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex );
 
 	UFUNCTION()
 	void OnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::Type Result );
@@ -98,9 +100,13 @@ protected:
 	AWaypoint* Waypoint_Middle;
 
 	UPROPERTY( VisibleInstanceOnly )
-	AWaypoint* TargetWaypoint;
+	TArray<AWaypoint*> TargetWaypoints;
 
 	UPROPERTY( VisibleInstanceOnly )
 	AWaypoint* CurrentWaypoint;
+
+	bool ShouldMove;
+
+	bool IsOnTheWay;
 
 };

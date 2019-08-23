@@ -21,8 +21,11 @@ ABot::ABot()
 	Inventory = CreateDefaultSubobject<UInventory>( TEXT( "Inventory" ) );
 
 	GetCapsuleComponent()->OnClicked.AddDynamic( this, &ABot::OnCapsuleClicked );
-	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic( this, &ABot::OnWaypointArrival );
-	GetCapsuleComponent()->OnComponentEndOverlap.AddDynamic( this, &ABot::OnWaypointExit );
+	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic( this, &ABot::OnCapsuleBeginOverlap );
+	GetCapsuleComponent()->OnComponentEndOverlap.AddDynamic( this, &ABot::OnCapsuleEndOverlap );
+
+	ShouldMove = true;
+	IsOnTheWay = false;
 }
 
 void ABot::BeginPlay()
@@ -47,6 +50,16 @@ void ABot::BeginPlay()
 void ABot::SetupPlayerInputComponent( UInputComponent* PlayerInputComponent )
 {
 	Super::SetupPlayerInputComponent( PlayerInputComponent );
+}
+
+void ABot::Tick( float DeltaSeconds )
+{
+	if ( TargetWaypoints.Num() > 0 && ShouldMove && !IsOnTheWay )
+	{
+		AIController->MoveToActor( TargetWaypoints[0] );
+
+		IsOnTheWay = true;
+	}
 }
 
 #pragma region Getters and setters
@@ -76,7 +89,7 @@ void ABot::OnCapsuleClicked( UPrimitiveComponent* TouchedComponent, FKey ButtonP
 	Summon();
 }
 
-void ABot::OnWaypointArrival( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult )
+void ABot::OnCapsuleBeginOverlap( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult )
 {
 	if ( AWaypoint* Waypoint = Cast<AWaypoint>( OtherActor ) )
 	{
@@ -84,7 +97,7 @@ void ABot::OnWaypointArrival( UPrimitiveComponent* OverlappedComponent, AActor* 
 	}
 }
 
-void ABot::OnWaypointExit( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex )
+void ABot::OnCapsuleEndOverlap( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex )
 {
 	if ( Cast<AWaypoint>( OtherActor ) )
 	{
@@ -94,32 +107,50 @@ void ABot::OnWaypointExit( UPrimitiveComponent* OverlappedComponent, AActor* Oth
 
 void ABot::OnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::Type Result )
 {
+	IsOnTheWay = false;
+
 	if ( Result == EPathFollowingResult::Success )
 	{
 		// If we've reached a target waypoint.
 		// ( There may be better ways of detecting this, such as adding a IsGoingToWaypoint global variable. This project currently doesn't need it. )
-		if ( CurrentWaypoint == TargetWaypoint )
+		if ( TargetWaypoints.Num() > 0 && CurrentWaypoint == TargetWaypoints[0] )
 		{
+			TargetWaypoints.RemoveAt( 0 );
+
+			ShouldMove = false; // For inventory activities
+
 			if ( CurrentWaypoint == Waypoint_Alice || CurrentWaypoint == Waypoint_Bob )
 			{
-				for ( AItem* Item : CurrentWaypoint->GetDroppedItems() )
+				TArray<AItem*> DroppedItems = CurrentWaypoint->GetDroppedItems();
+
+				if ( DroppedItems.Num() > 0 )
 				{
-					if ( UItemInfo* ItemInfo = Item->GetItemInfo() )
+					for ( AItem* Item : DroppedItems )
 					{
-						Inventory->AddItem( ItemInfo );
+						if ( UItemInfo* ItemInfo = Item->GetItemInfo() )
+						{
+							Inventory->AddItem( ItemInfo );
 
-						Item->Destroy();
+							Item->Destroy();
+						}
+						else { ensureAlways( false ); return; }
+
+						ShowInventory();
+
+						PlayerController->DisplayNotification( NSLOCTEXT( "", "", "The messenger bot has collected the items." ) );
 					}
-					else { ensureAlways( false ); return; }
-
-					ShowInventory();
-
-					PlayerController->DisplayNotification( NSLOCTEXT( "", "", "The messenger bot has collected the items." ) );
 				}
+				else
+				{
+					PlayerController->DisplayNotification( NSLOCTEXT( "", "", "No item is dropped in the area for the messenger to send." ) );
+				}
+
 			}
 			else if ( CurrentWaypoint == Waypoint_Middle )
 			{
-				// TODO: Duplicate items.
+				ShowInventory();
+
+
 			}
 		}
 		else
@@ -135,38 +166,50 @@ void ABot::OnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::Type R
 
 void ABot::OnInventoryMenuHidden()
 {
-	UDevUtilities::PrintInfo( "Bot's inventory menu is hidden." );
+	if ( CurrentWaypoint == Waypoint_Alice )
+	{
+		TargetWaypoints.Add( Waypoint_Middle );
+		TargetWaypoints.Add( Waypoint_Bob );
+	}
+	else if ( CurrentWaypoint == Waypoint_Bob )
+	{
+		TargetWaypoints.Add( Waypoint_Middle );
+		TargetWaypoints.Add( Waypoint_Alice );
+	}
+	else if ( CurrentWaypoint == Waypoint_Middle )
+	{
 
-	// TODO: Proceed to next step.
+	}
+
+	ShouldMove = true;
 }
 
 void ABot::Summon()
 {
 	UDevUtilities::PrintInfo( "Messenger is being summoned." );
 
-	// Get target waypoint.
 	// Don't move if there's no active character.
 	ABasicCharacter* ActiveCharacter = PlayerController->GetActiveCharacter();
 	if ( ActiveCharacter )
 	{
-		if ( ActiveCharacter->GetUsername() == "Alice" ) { TargetWaypoint = Waypoint_Alice; }
-		else if ( ActiveCharacter->GetUsername() == "Bob" ) { TargetWaypoint = Waypoint_Bob; }
-		else { UDevUtilities::PrintError( "Messenger: Active character's name is an unexpected string." ); return; }
+		if ( ActiveCharacter->GetUsername() == "Alice" )
+		{
+			TargetWaypoints.Add( Waypoint_Alice );
+			ShouldMove = true;
+		}
+		else if ( ActiveCharacter->GetUsername() == "Bob" )
+		{
+			TargetWaypoints.Add( Waypoint_Bob );
+			ShouldMove = true;
+		}
+		else
+		{ 
+			UDevUtilities::PrintError( "Messenger: Active character's name is an unexpected string." ); return;
+		}
 	}
 	else
 	{
 		PlayerController->DisplayNotification( NSLOCTEXT( "", "", "Select Alice/Bob before you summon the messenger." ) );
-
 		return;
-	}
-
-	// Only move if there are dropped items in TargetWaypoint.
-	if ( TargetWaypoint->GetDroppedItems().Num() > 0 )
-	{
-		AIController->MoveToActor( TargetWaypoint );
-	}
-	else
-	{
-		PlayerController->DisplayNotification( NSLOCTEXT( "", "", "No item is dropped in the area for the messenger to send." ) );
 	}
 }
