@@ -24,7 +24,7 @@ ABot::ABot()
 	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic( this, &ABot::OnCapsuleBeginOverlap );
 	GetCapsuleComponent()->OnComponentEndOverlap.AddDynamic( this, &ABot::OnCapsuleEndOverlap );
 
-	ShouldMove = true;
+	MissionStatus = EBotMissionStatus::Idle;
 	IsOnTheWay = false;
 }
 
@@ -54,11 +54,13 @@ void ABot::SetupPlayerInputComponent( UInputComponent* PlayerInputComponent )
 
 void ABot::Tick( float DeltaSeconds )
 {
-	if ( TargetWaypoints.Num() > 0 && ShouldMove && !IsOnTheWay )
+	if ( TargetWaypoints.Num() > 0 && ShouldMove() && !IsOnTheWay )
 	{
-		AIController->MoveToActor( TargetWaypoints[0] );
-
+		// This order is so very important!!!
+		// If Bot is already at the destination, MoveToActor calls OnMoveCompleted
+		// Before the next Tick!
 		IsOnTheWay = true;
+		AIController->MoveToActor( TargetWaypoints[0] );
 	}
 }
 
@@ -112,45 +114,60 @@ void ABot::OnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::Type R
 	if ( Result == EPathFollowingResult::Success )
 	{
 		// If we've reached a target waypoint.
-		// ( There may be better ways of detecting this, such as adding a IsGoingToWaypoint global variable. This project currently doesn't need it. )
 		if ( TargetWaypoints.Num() > 0 && CurrentWaypoint == TargetWaypoints[0] )
 		{
 			TargetWaypoints.RemoveAt( 0 );
-
-			ShouldMove = false; // For inventory activities
 
 			if ( CurrentWaypoint == Waypoint_Alice || CurrentWaypoint == Waypoint_Bob )
 			{
 				TArray<AItem*> DroppedItems = CurrentWaypoint->GetDroppedItems();
 
-				if ( DroppedItems.Num() > 0 )
+				if ( MissionStatus == EBotMissionStatus::Summoned )
 				{
-					for ( AItem* Item : DroppedItems )
+					// If there are dropped items, collect and immediately start delivery.
+					if ( DroppedItems.Num() > 0 )
 					{
-						if ( UItemInfo* ItemInfo = Item->GetItemInfo() )
+						for ( AItem* Item : DroppedItems )
 						{
-							Inventory->AddItem( ItemInfo );
+							if ( UItemInfo* ItemInfo = Item->GetItemInfo() )
+							{
+								Inventory->AddItem( ItemInfo );
 
-							Item->Destroy();
+								ItemToDeliver.Add( ItemInfo );
+
+								Item->Destroy();
+							}
+							else { ensureAlways( false ); return; }
 						}
-						else { ensureAlways( false ); return; }
 
 						ShowInventory();
 
+						MissionStatus = EBotMissionStatus::CollectingItems;
+
 						PlayerController->DisplayNotification( NSLOCTEXT( "", "", "The messenger bot has collected the items." ) );
 					}
-				}
-				else
-				{
-					PlayerController->DisplayNotification( NSLOCTEXT( "", "", "No item is dropped in the area for the messenger to send." ) );
-				}
+					// If no dropped items
+					else
+					{
+						PlayerController->DisplayNotification( NSLOCTEXT( "", "", "No item is dropped in the area for the messenger to send." ) );
 
+						MissionStatus = EBotMissionStatus::Idle;
+					}
+				}
+				else if ( MissionStatus == EBotMissionStatus::DeliveringItems )
+				{
+					// TODO: Drop delivery items.
+
+					MissionStatus = EBotMissionStatus::Idle;
+				}
 			}
 			else if ( CurrentWaypoint == Waypoint_Middle )
 			{
+				// TODO: Duplicate items.
+
 				ShowInventory();
 
-
+				MissionStatus = EBotMissionStatus::DuplicatingItems;
 			}
 		}
 		else
@@ -166,22 +183,25 @@ void ABot::OnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::Type R
 
 void ABot::OnInventoryMenuHidden()
 {
-	if ( CurrentWaypoint == Waypoint_Alice )
+	if ( CurrentWaypoint && ItemToDeliver.Num() > 0 )
 	{
-		TargetWaypoints.Add( Waypoint_Middle );
-		TargetWaypoints.Add( Waypoint_Bob );
-	}
-	else if ( CurrentWaypoint == Waypoint_Bob )
-	{
-		TargetWaypoints.Add( Waypoint_Middle );
-		TargetWaypoints.Add( Waypoint_Alice );
-	}
-	else if ( CurrentWaypoint == Waypoint_Middle )
-	{
+		if ( CurrentWaypoint == Waypoint_Alice )
+		{
+			TargetWaypoints.Add( Waypoint_Middle );
+			TargetWaypoints.Add( Waypoint_Bob );
+		}
+		else if ( CurrentWaypoint == Waypoint_Bob )
+		{
+			TargetWaypoints.Add( Waypoint_Middle );
+			TargetWaypoints.Add( Waypoint_Alice );
+		}
+		else if ( CurrentWaypoint == Waypoint_Middle )
+		{
 
-	}
+		}
 
-	ShouldMove = true;
+		MissionStatus = EBotMissionStatus::DeliveringItems;
+	}
 }
 
 void ABot::Summon()
@@ -195,21 +215,26 @@ void ABot::Summon()
 		if ( ActiveCharacter->GetUsername() == "Alice" )
 		{
 			TargetWaypoints.Add( Waypoint_Alice );
-			ShouldMove = true;
 		}
 		else if ( ActiveCharacter->GetUsername() == "Bob" )
 		{
 			TargetWaypoints.Add( Waypoint_Bob );
-			ShouldMove = true;
 		}
 		else
 		{ 
 			UDevUtilities::PrintError( "Messenger: Active character's name is an unexpected string." ); return;
 		}
+
+		MissionStatus = EBotMissionStatus::Summoned;
 	}
 	else
 	{
 		PlayerController->DisplayNotification( NSLOCTEXT( "", "", "Select Alice/Bob before you summon the messenger." ) );
 		return;
 	}
+}
+
+bool ABot::ShouldMove()
+{
+	return MissionStatus == EBotMissionStatus::Summoned || MissionStatus == EBotMissionStatus::DeliveringItems;
 }

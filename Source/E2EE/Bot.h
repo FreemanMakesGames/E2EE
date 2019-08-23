@@ -11,6 +11,20 @@
 class AAIController;
 class UBotInventoryMenu;
 
+UENUM( BlueprintType )
+enum class EBotMissionStatus : uint8
+{
+	Idle				UMETA( DisplayName = "Idle" ),
+
+	Summoned			UMETA( DisplayName = "Summoned" ),
+
+	CollectingItems		UMETA( DisplayName = "CollectingItems" ),
+
+	DuplicatingItems	UMETA( DisplayName = "DuplicatingItems" ),
+
+	DeliveringItems		UMETA( DisplayName = "DeliveringItems" )
+};
+
 UCLASS( Blueprintable )
 class E2EE_API ABot : public ACharacter
 {
@@ -53,6 +67,15 @@ protected:
 	UPROPERTY( EditDefaultsOnly )
 	TSubclassOf<UBotInventoryMenu> InventoryMenuClass;
 
+	UPROPERTY( EditInstanceOnly, BlueprintReadOnly )
+	AWaypoint* Waypoint_Alice;
+
+	UPROPERTY( EditInstanceOnly, BlueprintReadOnly )
+	AWaypoint* Waypoint_Bob;
+
+	UPROPERTY( EditInstanceOnly, BlueprintReadOnly )
+	AWaypoint* Waypoint_Middle;
+
 protected:
 
 	UPROPERTY( BlueprintReadOnly )
@@ -86,18 +109,12 @@ protected:
 	UFUNCTION( BlueprintCallable )
 	void Summon();
 
+	UFUNCTION( BlueprintCallable )
+	bool ShouldMove();
+
 protected:
 
 	ABasicPlayerController* PlayerController;
-
-	UPROPERTY( EditInstanceOnly, BlueprintReadOnly )
-	AWaypoint* Waypoint_Alice;
-
-	UPROPERTY( EditInstanceOnly, BlueprintReadOnly )
-	AWaypoint* Waypoint_Bob;
-
-	UPROPERTY( EditInstanceOnly, BlueprintReadOnly )
-	AWaypoint* Waypoint_Middle;
 
 	UPROPERTY( VisibleInstanceOnly )
 	TArray<AWaypoint*> TargetWaypoints;
@@ -105,7 +122,10 @@ protected:
 	UPROPERTY( VisibleInstanceOnly )
 	AWaypoint* CurrentWaypoint;
 
-	bool ShouldMove;
+	TArray<UItemInfo*> ItemToDeliver;
+
+	UPROPERTY( VisibleInstanceOnly )
+	EBotMissionStatus MissionStatus;
 
 	bool IsOnTheWay;
 
