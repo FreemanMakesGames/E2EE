@@ -126,7 +126,7 @@ void ABot::OnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::Type R
 							{
 								Inventory->AddItem( ItemInfo );
 
-								ItemToDeliver.Add( ItemInfo );
+								ItemsToDeliver.Add( ItemInfo );
 
 								Item->Destroy();
 							}
@@ -149,7 +149,11 @@ void ABot::OnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::Type R
 				}
 				else if ( MissionStatus == EBotMissionStatus::DeliveringItems )
 				{
-					// TODO: Drop delivery items.
+					for ( UItemInfo* Item : ItemsToDeliver )
+					{
+						Inventory->DropItem( Item );
+					}
+					ItemsToDeliver.Empty();
 
 					MissionStatus = EBotMissionStatus::Idle;
 				}
@@ -176,7 +180,7 @@ void ABot::OnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::Type R
 
 void ABot::OnInventoryMenuHidden()
 {
-	if ( CurrentWaypoint && ItemToDeliver.Num() > 0 )
+	if ( CurrentWaypoint && ItemsToDeliver.Num() > 0 )
 	{
 		if ( CurrentWaypoint == Waypoint_Alice )
 		{

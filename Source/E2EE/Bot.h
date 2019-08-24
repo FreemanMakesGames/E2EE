@@ -125,7 +125,7 @@ protected:
 	UPROPERTY( VisibleInstanceOnly )
 	AWaypoint* CurrentWaypoint;
 
-	TArray<UItemInfo*> ItemToDeliver;
+	TArray<UItemInfo*> ItemsToDeliver;
 
 	UPROPERTY( VisibleInstanceOnly )
 	EBotMissionStatus MissionStatus;
