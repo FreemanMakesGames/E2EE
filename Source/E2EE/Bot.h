@@ -110,6 +110,9 @@ protected:
 	void Summon();
 
 	UFUNCTION( BlueprintCallable )
+	bool StartMove();
+
+	UFUNCTION( BlueprintCallable )
 	bool ShouldMove();
 
 protected:

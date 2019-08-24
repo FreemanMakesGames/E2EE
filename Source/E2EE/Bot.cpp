@@ -54,14 +54,7 @@ void ABot::SetupPlayerInputComponent( UInputComponent* PlayerInputComponent )
 
 void ABot::Tick( float DeltaSeconds )
 {
-	if ( TargetWaypoints.Num() > 0 && ShouldMove() && !IsOnTheWay )
-	{
-		// This order is so very important!!!
-		// If Bot is already at the destination, MoveToActor calls OnMoveCompleted
-		// Before the next Tick!
-		IsOnTheWay = true;
-		AIController->MoveToActor( TargetWaypoints[0] );
-	}
+
 }
 
 #pragma region Getters and setters
@@ -201,6 +194,8 @@ void ABot::OnInventoryMenuHidden()
 		}
 
 		MissionStatus = EBotMissionStatus::DeliveringItems;
+
+		StartMove();
 	}
 }
 
@@ -226,11 +221,30 @@ void ABot::Summon()
 		}
 
 		MissionStatus = EBotMissionStatus::Summoned;
+
+		StartMove();
 	}
 	else
 	{
 		PlayerController->DisplayNotification( NSLOCTEXT( "", "", "Select Alice/Bob before you summon the messenger." ) );
 		return;
+	}
+}
+
+bool ABot::StartMove()
+{
+	if ( TargetWaypoints.Num() > 0 && ShouldMove() && !IsOnTheWay )
+	{
+		// This order is so very important!!!
+		// If Bot is already at the destination, MoveToActor calls OnMoveCompleted directly.
+		IsOnTheWay = true;
+		AIController->MoveToActor( TargetWaypoints[0] );
+
+		return true;
+	}
+	else
+	{
+		return false;
 	}
 }
 
