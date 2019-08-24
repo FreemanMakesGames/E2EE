@@ -72,7 +72,7 @@ protected:
 
 protected:
 
-	UPROPERTY()
+	UPROPERTY( BlueprintReadOnly )
 	TMap<UItemInfo*, UItemClicker*> ItemToItemClicker;
 
 	UPROPERTY( VisibleAnywhere )

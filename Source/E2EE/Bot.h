@@ -90,25 +90,29 @@ protected:
 protected:
 
 	UFUNCTION()
-	void OnCapsuleClicked( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed );
+	void OnCapsuleClicked( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed ); // Due to a UE bug, this can't be named as HandleOnCapsuleClicked...
 
 	UFUNCTION()
-	void OnCapsuleBeginOverlap( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult );
+	void HandleOnCapsuleBeginOverlap( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult );
 
 	UFUNCTION()
-	void OnCapsuleEndOverlap( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex );
+	void HandleOnCapsuleEndOverlap( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex );
 
 	UFUNCTION()
-	void OnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::Type Result );
+	void HandleOnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::Type Result );
 
 	UFUNCTION()
-	void OnInventoryMenuHidden();
+	void HandleOnInventoryMenuPreDuplicationHighlightFinished();
+
+	UFUNCTION()
+	void HandleOnInventoryMenuHidden();
 
 protected:
 
 	UFUNCTION( BlueprintCallable )
 	void Summon();
 
+	/** @return Whether Bot actually starts moving based on other conditions */
 	UFUNCTION( BlueprintCallable )
 	bool StartMove();
 
@@ -117,6 +121,7 @@ protected:
 
 protected:
 
+	UPROPERTY( BlueprintReadOnly )
 	ABasicPlayerController* PlayerController;
 
 	UPROPERTY( VisibleInstanceOnly )
@@ -125,6 +130,7 @@ protected:
 	UPROPERTY( VisibleInstanceOnly )
 	AWaypoint* CurrentWaypoint;
 
+	UPROPERTY( BlueprintReadOnly )
 	TArray<UItemInfo*> ItemsToDeliver;
 
 	UPROPERTY( VisibleInstanceOnly )

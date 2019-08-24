@@ -21,8 +21,8 @@ ABot::ABot()
 	Inventory = CreateDefaultSubobject<UInventory>( TEXT( "Inventory" ) );
 
 	GetCapsuleComponent()->OnClicked.AddDynamic( this, &ABot::OnCapsuleClicked );
-	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic( this, &ABot::OnCapsuleBeginOverlap );
-	GetCapsuleComponent()->OnComponentEndOverlap.AddDynamic( this, &ABot::OnCapsuleEndOverlap );
+	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic( this, &ABot::HandleOnCapsuleBeginOverlap );
+	GetCapsuleComponent()->OnComponentEndOverlap.AddDynamic( this, &ABot::HandleOnCapsuleEndOverlap );
 
 	MissionStatus = EBotMissionStatus::Idle;
 	IsOnTheWay = false;
@@ -35,14 +35,15 @@ void ABot::BeginPlay()
 	PlayerController = Cast<ABasicPlayerController>( GetWorld()->GetFirstPlayerController() );
 
 	AIController = GetController<AAIController>();
-	AIController->ReceiveMoveCompleted.AddDynamic( this, &ABot::OnMoveCompleted );
+	AIController->ReceiveMoveCompleted.AddDynamic( this, &ABot::HandleOnMoveCompleted );
 
 	// Create InventoryMenu.
 	if ( InventoryMenuClass )
 	{
 		InventoryMenu = CreateWidget<UBotInventoryMenu>( GetWorld()->GetFirstPlayerController(), InventoryMenuClass );
 		InventoryMenu->SetupInventory( Inventory );
-		InventoryMenu->OnHidden.AddDynamic( this, &ABot::OnInventoryMenuHidden );
+		InventoryMenu->OnHidden.AddDynamic( this, &ABot::HandleOnInventoryMenuHidden );
+		InventoryMenu->OnPreDuplicationHighlightCompleted.AddDynamic( this, &ABot::HandleOnInventoryMenuPreDuplicationHighlightFinished );
 	}
 	else { UDevUtilities::PrintError( "ABot's InventoryMenuClass isn't set!" ); return; }
 }
@@ -84,7 +85,7 @@ void ABot::OnCapsuleClicked( UPrimitiveComponent* TouchedComponent, FKey ButtonP
 	Summon();
 }
 
-void ABot::OnCapsuleBeginOverlap( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult )
+void ABot::HandleOnCapsuleBeginOverlap( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult )
 {
 	if ( AWaypoint* Waypoint = Cast<AWaypoint>( OtherActor ) )
 	{
@@ -92,7 +93,7 @@ void ABot::OnCapsuleBeginOverlap( UPrimitiveComponent* OverlappedComponent, AAct
 	}
 }
 
-void ABot::OnCapsuleEndOverlap( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex )
+void ABot::HandleOnCapsuleEndOverlap( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex )
 {
 	if ( Cast<AWaypoint>( OtherActor ) )
 	{
@@ -100,7 +101,7 @@ void ABot::OnCapsuleEndOverlap( UPrimitiveComponent* OverlappedComponent, AActor
 	}
 }
 
-void ABot::OnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::Type Result )
+void ABot::HandleOnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::Type Result )
 {
 	IsOnTheWay = false;
 
@@ -160,7 +161,7 @@ void ABot::OnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::Type R
 			}
 			else if ( CurrentWaypoint == Waypoint_Middle )
 			{
-				// TODO: Duplicate items.
+				InventoryMenu->PreDuplicationHighlight( ItemsToDeliver );
 
 				ShowInventory();
 
@@ -178,7 +179,15 @@ void ABot::OnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::Type R
 	}
 }
 
-void ABot::OnInventoryMenuHidden()
+void ABot::HandleOnInventoryMenuPreDuplicationHighlightFinished()
+{
+	for ( UItemInfo* Item : ItemsToDeliver )
+	{
+		Inventory->AddItem( Item->Duplicate() );
+	}
+}
+
+void ABot::HandleOnInventoryMenuHidden()
 {
 	if ( CurrentWaypoint && ItemsToDeliver.Num() > 0 )
 	{

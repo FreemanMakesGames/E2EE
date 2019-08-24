@@ -128,4 +128,6 @@ void UInventoryMenu::HandleOnItemRemoved( UItemInfo* ItemRemoved )
 	{
 		ensureAlwaysMsgf( false, TEXT( "UInventoryMenu hears an Item removal event, but no UItemClicker matches the removed item!" ) );
 	}
+
+	// FIXME: Does ItemToItemClicker need to remove the ItemClicker?
 }
