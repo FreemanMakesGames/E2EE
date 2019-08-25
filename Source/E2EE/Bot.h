@@ -57,11 +57,6 @@ public:
 	void SetCurrentWaypoint( AWaypoint* TheWaypoint );
 #pragma endregion
 
-public:
-
-	UFUNCTION( BlueprintCallable )
-	void ShowInventory();
-
 protected:
 
 	UPROPERTY( EditDefaultsOnly )
@@ -137,5 +132,14 @@ protected:
 	EBotMissionStatus MissionStatus;
 
 	bool IsOnTheWay;
+
+	/**
+	 * Item clicker's pre-duplication animation fires an event at the end,
+	 * Which leads to HandleOnInventoryMenuPreDuplicationHighlightFinished,
+	 * Which starts duplications.
+	 * If the inventory menu's closed before pre-duplication animation's finished,
+	 * Event won't fire, so we need another flag here to ensure duplication.
+	 */
+	//bool PendingDuplication;
 
 };

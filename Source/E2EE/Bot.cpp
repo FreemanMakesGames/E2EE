@@ -75,11 +75,6 @@ void ABot::SetCurrentWaypoint( AWaypoint* TheWaypoint )
 }
 #pragma endregion
 
-void ABot::ShowInventory()
-{
-	InventoryMenu->ShowInventory();
-}
-
 void ABot::OnCapsuleClicked( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed )
 {
 	Summon();
@@ -134,7 +129,7 @@ void ABot::HandleOnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::
 							else { ensureAlways( false ); return; }
 						}
 
-						ShowInventory();
+						InventoryMenu->ShowInventory();
 
 						MissionStatus = EBotMissionStatus::CollectingItems;
 
@@ -163,7 +158,7 @@ void ABot::HandleOnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::
 			{
 				InventoryMenu->PreDuplicationHighlight( ItemsToDeliver );
 
-				ShowInventory();
+				InventoryMenu->ShowInventory();
 
 				MissionStatus = EBotMissionStatus::DuplicatingItems;
 			}
@@ -185,6 +180,8 @@ void ABot::HandleOnInventoryMenuPreDuplicationHighlightFinished()
 	{
 		Inventory->AddItem( Item->Duplicate() );
 	}
+
+	MissionStatus = EBotMissionStatus::DeliveringItems;
 }
 
 void ABot::HandleOnInventoryMenuHidden()
@@ -195,18 +192,31 @@ void ABot::HandleOnInventoryMenuHidden()
 		{
 			TargetWaypoints.Add( Waypoint_Middle );
 			TargetWaypoints.Add( Waypoint_Bob );
+
+			MissionStatus = EBotMissionStatus::DeliveringItems;
 		}
 		else if ( CurrentWaypoint == Waypoint_Bob )
 		{
 			TargetWaypoints.Add( Waypoint_Middle );
 			TargetWaypoints.Add( Waypoint_Alice );
+
+			MissionStatus = EBotMissionStatus::DeliveringItems;
 		}
 		else if ( CurrentWaypoint == Waypoint_Middle )
 		{
+			// If duplication isn't done before inventory menu is closed,
+			// It won't happen because HandleOnInventoryMenuPreDuplicationHighlightFinished won't fire.
+			// So we need to manually duplicate here.
+			if ( MissionStatus == EBotMissionStatus::DuplicatingItems )
+			{
+				for ( UItemInfo* Item : ItemsToDeliver )
+				{
+					Inventory->AddItem( Item->Duplicate() );
+				}
 
+				MissionStatus = EBotMissionStatus::DeliveringItems;
+			}
 		}
-
-		MissionStatus = EBotMissionStatus::DeliveringItems;
 
 		StartMove();
 	}
