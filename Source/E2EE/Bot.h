@@ -105,6 +105,9 @@ protected:
 	void HandleOnInventoryMenuPreDuplicationHighlightFinished();
 
 	UFUNCTION()
+	void HandleOnInventoryMenuContainerOpenHighlightFinished( UContainerItemInfo* Container );
+
+	UFUNCTION()
 	void HandleOnInventoryMenuHidden();
 
 protected:

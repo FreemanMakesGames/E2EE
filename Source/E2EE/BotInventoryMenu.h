@@ -4,7 +4,10 @@
 #include "InventoryMenu.h"
 #include "BotInventoryMenu.generated.h"
 
+class UContainerItemInfo;
+
 DECLARE_DYNAMIC_MULTICAST_DELEGATE( FOnPreDuplicationHighlightCompleted );
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnContainerOpenHighlightCompleted, UContainerItemInfo*, Container );
 DECLARE_DYNAMIC_MULTICAST_DELEGATE( FOnHidden );
 
 /**
@@ -19,6 +22,8 @@ public:
 
 	void PreDuplicationHighlight( TArray<UItemInfo*> ItemsToDuplicate );
 
+	void ContainerOpenHighlight( UContainerItemInfo* Container );
+
 	virtual void HideInventory() override;
 
 public:
@@ -27,11 +32,17 @@ public:
 	FOnPreDuplicationHighlightCompleted OnPreDuplicationHighlightCompleted;
 
 	UPROPERTY( BlueprintAssignable )
+	FOnContainerOpenHighlightCompleted OnContainerOpenHighlightCompleted;
+
+	UPROPERTY( BlueprintAssignable )
 	FOnHidden OnHidden;
 
 protected:
 
 	UFUNCTION()
 	void HandleOnPreDuplicationHighlightCompleted( UItemClicker* HighlightedClicker );
+
+	UFUNCTION()
+	void HandleOnContainerOpenHighlightCompleted( UItemClicker* HighlightedClicker );
 	
 };

@@ -200,6 +200,15 @@ void ABot::HandleOnInventoryMenuPreDuplicationHighlightFinished()
 	MissionStatus = EBotMissionStatus::DeliveringItems;
 }
 
+void ABot::HandleOnInventoryMenuContainerOpenHighlightFinished( UContainerItemInfo* Container )
+{
+	Inventory->OpenItem( Container );
+
+	InventoryMenu->OnContainerOpenHighlightCompleted.RemoveDynamic( this, &ABot::HandleOnInventoryMenuContainerOpenHighlightFinished );
+
+	InventoryMenu->OnAdditionHighlightCompleted.AddDynamic( this, &ABot::HandleOnInventoryMenuAdditionHighlightFinished );
+}
+
 void ABot::HandleOnInventoryMenuHidden()
 {
 	if ( CurrentWaypoint && ItemsToDeliver.Num() > 0 )
@@ -311,9 +320,18 @@ void ABot::ExamineItems()
 		{
 			if ( !Container->IsLocked() )
 			{
+				if ( Container->IsOccupied() )
+				{
+					InventoryMenu->ContainerOpenHighlight( Container );
 
+					InventoryMenu->OnContainerOpenHighlightCompleted.AddDynamic( this, &ABot::HandleOnInventoryMenuContainerOpenHighlightFinished );
 
-				PlayerController->DisplayNotification( NSLOCTEXT( "", "", "Messenger opens a container." ) );
+					PlayerController->DisplayNotification( NSLOCTEXT( "", "", "Messenger opens a container." ) );
+
+					// The released item from container may be a key to unlock other containers.
+					// HandleOnInventoryMenuContainerOpenHighlightFinished will call ExamineItems again.
+					return;
+				}
 			}
 			else
 			{

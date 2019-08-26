@@ -1,6 +1,7 @@
 #include "BotInventoryMenu.h"
 
 #include "ItemClicker.h"
+#include "ContainerItemInfo.h"
 #include "DevUtilities.h"
 
 void UBotInventoryMenu::PreDuplicationHighlight( TArray<UItemInfo*> ItemsToDuplicate )
@@ -19,11 +20,19 @@ void UBotInventoryMenu::PreDuplicationHighlight( TArray<UItemInfo*> ItemsToDupli
 
 			ItemClicker->HighlightForPreDuplication();
 		}
-		else
-		{
-			UDevUtilities::PrintError( "UBotInventoryMenu receives a TArray of ItemsToDuplicate, which contains UItemInfo* not found in the TMap ItemToItemClicker." );
-		}
+		else { ensureAlways( false ); }
 	}
+}
+
+void UBotInventoryMenu::ContainerOpenHighlight( UContainerItemInfo* Container )
+{
+	if ( UItemClicker** pItemClicker = ItemToItemClicker.Find( Container ) )
+	{
+		( *pItemClicker )->OnContainerOpenHighlightFinished.AddDynamic( this, &UBotInventoryMenu::HandleOnContainerOpenHighlightCompleted );
+
+		( *pItemClicker )->HighlightForContainerOpen();
+	}
+	else { ensureAlways( false ); }
 }
 
 void UBotInventoryMenu::HideInventory()
@@ -38,4 +47,11 @@ void UBotInventoryMenu::HandleOnPreDuplicationHighlightCompleted( UItemClicker* 
 	OnPreDuplicationHighlightCompleted.Broadcast();
 
 	HighlightedClicker->OnAdditionHighlightFinished.RemoveDynamic( this, &UBotInventoryMenu::HandleOnPreDuplicationHighlightCompleted );
+}
+
+void UBotInventoryMenu::HandleOnContainerOpenHighlightCompleted( UItemClicker* HighlightedClicker )
+{
+	OnContainerOpenHighlightCompleted.Broadcast( Cast<UContainerItemInfo>( HighlightedClicker->GetItemInfo() ) );
+
+	HighlightedClicker->OnContainerOpenHighlightFinished.RemoveDynamic( this, &UBotInventoryMenu::HandleOnContainerOpenHighlightCompleted );
 }
