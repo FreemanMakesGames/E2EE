@@ -84,6 +84,7 @@ UItemClicker* UInventoryMenu::AddNewItemClicker( UItemInfo* Item )
 	ItemClicker->SetItemInfo( Item );
 
 	ItemClicker->OnClicked.AddDynamic( this, &UInventoryMenu::HandleOnItemClickerClicked );
+	ItemClicker->OnAdditionHighlightFinished.AddDynamic( this, &UInventoryMenu::HandleOnClickerAdditionHighlightFinished );
 
 	WrapBox_ItemClickers->AddChildWrapBox( ItemClicker );
 
@@ -95,6 +96,13 @@ UItemClicker* UInventoryMenu::AddNewItemClicker( UItemInfo* Item )
 void UInventoryMenu::HandleOnItemClickerClicked( UItemClicker* ClickedItemClicker )
 {
 
+}
+
+void UInventoryMenu::HandleOnClickerAdditionHighlightFinished( UItemClicker* HighlightedClicker )
+{
+	OnAdditionHighlightCompleted.Broadcast();
+
+	HighlightedClicker->OnAdditionHighlightFinished.RemoveDynamic( this, &UInventoryMenu::HandleOnClickerAdditionHighlightFinished );
 }
 
 void UInventoryMenu::HandleOnButtonHideInventoryMenuClicked()

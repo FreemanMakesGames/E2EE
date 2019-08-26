@@ -6,6 +6,9 @@
 #include "BasicCharacter.h"
 #include "Waypoint.h"
 #include "Item.h"
+#include "LockItemInfo.h"
+#include "KeyItemInfo.h"
+#include "ContainerItemInfo.h"
 #include "BotInventoryMenu.h"
 #include "DevUtilities.h"
 
@@ -116,6 +119,8 @@ void ABot::HandleOnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::
 					// If there are dropped items, collect and immediately start delivery.
 					if ( DroppedItems.Num() > 0 )
 					{
+						MissionStatus = EBotMissionStatus::CollectingItems;
+
 						for ( AItem* Item : DroppedItems )
 						{
 							if ( UItemInfo* ItemInfo = Item->GetItemInfo() )
@@ -130,8 +135,6 @@ void ABot::HandleOnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::
 						}
 
 						InventoryMenu->ShowInventory();
-
-						MissionStatus = EBotMissionStatus::CollectingItems;
 
 						PlayerController->DisplayNotification( NSLOCTEXT( "", "", "The messenger bot has collected the items." ) );
 					}
@@ -174,12 +177,25 @@ void ABot::HandleOnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::
 	}
 }
 
+/**
+ * Currently, this is only subscribed when pre-duplication highlight is finished.
+ * Alternatively, this can be subscribed in constructor, and then utilizes MissionStatus.
+ */
+void ABot::HandleOnInventoryMenuAdditionHighlightFinished()
+{
+	ExamineItems();
+
+	InventoryMenu->OnAdditionHighlightCompleted.RemoveDynamic( this, &ABot::HandleOnInventoryMenuAdditionHighlightFinished );
+}
+
 void ABot::HandleOnInventoryMenuPreDuplicationHighlightFinished()
 {
 	for ( UItemInfo* Item : ItemsToDeliver )
 	{
 		Inventory->AddItem( Item->Duplicate() );
 	}
+
+	InventoryMenu->OnAdditionHighlightCompleted.AddDynamic( this, &ABot::HandleOnInventoryMenuAdditionHighlightFinished );
 
 	MissionStatus = EBotMissionStatus::DeliveringItems;
 }
@@ -274,4 +290,46 @@ bool ABot::StartMove()
 bool ABot::ShouldMove()
 {
 	return MissionStatus == EBotMissionStatus::Summoned || MissionStatus == EBotMissionStatus::DeliveringItems;
+}
+
+void ABot::ExamineItems()
+{
+	UDevUtilities::PrintInfo( "Examination starts." );
+
+	TArray<UItemInfo*> ItemsToExamine;
+	for ( UItemInfo* Item : Inventory->GetItems() )
+	{
+		// Don't touch the delivery.
+		if ( ItemsToDeliver.Contains( Item ) ) { continue; }
+
+		ItemsToExamine.Add( Item );
+	}
+
+	for ( UItemInfo* ItemToExamine : ItemsToExamine )
+	{
+		if ( UContainerItemInfo* Container = Cast<UContainerItemInfo>( ItemToExamine ) )
+		{
+			if ( !Container->IsLocked() )
+			{
+
+
+				PlayerController->DisplayNotification( NSLOCTEXT( "", "", "Messenger opens a container." ) );
+			}
+			else
+			{
+				for ( UItemInfo* SecondaryItem : ItemsToExamine )
+				{
+					if ( UKeyItemInfo* KeyItem = Cast<UKeyItemInfo>( SecondaryItem ) )
+					{
+						if ( KeyItem->GetKeyId() == Container->GetLockId() )
+						{
+
+
+							PlayerController->DisplayNotification( NSLOCTEXT( "", "", "Messenger unlocks a container." ) );
+						}
+					}
+				}
+			}
+		}
+	}
 }

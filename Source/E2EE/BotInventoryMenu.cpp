@@ -33,7 +33,9 @@ void UBotInventoryMenu::HideInventory()
 	OnHidden.Broadcast();
 }
 
-void UBotInventoryMenu::HandleOnPreDuplicationHighlightCompleted()
+void UBotInventoryMenu::HandleOnPreDuplicationHighlightCompleted( UItemClicker* HighlightedClicker )
 {
 	OnPreDuplicationHighlightCompleted.Broadcast();
+
+	HighlightedClicker->OnAdditionHighlightFinished.RemoveDynamic( this, &UBotInventoryMenu::HandleOnPreDuplicationHighlightCompleted );
 }

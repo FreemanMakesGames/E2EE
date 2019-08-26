@@ -11,7 +11,9 @@ class UNamedSlot;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnButtonClickerClicked, UItemClicker*, ClickedItemClicker );
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE( FOnPreDuplicationHighlightFinished );
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnAdditionHighlightFinished, UItemClicker*, HighlightedClicker );
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnPreDuplicationHighlightFinished, UItemClicker*, HighlightedClicker );
 
 /**
  * 
@@ -33,6 +35,9 @@ public:
 
 	UPROPERTY( BlueprintAssignable  )
 	FOnButtonClickerClicked OnClicked;
+
+	UPROPERTY( BlueprintAssignable, BlueprintCallable )
+	FOnAdditionHighlightFinished OnAdditionHighlightFinished;
 
 	UPROPERTY( BlueprintAssignable, BlueprintCallable )
 	FOnPreDuplicationHighlightFinished OnPreDuplicationHighlightFinished;

@@ -22,6 +22,8 @@ enum class EBotMissionStatus : uint8
 
 	DuplicatingItems	UMETA( DisplayName = "DuplicatingItems" ),
 
+	ExaminingItems		UMETA( DisplayName = "ExaminingItems" ),
+
 	DeliveringItems		UMETA( DisplayName = "DeliveringItems" )
 };
 
@@ -97,6 +99,9 @@ protected:
 	void HandleOnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::Type Result );
 
 	UFUNCTION()
+	void HandleOnInventoryMenuAdditionHighlightFinished();
+
+	UFUNCTION()
 	void HandleOnInventoryMenuPreDuplicationHighlightFinished();
 
 	UFUNCTION()
@@ -113,6 +118,8 @@ protected:
 
 	UFUNCTION( BlueprintCallable )
 	bool ShouldMove();
+
+	void ExamineItems();
 
 protected:
 

@@ -32,6 +32,6 @@ public:
 protected:
 
 	UFUNCTION()
-	void HandleOnPreDuplicationHighlightCompleted();
+	void HandleOnPreDuplicationHighlightCompleted( UItemClicker* HighlightedClicker );
 	
 };

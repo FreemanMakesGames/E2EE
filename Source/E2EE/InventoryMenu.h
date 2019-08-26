@@ -12,6 +12,8 @@ class UWrapBox;
 class UButton;
 class UItemMenu;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE( FOnAdditionHighlightCompleted );
+
 /**
  * 
  */
@@ -52,6 +54,11 @@ public:
 	UFUNCTION( BlueprintCallable )
 	virtual void HideInventory();
 
+public:
+
+	UPROPERTY( BlueprintAssignable )
+	FOnAdditionHighlightCompleted OnAdditionHighlightCompleted;
+
 protected:
 
 	UItemClicker* AddNewItemClicker( UItemInfo* Item );
@@ -60,6 +67,9 @@ protected:
 
 	UFUNCTION()
 	virtual void HandleOnItemClickerClicked( UItemClicker* ClickedItemClicker );
+
+	UFUNCTION()
+	void HandleOnClickerAdditionHighlightFinished( UItemClicker* HighlightedClicker );
 
 	UFUNCTION()
 	void HandleOnButtonHideInventoryMenuClicked();
