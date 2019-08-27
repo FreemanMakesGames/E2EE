@@ -47,10 +47,6 @@ protected:
 
 	virtual void BeginPlay() override;
 
-public:	
-
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
 #pragma region Getters and setters
 public:
 

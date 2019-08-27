@@ -51,11 +51,6 @@ void ABot::BeginPlay()
 	else { UDevUtilities::PrintError( "ABot's InventoryMenuClass isn't set!" ); return; }
 }
 
-void ABot::SetupPlayerInputComponent( UInputComponent* PlayerInputComponent )
-{
-	Super::SetupPlayerInputComponent( PlayerInputComponent );
-}
-
 #pragma region Getters and setters
 UInventory* ABot::GetInventory()
 {
@@ -160,11 +155,13 @@ void ABot::HandleOnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::
 			{
 				MissionStatus = EBotMissionStatus::DuplicatingItems;
 
+				InventoryMenu->ShowInventory();
+
 				InventoryMenu->OnPreDuplicationHighlightCompleted.AddDynamic( this, &ABot::HandleOnInventoryMenuPreDuplicationHighlightFinished );
 
 				InventoryMenu->PreDuplicationHighlight( ItemsToDeliver );
 
-				InventoryMenu->ShowInventory();
+				PlayerController->DisplayNotification( NSLOCTEXT( "", "", "Messenger is duplicating delivery items." ) );
 			}
 		}
 		else { UDevUtilities::PrintError( "Somehow Bot reaches the destination, but isn't in the target waypoint." ); }
@@ -172,10 +169,6 @@ void ABot::HandleOnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::
 	else { UDevUtilities::PrintError( "Somehow Bot fails to reach the destination." ); }
 }
 
-/**
- * Currently, this is only subscribed when pre-duplication highlight is finished.
- * Alternatively, this can be subscribed in constructor, and then utilizes MissionStatus.
- */
 void ABot::HandleOnInventoryMenuAdditionHighlightFinished()
 {
 	InventoryMenu->OnAdditionHighlightCompleted.RemoveDynamic( this, &ABot::HandleOnInventoryMenuAdditionHighlightFinished );
@@ -392,6 +385,8 @@ void ABot::ExamineItems()
 			}
 		}
 	}
+
+	PlayerController->DisplayNotification( NSLOCTEXT( "", "", "Messenger has finished tampering with items." ) );
 
 	MissionStatus = EBotMissionStatus::ExaminationComplete;
 }
