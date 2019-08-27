@@ -10,6 +10,7 @@
 
 class AAIController;
 class UBotInventoryMenu;
+class UInventory;
 
 UENUM( BlueprintType )
 enum class EBotMissionStatus : uint8
@@ -108,6 +109,9 @@ protected:
 	void HandleOnInventoryMenuContainerOpenHighlightFinished( UContainerItemInfo* Container );
 
 	UFUNCTION()
+	void HandleOnInventoryMenuContainerUnlockHighlightFinished();
+
+	UFUNCTION()
 	void HandleOnInventoryMenuHidden();
 
 protected:
@@ -138,18 +142,11 @@ protected:
 	UPROPERTY( BlueprintReadOnly )
 	TArray<UItemInfo*> ItemsToDeliver;
 
+	TPair<UKeyItemInfo*, UContainerItemInfo*> KeyAndContainerToUnlockAfterHighlight;
+
 	UPROPERTY( VisibleInstanceOnly )
 	EBotMissionStatus MissionStatus;
 
 	bool IsOnTheWay;
-
-	/**
-	 * Item clicker's pre-duplication animation fires an event at the end,
-	 * Which leads to HandleOnInventoryMenuPreDuplicationHighlightFinished,
-	 * Which starts duplications.
-	 * If the inventory menu's closed before pre-duplication animation's finished,
-	 * Event won't fire, so we need another flag here to ensure duplication.
-	 */
-	//bool PendingDuplication;
 
 };

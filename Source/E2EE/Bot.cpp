@@ -6,6 +6,7 @@
 #include "BasicCharacter.h"
 #include "Waypoint.h"
 #include "Item.h"
+#include "Inventory.h"
 #include "LockItemInfo.h"
 #include "KeyItemInfo.h"
 #include "ContainerItemInfo.h"
@@ -183,13 +184,15 @@ void ABot::HandleOnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::
  */
 void ABot::HandleOnInventoryMenuAdditionHighlightFinished()
 {
-	ExamineItems();
-
 	InventoryMenu->OnAdditionHighlightCompleted.RemoveDynamic( this, &ABot::HandleOnInventoryMenuAdditionHighlightFinished );
+
+	ExamineItems();
 }
 
 void ABot::HandleOnInventoryMenuPreDuplicationHighlightFinished()
 {
+	// Consider: Should this be added and removed whenever used, instead of once-and-for-all in the constructor?
+
 	for ( UItemInfo* Item : ItemsToDeliver )
 	{
 		Inventory->AddItem( Item->Duplicate() );
@@ -202,9 +205,22 @@ void ABot::HandleOnInventoryMenuPreDuplicationHighlightFinished()
 
 void ABot::HandleOnInventoryMenuContainerOpenHighlightFinished( UContainerItemInfo* Container )
 {
+	InventoryMenu->OnContainerOpenHighlightCompleted.RemoveDynamic( this, &ABot::HandleOnInventoryMenuContainerOpenHighlightFinished );
+
 	Inventory->OpenItem( Container );
 
-	InventoryMenu->OnContainerOpenHighlightCompleted.RemoveDynamic( this, &ABot::HandleOnInventoryMenuContainerOpenHighlightFinished );
+	InventoryMenu->OnAdditionHighlightCompleted.AddDynamic( this, &ABot::HandleOnInventoryMenuAdditionHighlightFinished );
+}
+
+void ABot::HandleOnInventoryMenuContainerUnlockHighlightFinished()
+{
+	InventoryMenu->OnContainerUnlockHighlightCompleted.RemoveDynamic( this, &ABot::HandleOnInventoryMenuContainerUnlockHighlightFinished );
+
+	// Combine items.
+	TArray<UItemInfo*> KeyAndContainer;
+	KeyAndContainer.Add( KeyAndContainerToUnlockAfterHighlight.Key );
+	KeyAndContainer.Add( KeyAndContainerToUnlockAfterHighlight.Value );
+	Inventory->CombineItems( KeyAndContainer );
 
 	InventoryMenu->OnAdditionHighlightCompleted.AddDynamic( this, &ABot::HandleOnInventoryMenuAdditionHighlightFinished );
 }
@@ -322,14 +338,14 @@ void ABot::ExamineItems()
 			{
 				if ( Container->IsOccupied() )
 				{
+					InventoryMenu->OnContainerOpenHighlightCompleted.AddDynamic( this, &ABot::HandleOnInventoryMenuContainerOpenHighlightFinished ); 
+					
 					InventoryMenu->ContainerOpenHighlight( Container );
 
-					InventoryMenu->OnContainerOpenHighlightCompleted.AddDynamic( this, &ABot::HandleOnInventoryMenuContainerOpenHighlightFinished );
-
-					PlayerController->DisplayNotification( NSLOCTEXT( "", "", "Messenger opens a container." ) );
+					PlayerController->DisplayNotification( NSLOCTEXT( "", "", "Messenger is opening a container." ) );
 
 					// The released item from container may be a key to unlock other containers.
-					// HandleOnInventoryMenuContainerOpenHighlightFinished will call ExamineItems again.
+					// Eventually, HandleOnInventoryMenuAdditionHighlightFinished will call ExamineItems again.
 					return;
 				}
 			}
@@ -341,9 +357,18 @@ void ABot::ExamineItems()
 					{
 						if ( KeyItem->GetKeyId() == Container->GetLockId() )
 						{
+							KeyAndContainerToUnlockAfterHighlight.Key = KeyItem;
+							KeyAndContainerToUnlockAfterHighlight.Value = Container;
 
+							InventoryMenu->OnContainerUnlockHighlightCompleted.AddDynamic( this, &ABot::HandleOnInventoryMenuContainerUnlockHighlightFinished );
 
-							PlayerController->DisplayNotification( NSLOCTEXT( "", "", "Messenger unlocks a container." ) );
+							InventoryMenu->ContainerUnlockHighlight( KeyItem, Container );
+
+							PlayerController->DisplayNotification( NSLOCTEXT( "", "", "Messenger is unlocking a container." ) );
+							
+							// The released item from container may be a key to unlock other containers.
+							// Eventually, HandleOnInventoryMenuAdditionHighlightFinished will call ExamineItems again.
+							return;
 						}
 					}
 				}

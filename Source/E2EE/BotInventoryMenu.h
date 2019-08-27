@@ -8,6 +8,7 @@ class UContainerItemInfo;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE( FOnPreDuplicationHighlightCompleted );
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnContainerOpenHighlightCompleted, UContainerItemInfo*, Container );
+DECLARE_DYNAMIC_MULTICAST_DELEGATE( FOnContainerUnlockHighlightCompleted );
 DECLARE_DYNAMIC_MULTICAST_DELEGATE( FOnHidden );
 
 /**
@@ -24,6 +25,8 @@ public:
 
 	void ContainerOpenHighlight( UContainerItemInfo* Container );
 
+	void ContainerUnlockHighlight( UKeyItemInfo* KeyItem, UContainerItemInfo* Container );
+
 	virtual void HideInventory() override;
 
 public:
@@ -35,6 +38,9 @@ public:
 	FOnContainerOpenHighlightCompleted OnContainerOpenHighlightCompleted;
 
 	UPROPERTY( BlueprintAssignable )
+	FOnContainerUnlockHighlightCompleted OnContainerUnlockHighlightCompleted;
+
+	UPROPERTY( BlueprintAssignable )
 	FOnHidden OnHidden;
 
 protected:
@@ -44,5 +50,8 @@ protected:
 
 	UFUNCTION()
 	void HandleOnContainerOpenHighlightCompleted( UItemClicker* HighlightedClicker );
+
+	UFUNCTION()
+	void HandleOnContainerUnlockHighlightCompleted( UItemClicker* HighlightedClicker );
 	
 };
