@@ -49,6 +49,9 @@ public:
 	UFUNCTION( BlueprintCallable )
 	int GetLockId();
 
+	UFUNCTION( BlueprintCallable )
+	ULockItemInfo* GetLock();
+
 protected:
 
 	UPROPERTY( VisibleInstanceOnly, BlueprintReadWrite )

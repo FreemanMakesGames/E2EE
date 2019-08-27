@@ -5,6 +5,15 @@
 #include "ContainerItemInfo.h"
 #include "DevUtilities.h"
 
+#include "Components/Button.h"
+
+void UBotInventoryMenu::NativeOnInitialized()
+{
+	Super::NativeOnInitialized();
+
+	Button_Proceed->OnClicked.AddDynamic( this, &UBotInventoryMenu::HandleOnButtonProceedClicked );
+}
+
 void UBotInventoryMenu::PreDuplicationHighlight( TArray<UItemInfo*> ItemsToDuplicate )
 {
 	for ( int i = 0; i < ItemsToDuplicate.Num(); i++ )
@@ -52,13 +61,6 @@ void UBotInventoryMenu::ContainerUnlockHighlight( UKeyItemInfo* KeyItem, UContai
 	else { ensureAlways( false ); }
 }
 
-void UBotInventoryMenu::HideInventory()
-{
-	Super::HideInventory();
-
-	OnHidden.Broadcast();
-}
-
 void UBotInventoryMenu::HandleOnPreDuplicationHighlightCompleted( UItemClicker* HighlightedClicker )
 {
 	HighlightedClicker->OnAdditionHighlightFinished.RemoveDynamic( this, &UBotInventoryMenu::HandleOnPreDuplicationHighlightCompleted );
@@ -78,4 +80,9 @@ void UBotInventoryMenu::HandleOnContainerUnlockHighlightCompleted( UItemClicker*
 	HighlightedClicker->OnContainerUnlockHighlightFinished.RemoveDynamic( this, &UBotInventoryMenu::HandleOnContainerUnlockHighlightCompleted );
 
 	OnContainerUnlockHighlightCompleted.Broadcast();
+}
+
+void UBotInventoryMenu::HandleOnButtonProceedClicked()
+{
+	OnProceed.Broadcast();
 }

@@ -35,6 +35,11 @@ int UContainerItemInfo::GetLockId()
 	return CurrentLock->GetLockId();
 }
 
+ULockItemInfo* UContainerItemInfo::GetLock()
+{
+	return CurrentLock;
+}
+
 UContainerItemInfo* UContainerItemInfo::Duplicate()
 {
 	ensure( GetWorld() );

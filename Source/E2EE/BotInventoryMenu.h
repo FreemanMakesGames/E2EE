@@ -6,10 +6,12 @@
 
 class UContainerItemInfo;
 
+class UButton;
+
 DECLARE_DYNAMIC_MULTICAST_DELEGATE( FOnPreDuplicationHighlightCompleted );
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnContainerOpenHighlightCompleted, UContainerItemInfo*, Container );
 DECLARE_DYNAMIC_MULTICAST_DELEGATE( FOnContainerUnlockHighlightCompleted );
-DECLARE_DYNAMIC_MULTICAST_DELEGATE( FOnHidden );
+DECLARE_DYNAMIC_MULTICAST_DELEGATE( FOnProceed );
 
 /**
  * 
@@ -19,6 +21,10 @@ class E2EE_API UBotInventoryMenu : public UInventoryMenu
 {
 	GENERATED_BODY()
 
+protected:
+
+	virtual void NativeOnInitialized() override;
+
 public:
 
 	void PreDuplicationHighlight( TArray<UItemInfo*> ItemsToDuplicate );
@@ -26,8 +32,6 @@ public:
 	void ContainerOpenHighlight( UContainerItemInfo* Container );
 
 	void ContainerUnlockHighlight( UKeyItemInfo* KeyItem, UContainerItemInfo* Container );
-
-	virtual void HideInventory() override;
 
 public:
 
@@ -41,7 +45,12 @@ public:
 	FOnContainerUnlockHighlightCompleted OnContainerUnlockHighlightCompleted;
 
 	UPROPERTY( BlueprintAssignable )
-	FOnHidden OnHidden;
+	FOnProceed OnProceed;
+
+protected:
+
+	UPROPERTY( meta = ( BindWidget ) )
+	UButton* Button_Proceed;
 
 protected:
 
@@ -53,5 +62,8 @@ protected:
 
 	UFUNCTION()
 	void HandleOnContainerUnlockHighlightCompleted( UItemClicker* HighlightedClicker );
+
+	UFUNCTION()
+	void HandleOnButtonProceedClicked();
 	
 };

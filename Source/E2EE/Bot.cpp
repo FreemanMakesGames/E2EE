@@ -46,8 +46,7 @@ void ABot::BeginPlay()
 	{
 		InventoryMenu = CreateWidget<UBotInventoryMenu>( GetWorld()->GetFirstPlayerController(), InventoryMenuClass );
 		InventoryMenu->SetupInventory( Inventory );
-		InventoryMenu->OnHidden.AddDynamic( this, &ABot::HandleOnInventoryMenuHidden );
-		InventoryMenu->OnPreDuplicationHighlightCompleted.AddDynamic( this, &ABot::HandleOnInventoryMenuPreDuplicationHighlightFinished );
+		InventoryMenu->OnProceed.AddDynamic( this, &ABot::HandleOnInventoryMenuProceed );
 	}
 	else { UDevUtilities::PrintError( "ABot's InventoryMenuClass isn't set!" ); return; }
 }
@@ -55,11 +54,6 @@ void ABot::BeginPlay()
 void ABot::SetupPlayerInputComponent( UInputComponent* PlayerInputComponent )
 {
 	Super::SetupPlayerInputComponent( PlayerInputComponent );
-}
-
-void ABot::Tick( float DeltaSeconds )
-{
-
 }
 
 #pragma region Getters and setters
@@ -79,6 +73,7 @@ void ABot::SetCurrentWaypoint( AWaypoint* TheWaypoint )
 }
 #pragma endregion
 
+#pragma region Capsule event handlers
 void ABot::OnCapsuleClicked( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed )
 {
 	Summon();
@@ -99,6 +94,7 @@ void ABot::HandleOnCapsuleEndOverlap( UPrimitiveComponent* OverlappedComponent, 
 		CurrentWaypoint = nullptr;
 	}
 }
+#pragma endregion
 
 void ABot::HandleOnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::Type Result )
 {
@@ -106,18 +102,19 @@ void ABot::HandleOnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::
 
 	if ( Result == EPathFollowingResult::Success )
 	{
-		// If we've reached a target waypoint.
+		// If Bot reached a target waypoint
 		if ( TargetWaypoints.Num() > 0 && CurrentWaypoint == TargetWaypoints[0] )
 		{
 			TargetWaypoints.RemoveAt( 0 );
 
+			// If it's end user's waypoint
 			if ( CurrentWaypoint == Waypoint_Alice || CurrentWaypoint == Waypoint_Bob )
 			{
 				TArray<AItem*> DroppedItems = CurrentWaypoint->GetDroppedItems();
 
+				// If on the way to collect items
 				if ( MissionStatus == EBotMissionStatus::Summoned )
 				{
-					// If there are dropped items, collect and immediately start delivery.
 					if ( DroppedItems.Num() > 0 )
 					{
 						MissionStatus = EBotMissionStatus::CollectingItems;
@@ -139,7 +136,6 @@ void ABot::HandleOnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::
 
 						PlayerController->DisplayNotification( NSLOCTEXT( "", "", "The messenger bot has collected the items." ) );
 					}
-					// If no dropped items
 					else
 					{
 						PlayerController->DisplayNotification( NSLOCTEXT( "", "", "No item is dropped in the area for the messenger to send." ) );
@@ -147,6 +143,7 @@ void ABot::HandleOnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::
 						MissionStatus = EBotMissionStatus::Idle;
 					}
 				}
+				// If on the way to deliver items
 				else if ( MissionStatus == EBotMissionStatus::DeliveringItems )
 				{
 					for ( UItemInfo* Item : ItemsToDeliver )
@@ -158,24 +155,21 @@ void ABot::HandleOnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::
 					MissionStatus = EBotMissionStatus::Idle;
 				}
 			}
+			// If it's Bot's waypoint
 			else if ( CurrentWaypoint == Waypoint_Middle )
 			{
+				MissionStatus = EBotMissionStatus::DuplicatingItems;
+
+				InventoryMenu->OnPreDuplicationHighlightCompleted.AddDynamic( this, &ABot::HandleOnInventoryMenuPreDuplicationHighlightFinished );
+
 				InventoryMenu->PreDuplicationHighlight( ItemsToDeliver );
 
 				InventoryMenu->ShowInventory();
-
-				MissionStatus = EBotMissionStatus::DuplicatingItems;
 			}
 		}
-		else
-		{
-			UDevUtilities::PrintError( "Somehow Bot reaches the destination, but isn't in the target waypoint." );
-		}
+		else { UDevUtilities::PrintError( "Somehow Bot reaches the destination, but isn't in the target waypoint." ); }
 	}
-	else
-	{
-		UDevUtilities::PrintError( "Somehow Bot fails to reach the destination." );
-	}
+	else { UDevUtilities::PrintError( "Somehow Bot fails to reach the destination." ); }
 }
 
 /**
@@ -186,12 +180,22 @@ void ABot::HandleOnInventoryMenuAdditionHighlightFinished()
 {
 	InventoryMenu->OnAdditionHighlightCompleted.RemoveDynamic( this, &ABot::HandleOnInventoryMenuAdditionHighlightFinished );
 
-	ExamineItems();
+	switch ( MissionStatus )
+	{
+	case EBotMissionStatus::DuplicatingItems:
+	case EBotMissionStatus::OpeningContainer:
+	case EBotMissionStatus::UnlockingContainer:
+
+		MissionStatus = EBotMissionStatus::ExaminingItems;
+
+		break;
+
+	}
 }
 
 void ABot::HandleOnInventoryMenuPreDuplicationHighlightFinished()
 {
-	// Consider: Should this be added and removed whenever used, instead of once-and-for-all in the constructor?
+	InventoryMenu->OnPreDuplicationHighlightCompleted.RemoveDynamic( this, &ABot::HandleOnInventoryMenuPreDuplicationHighlightFinished );
 
 	for ( UItemInfo* Item : ItemsToDeliver )
 	{
@@ -199,8 +203,6 @@ void ABot::HandleOnInventoryMenuPreDuplicationHighlightFinished()
 	}
 
 	InventoryMenu->OnAdditionHighlightCompleted.AddDynamic( this, &ABot::HandleOnInventoryMenuAdditionHighlightFinished );
-
-	MissionStatus = EBotMissionStatus::DeliveringItems;
 }
 
 void ABot::HandleOnInventoryMenuContainerOpenHighlightFinished( UContainerItemInfo* Container )
@@ -216,7 +218,7 @@ void ABot::HandleOnInventoryMenuContainerUnlockHighlightFinished()
 {
 	InventoryMenu->OnContainerUnlockHighlightCompleted.RemoveDynamic( this, &ABot::HandleOnInventoryMenuContainerUnlockHighlightFinished );
 
-	// Combine items.
+	// Unlock.
 	TArray<UItemInfo*> KeyAndContainer;
 	KeyAndContainer.Add( KeyAndContainerToUnlockAfterHighlight.Key );
 	KeyAndContainer.Add( KeyAndContainerToUnlockAfterHighlight.Value );
@@ -225,41 +227,51 @@ void ABot::HandleOnInventoryMenuContainerUnlockHighlightFinished()
 	InventoryMenu->OnAdditionHighlightCompleted.AddDynamic( this, &ABot::HandleOnInventoryMenuAdditionHighlightFinished );
 }
 
-void ABot::HandleOnInventoryMenuHidden()
+void ABot::HandleOnInventoryMenuProceed()
 {
-	if ( CurrentWaypoint && ItemsToDeliver.Num() > 0 )
+	switch ( MissionStatus )
 	{
+	case EBotMissionStatus::CollectingItems:
+
 		if ( CurrentWaypoint == Waypoint_Alice )
 		{
 			TargetWaypoints.Add( Waypoint_Middle );
 			TargetWaypoints.Add( Waypoint_Bob );
-
-			MissionStatus = EBotMissionStatus::DeliveringItems;
 		}
 		else if ( CurrentWaypoint == Waypoint_Bob )
 		{
 			TargetWaypoints.Add( Waypoint_Middle );
 			TargetWaypoints.Add( Waypoint_Alice );
-
-			MissionStatus = EBotMissionStatus::DeliveringItems;
 		}
-		else if ( CurrentWaypoint == Waypoint_Middle )
-		{
-			// If duplication isn't done before inventory menu is closed,
-			// It won't happen because HandleOnInventoryMenuPreDuplicationHighlightFinished won't fire.
-			// So we need to manually duplicate here.
-			if ( MissionStatus == EBotMissionStatus::DuplicatingItems )
-			{
-				for ( UItemInfo* Item : ItemsToDeliver )
-				{
-					Inventory->AddItem( Item->Duplicate() );
-				}
 
-				MissionStatus = EBotMissionStatus::DeliveringItems;
-			}
-		}
+		MissionStatus = EBotMissionStatus::DeliveringItems;
+
+		InventoryMenu->HideInventory();
 
 		StartMove();
+
+		break;
+
+	case EBotMissionStatus::ExaminingItems:
+
+		ExamineItems();
+
+		break;
+
+	case EBotMissionStatus::ExaminationComplete:
+
+		MissionStatus = EBotMissionStatus::DeliveringItems;
+
+		InventoryMenu->HideInventory();
+
+		StartMove();
+
+		break;
+
+	default:
+
+		ensureAlwaysMsgf( false, TEXT( "What leads us here?" ) );
+
 	}
 }
 
@@ -338,6 +350,8 @@ void ABot::ExamineItems()
 			{
 				if ( Container->IsOccupied() )
 				{
+					MissionStatus = EBotMissionStatus::OpeningContainer;
+
 					InventoryMenu->OnContainerOpenHighlightCompleted.AddDynamic( this, &ABot::HandleOnInventoryMenuContainerOpenHighlightFinished ); 
 					
 					InventoryMenu->ContainerOpenHighlight( Container );
@@ -349,6 +363,7 @@ void ABot::ExamineItems()
 					return;
 				}
 			}
+			// A locked container
 			else
 			{
 				for ( UItemInfo* SecondaryItem : ItemsToExamine )
@@ -357,6 +372,8 @@ void ABot::ExamineItems()
 					{
 						if ( KeyItem->GetKeyId() == Container->GetLockId() )
 						{
+							MissionStatus = EBotMissionStatus::UnlockingContainer;
+
 							KeyAndContainerToUnlockAfterHighlight.Key = KeyItem;
 							KeyAndContainerToUnlockAfterHighlight.Value = Container;
 
@@ -375,4 +392,6 @@ void ABot::ExamineItems()
 			}
 		}
 	}
+
+	MissionStatus = EBotMissionStatus::ExaminationComplete;
 }

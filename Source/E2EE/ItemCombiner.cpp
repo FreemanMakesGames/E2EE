@@ -136,8 +136,11 @@ FItemCombinationResult UItemCombiner::UnlockContainer( TArray<UItemInfo*> Source
 			return Result; // Empty unsuccessful result
 		}
 
-		Container->Unlock();
+		Result.ResultItems.Add( Container->GetLock() );
 
+		Container->Unlock();
+		
+		Result.ResultItems.Add( Key );
 		Result.ResultItems.Add( Container );
 		Result.Successful = true;
 

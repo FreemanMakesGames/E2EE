@@ -25,6 +25,12 @@ enum class EBotMissionStatus : uint8
 
 	ExaminingItems		UMETA( DisplayName = "ExaminingItems" ),
 
+	ExaminationComplete UMETA( DisplayName = "ExaminationComplete" ),
+
+	OpeningContainer	UMETA( DisplayName = "OpeningContainer" ),
+
+	UnlockingContainer	UMETA( DisplayName = "UnlockingContainer" ),
+
 	DeliveringItems		UMETA( DisplayName = "DeliveringItems" )
 };
 
@@ -44,8 +50,6 @@ protected:
 public:	
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-	virtual void Tick( float DeltaSeconds ) override;
 
 #pragma region Getters and setters
 public:
@@ -87,6 +91,7 @@ protected:
 
 protected:
 
+#pragma region Capsule event handlers
 	UFUNCTION()
 	void OnCapsuleClicked( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed ); // Due to a UE bug, this can't be named as HandleOnCapsuleClicked...
 
@@ -95,6 +100,7 @@ protected:
 
 	UFUNCTION()
 	void HandleOnCapsuleEndOverlap( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex );
+#pragma endregion
 
 	UFUNCTION()
 	void HandleOnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::Type Result );
@@ -112,7 +118,7 @@ protected:
 	void HandleOnInventoryMenuContainerUnlockHighlightFinished();
 
 	UFUNCTION()
-	void HandleOnInventoryMenuHidden();
+	void HandleOnInventoryMenuProceed();
 
 protected:
 
