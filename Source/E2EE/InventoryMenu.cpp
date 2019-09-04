@@ -10,6 +10,7 @@
 #include "Components/WrapBox.h"
 #include "Components/Button.h"
 #include "Components/NamedSlot.h"
+#include "Components/TextBlock.h"
 
 void UInventoryMenu::NativeOnInitialized()
 {
@@ -95,7 +96,7 @@ UItemClicker* UInventoryMenu::AddNewItemClicker( UItemInfo* Item )
 
 void UInventoryMenu::HandleOnItemClickerClicked( UItemClicker* ClickedItemClicker )
 {
-
+	TextBlock_Description->SetText( ClickedItemClicker->GetItemInfo()->Describe() );
 }
 
 void UInventoryMenu::HandleOnClickerAdditionHighlightFinished( UItemClicker* HighlightedClicker )

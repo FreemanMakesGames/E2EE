@@ -11,6 +11,7 @@ class UItemInfo;
 class UWrapBox;
 class UButton;
 class UItemMenu;
+class UTextBlock;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE( FOnAdditionHighlightCompleted );
 
@@ -36,6 +37,9 @@ protected:
 
 	UPROPERTY( meta = ( BindWidget ) )
 	UWrapBox* WrapBox_ItemClickers;
+
+	UPROPERTY( meta = ( BindWidget ) )
+	UTextBlock* TextBlock_Description;
 
 	UPROPERTY( meta = ( BindWidget ) )
 	UButton* Button_HideInventoryMenu;

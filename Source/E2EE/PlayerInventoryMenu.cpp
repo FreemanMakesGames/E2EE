@@ -4,6 +4,8 @@
 #include "ItemClicker.h"
 #include "ItemMenu.h"
 
+#include "Components/TextBlock.h"
+
 void UPlayerInventoryMenu::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
@@ -17,9 +19,10 @@ void UPlayerInventoryMenu::NativeOnInitialized()
 	ItemMenu->OnButtonForCombinationClicked.AddDynamic( this, &UPlayerInventoryMenu::HandleOnItemMenuButtonForCombinationClicked );
 }
 
-#pragma region Item Menu event handlers
 void UPlayerInventoryMenu::HandleOnItemClickerClicked( UItemClicker* ClickedItemClicker )
 {
+	Super::HandleOnItemClickerClicked( ClickedItemClicker );
+
 	UItemInfo* TargetItem = ClickedItemClicker->GetItemInfo();
 
 	if ( bIsCombining )
@@ -34,6 +37,8 @@ void UPlayerInventoryMenu::HandleOnItemClickerClicked( UItemClicker* ClickedItem
 
 		if ( LastClickedClicker ) LastClickedClicker->Unhighlight();
 		if ( ClickedItemClicker ) ClickedItemClicker->Unhighlight();
+
+		TextBlock_Description->SetText( NSLOCTEXT( "", "", "" ) );
 	}
 	else
 	{
@@ -48,6 +53,7 @@ void UPlayerInventoryMenu::HandleOnItemClickerClicked( UItemClicker* ClickedItem
 	LastClickedClicker = ClickedItemClicker;
 }
 
+#pragma region Item Menu event handlers
 void UPlayerInventoryMenu::HandleOnItemMenuButtonDestroyClicked( UItemInfo* TargetItem )
 {
 	Inventory->RemoveItem( TargetItem );

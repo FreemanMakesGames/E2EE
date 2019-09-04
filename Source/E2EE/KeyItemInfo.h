@@ -32,4 +32,6 @@ public:
 
 	virtual UKeyItemInfo* Duplicate() override;
 
+	virtual FText Describe() override;
+
 };

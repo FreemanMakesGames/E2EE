@@ -41,3 +41,11 @@ ULockItemInfo* ULockItemInfo::Duplicate()
 
 	return Clone;
 }
+
+FText ULockItemInfo::Describe()
+{
+	FFormatNamedArguments Args;
+	Args.Add( "ID", LockId );
+
+	return FText::Format( NSLOCTEXT( "", "", "Lock '{ID}'" ), Args );
+}

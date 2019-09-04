@@ -41,3 +41,11 @@ UKeyItemInfo* UKeyItemInfo::Duplicate()
 
 	return Clone;
 }
+
+FText UKeyItemInfo::Describe()
+{
+	FFormatNamedArguments Args;
+	Args.Add( "ID", KeyId );
+
+	return FText::Format( NSLOCTEXT( "", "", "Key '{ID}'" ), Args );
+}

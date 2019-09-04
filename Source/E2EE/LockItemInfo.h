@@ -31,5 +31,7 @@ protected:
 public:
 
 	virtual ULockItemInfo* Duplicate() override;
+
+	virtual FText Describe() override;
 	
 };

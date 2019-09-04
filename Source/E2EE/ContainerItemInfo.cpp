@@ -3,6 +3,7 @@
 #include "Container.h"
 #include "ContainerItemWidget.h"
 #include "LockItemInfo.h"
+#include "MessageItemInfo.h"
 #include "DevUtilities.h"
 
 #include "Engine/Engine.h"
@@ -59,6 +60,38 @@ UContainerItemInfo* UContainerItemInfo::Duplicate()
 	}
 
 	return Clone;
+}
+
+FText UContainerItemInfo::Describe()
+{
+	FFormatNamedArguments LockStatusArgs;
+	FText LockStatus;
+	if ( IsLocked() )
+	{
+		LockStatusArgs.Add( "Lock ID", GetLockId() );
+
+		LockStatus = FText::Format( NSLOCTEXT( "", "", "Locked by Lock '{Lock ID}'" ), LockStatusArgs );
+	}
+	else
+	{
+		LockStatus = NSLOCTEXT( "", "", "Not locked" );
+	}
+
+	FText ContainedItemStatus;
+	if ( IsOccupied() )
+	{
+		ContainedItemStatus = ContainedItem->Describe();
+	}
+	else
+	{
+		ContainedItemStatus = NSLOCTEXT( "", "", "Empty" );
+	}
+
+	FFormatNamedArguments FinalArgs;
+	FinalArgs.Add( "ContainedItemStatus", ContainedItemStatus );
+	FinalArgs.Add( "LockStatus", LockStatus );
+	
+	return FText::Format( NSLOCTEXT( "", "", "A container.\nContent: {ContainedItemStatus}\n{LockStatus}" ), FinalArgs );
 }
 
 void UContainerItemInfo::ContainItem( UItemInfo* TargetItem )

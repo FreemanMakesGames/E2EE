@@ -20,6 +20,13 @@ class E2EE_API UItemInfo : public UObject
 
 public:
 
+	virtual bool IsSupportedForNetworking() const override
+	{
+		return true;
+	}
+
+public:
+
 	UFUNCTION( BlueprintCallable )
 	TSubclassOf<AItem> GetItemClass();
 
@@ -31,11 +38,6 @@ public:
 
 	UFUNCTION( BlueprintCallable )
 	TArray<EItemUsage> GetItemUsages();
-
-	virtual bool IsSupportedForNetworking() const override
-	{
-		return true;
-	}
 
 protected:
 
@@ -53,9 +55,14 @@ protected:
 public:
 
 	UFUNCTION( BlueprintCallable )
-	AItem* SpawnItem( const FTransform& SpawnTransform );
+	virtual UItemInfo* Duplicate() PURE_VIRTUAL( , return nullptr; );
 
 	UFUNCTION( BlueprintCallable )
-	virtual UItemInfo* Duplicate() PURE_VIRTUAL( , return nullptr; );
+	virtual FText Describe() PURE_VIRTUAL( , return NSLOCTEXT( "", "", "Invalid description!" ); );
+
+public:
+
+	UFUNCTION( BlueprintCallable )
+	AItem* SpawnItem( const FTransform& SpawnTransform );
 	
 };

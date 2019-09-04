@@ -27,3 +27,8 @@ UMessageItemInfo* UMessageItemInfo::Duplicate()
 
 	return Clone;
 }
+
+FText UMessageItemInfo::Describe()
+{
+	return NSLOCTEXT( "", "", "The Message" );
+}

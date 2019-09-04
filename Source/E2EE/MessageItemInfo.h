@@ -19,5 +19,7 @@ public:
 public:
 
 	virtual UMessageItemInfo* Duplicate() override;
+
+	virtual FText Describe() override;
 	
 };

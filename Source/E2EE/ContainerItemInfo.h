@@ -67,6 +67,10 @@ public:
 
 	virtual UContainerItemInfo* Duplicate() override;
 
+	virtual FText Describe() override;
+
+public:
+
 	UFUNCTION( BlueprintCallable )
 	void ContainItem( UItemInfo* TargetItem );
 
