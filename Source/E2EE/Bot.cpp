@@ -12,6 +12,7 @@
 #include "ContainerItemInfo.h"
 #include "MessageItemInfo.h"
 #include "BotInventoryMenu.h"
+#include "DropItemComponent.h"
 #include "DevUtilities.h"
 
 #include "Runtime/Engine/Classes/Components/SkeletalMeshComponent.h"
@@ -24,6 +25,9 @@ ABot::ABot()
 	PrimaryActorTick.bCanEverTick = true;
 
 	Inventory = CreateDefaultSubobject<UInventory>( TEXT( "Inventory" ) );
+
+	DropItemComponent = CreateDefaultSubobject<UDropItemComponent>( TEXT( "DropItemComponent" ) );
+	DropItemComponent->SetupAttachment( GetCapsuleComponent() );
 
 	GetCapsuleComponent()->OnClicked.AddDynamic( this, &ABot::OnCapsuleClicked );
 	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic( this, &ABot::HandleOnCapsuleBeginOverlap );
@@ -113,13 +117,11 @@ void ABot::HandleOnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::
 				{
 					if ( DroppedItems.Num() > 0 )
 					{
-						MissionStatus = EBotMissionStatus::CollectingItems;
-
 						for ( AItem* Item : DroppedItems )
 						{
 							if ( UItemInfo* ItemInfo = Item->GetItemInfo() )
 							{
-								Inventory->AddItem( ItemInfo );
+								//Inventory->AddItem( ItemInfo );
 
 								ItemsToDeliver.Add( ItemInfo );
 
@@ -128,13 +130,17 @@ void ABot::HandleOnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::
 							else { ensureAlways( false ); return; }
 						}
 
+						InventoryMenu->SetupItemClickersForDelivery( ItemsToDeliver );
+
 						InventoryMenu->ShowInventory();
 
-						PlayerController->DisplayNotification( NSLOCTEXT( "", "", "The messenger bot has collected the items." ) );
+						MissionStatus = EBotMissionStatus::CollectionComplete;
+
+						PlayerController->DisplayNotification( NSLOCTEXT( "", "", "Messenger has collected the items." ) );
 					}
 					else
 					{
-						PlayerController->DisplayNotification( NSLOCTEXT( "", "", "No item is dropped in the area for the messenger to send." ) );
+						PlayerController->DisplayNotification( NSLOCTEXT( "", "", "Messenger doesn't find any item to collect." ) );
 
 						MissionStatus = EBotMissionStatus::Idle;
 					}
@@ -145,10 +151,12 @@ void ABot::HandleOnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::
 					// TODO: Extract method.
 					for ( UItemInfo* Item : ItemsToDeliver )
 					{
-						Inventory->DropItem( Item );
+						DropItemComponent->ServerDropItem( Item );
 					}
 					ItemsToDeliver.Empty();
 					ItemsToDuplicate.Empty();
+
+					InventoryMenu->ClearItemClickersForDelivery( ItemsToDeliver );
 
 					MissionStatus = EBotMissionStatus::Idle;
 				}
@@ -244,7 +252,7 @@ void ABot::HandleOnInventoryMenuProceed()
 {
 	switch ( MissionStatus )
 	{
-	case EBotMissionStatus::CollectingItems:
+	case EBotMissionStatus::CollectionComplete:
 
 		if ( CurrentWaypoint == Waypoint_Alice )
 		{

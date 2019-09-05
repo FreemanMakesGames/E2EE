@@ -9,8 +9,9 @@
 #include "Bot.generated.h"
 
 class AAIController;
-class UBotInventoryMenu;
 class UInventory;
+class UBotInventoryMenu;
+class UDropItemComponent;
 
 UENUM( BlueprintType )
 enum class EBotMissionStatus : uint8
@@ -19,7 +20,7 @@ enum class EBotMissionStatus : uint8
 
 	Summoned			UMETA( DisplayName = "Summoned" ),
 
-	CollectingItems		UMETA( DisplayName = "CollectingItems" ),
+	CollectionComplete		UMETA( DisplayName = "CollectingItems" ),
 
 	DuplicatingItems	UMETA( DisplayName = "DuplicatingItems" ),
 
@@ -84,6 +85,9 @@ protected:
 
 	UPROPERTY( BlueprintReadOnly )
 	AAIController* AIController;
+
+	UPROPERTY( BlueprintReadOnly, VisibleAnywhere )
+	UDropItemComponent* DropItemComponent;
 
 protected:
 

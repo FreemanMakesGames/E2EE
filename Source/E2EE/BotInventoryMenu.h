@@ -25,7 +25,16 @@ protected:
 
 	virtual void NativeOnInitialized() override;
 
+protected:
+
+	UPROPERTY( meta = ( BindWidget ) )
+	UWrapBox* WrapBox_ItemClickersForDelivery;
+
 public:
+
+	void SetupItemClickersForDelivery( TArray<UItemInfo*> ItemsToDeliver );
+
+	void ClearItemClickersForDelivery( TArray<UItemInfo*> ItemsToDeliver );
 
 	void PreDuplicationHighlight( TArray<UItemInfo*> ItemsToDuplicate );
 

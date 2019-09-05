@@ -6,12 +6,41 @@
 #include "DevUtilities.h"
 
 #include "Components/Button.h"
+#include "Components/WrapBox.h"
 
 void UBotInventoryMenu::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
 
 	Button_Proceed->OnClicked.AddDynamic( this, &UBotInventoryMenu::HandleOnButtonProceedClicked );
+}
+
+void UBotInventoryMenu::SetupItemClickersForDelivery( TArray<UItemInfo*> ItemsToDeliver )
+{
+	for ( UItemInfo* Item : ItemsToDeliver )
+	{
+		UItemClicker* ItemClicker = CreateWidget<UItemClicker>( this, ItemClickerClass );
+
+		ItemClicker->SetItemInfo( Item );
+
+		ItemClicker->OnClicked.AddDynamic( this, &UBotInventoryMenu::HandleOnItemClickerClicked );
+
+		WrapBox_ItemClickersForDelivery->AddChildWrapBox( ItemClicker );
+
+		ItemClicker->HighlightForItemAddition();
+
+		ItemToItemClicker.Add( Item, ItemClicker );
+	}
+}
+
+void UBotInventoryMenu::ClearItemClickersForDelivery( TArray<UItemInfo*> ItemsToDeliver )
+{
+	WrapBox_ItemClickersForDelivery->ClearChildren();
+
+	for ( UItemInfo* Item : ItemsToDeliver )
+	{
+		ItemToItemClicker.Remove( Item );
+	}
 }
 
 void UBotInventoryMenu::PreDuplicationHighlight( TArray<UItemInfo*> ItemsToDuplicate )
