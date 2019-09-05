@@ -130,6 +130,8 @@ protected:
 
 	void ExamineItems();
 
+	bool ShouldDuplicate( UItemInfo* Item );
+
 protected:
 
 	UPROPERTY( BlueprintReadOnly )
@@ -143,6 +145,9 @@ protected:
 
 	UPROPERTY( BlueprintReadOnly )
 	TArray<UItemInfo*> ItemsToDeliver;
+
+	UPROPERTY( BlueprintReadOnly )
+	TArray<UItemInfo*> ItemsToDuplicate;
 
 	TPair<UKeyItemInfo*, UContainerItemInfo*> KeyAndContainerToUnlockAfterHighlight;
 

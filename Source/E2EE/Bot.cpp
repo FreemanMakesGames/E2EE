@@ -10,6 +10,7 @@
 #include "LockItemInfo.h"
 #include "KeyItemInfo.h"
 #include "ContainerItemInfo.h"
+#include "MessageItemInfo.h"
 #include "BotInventoryMenu.h"
 #include "DevUtilities.h"
 
@@ -138,30 +139,49 @@ void ABot::HandleOnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::
 						MissionStatus = EBotMissionStatus::Idle;
 					}
 				}
-				// If on the way to deliver items
+				// If on the way to deliver items, drop off the delivery.
 				else if ( MissionStatus == EBotMissionStatus::DeliveringItems )
 				{
+					// TODO: Extract method.
 					for ( UItemInfo* Item : ItemsToDeliver )
 					{
 						Inventory->DropItem( Item );
 					}
 					ItemsToDeliver.Empty();
+					ItemsToDuplicate.Empty();
 
 					MissionStatus = EBotMissionStatus::Idle;
 				}
 			}
-			// If it's Bot's waypoint
+			// If it's Bot's waypoint, start duplicating / examining items.
 			else if ( CurrentWaypoint == Waypoint_Middle )
 			{
-				MissionStatus = EBotMissionStatus::DuplicatingItems;
-
 				InventoryMenu->ShowInventory();
 
-				InventoryMenu->OnPreDuplicationHighlightCompleted.AddDynamic( this, &ABot::HandleOnInventoryMenuPreDuplicationHighlightFinished );
+				for ( UItemInfo* Item : ItemsToDeliver )
+				{
+					if ( ShouldDuplicate( Item ) )
+					{
+						ItemsToDuplicate.Add( Item );
+					}
+				}
 
-				InventoryMenu->PreDuplicationHighlight( ItemsToDeliver );
+				if ( ItemsToDuplicate.Num() > 0 )
+				{
+					InventoryMenu->OnPreDuplicationHighlightCompleted.AddDynamic( this, &ABot::HandleOnInventoryMenuPreDuplicationHighlightFinished );
 
-				PlayerController->DisplayNotification( NSLOCTEXT( "", "", "Messenger is duplicating delivery items." ) );
+					InventoryMenu->PreDuplicationHighlight( ItemsToDuplicate );
+
+					PlayerController->DisplayNotification( NSLOCTEXT( "", "", "Messenger is duplicating delivery items." ) );
+
+					MissionStatus = EBotMissionStatus::DuplicatingItems;
+				}
+				else
+				{
+					PlayerController->DisplayNotification( NSLOCTEXT( "", "", "Messenger duplicates nothing." ) );
+
+					MissionStatus = EBotMissionStatus::ExaminingItems;
+				}
 			}
 		}
 		else { UDevUtilities::PrintError( "Somehow Bot reaches the destination, but isn't in the target waypoint." ); }
@@ -190,7 +210,7 @@ void ABot::HandleOnInventoryMenuPreDuplicationHighlightFinished()
 {
 	InventoryMenu->OnPreDuplicationHighlightCompleted.RemoveDynamic( this, &ABot::HandleOnInventoryMenuPreDuplicationHighlightFinished );
 
-	for ( UItemInfo* Item : ItemsToDeliver )
+	for ( UItemInfo* Item : ItemsToDuplicate )
 	{
 		Inventory->AddItem( Item->Duplicate() );
 	}
@@ -389,4 +409,30 @@ void ABot::ExamineItems()
 	PlayerController->DisplayNotification( NSLOCTEXT( "", "", "Messenger has finished tampering with items." ) );
 
 	MissionStatus = EBotMissionStatus::ExaminationComplete;
+}
+
+bool ABot::ShouldDuplicate( UItemInfo* Item )
+{
+	if ( Cast<UKeyItemInfo>( Item ) )
+	{
+		return true;
+	}
+	else if ( Cast<UMessageItemInfo>( Item ) )
+	{
+		return true;
+	}
+	else if ( UContainerItemInfo* Container = Cast<UContainerItemInfo>( Item ) )
+	{
+		if ( Container->IsOccupied() )
+		{
+			UItemInfo* ContainedItem = Container->GetContainedItem();
+
+			if ( Cast<UKeyItemInfo>( ContainedItem ) || Cast<UMessageItemInfo>( ContainedItem ) )
+			{
+				return true;
+			}
+		}
+	}
+
+	return false;
 }
