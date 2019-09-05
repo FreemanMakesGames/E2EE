@@ -153,10 +153,11 @@ void ABot::HandleOnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::
 					{
 						DropItemComponent->ServerDropItem( Item );
 					}
-					ItemsToDeliver.Empty();
-					ItemsToDuplicate.Empty();
 
 					InventoryMenu->ClearItemClickersForDelivery( ItemsToDeliver );
+
+					ItemsToDeliver.Empty();
+					ItemsToDuplicate.Empty();
 
 					MissionStatus = EBotMissionStatus::Idle;
 				}
@@ -421,21 +422,26 @@ void ABot::ExamineItems()
 
 bool ABot::ShouldDuplicate( UItemInfo* TargetItem )
 {
+	for ( UItemInfo* ExistingItem : Inventory->GetItems() )
+	{
+		if ( TargetItem->IsEquivalentTo( ExistingItem ) ) { return false; }
+	}
+
 	if ( UKeyItemInfo* TargetKey = Cast<UKeyItemInfo>( TargetItem ) )
 	{
 		return !AlreadyOwnsSuchKey( TargetKey );
 	}
-	else if ( UContainerItemInfo* Container = Cast<UContainerItemInfo>( TargetItem ) )
+	else if ( UContainerItemInfo* TargetContainer = Cast<UContainerItemInfo>( TargetItem ) )
 	{
-		if ( Container->IsOccupied() )
+		if ( TargetContainer->IsOccupied() )
 		{
-			UItemInfo* ContainedItem = Container->GetContainedItem();
+			UItemInfo* TargetContainedItem = TargetContainer->GetContainedItem();
 
-			if ( UKeyItemInfo* ContainedKey = Cast<UKeyItemInfo>( ContainedItem ) )
+			if ( UKeyItemInfo* TargetContainedKey = Cast<UKeyItemInfo>( TargetContainedItem ) )
 			{
-				return !AlreadyOwnsSuchKey( ContainedKey );
+				return !AlreadyOwnsSuchKey( TargetContainedKey );
 			}
-			else if ( Cast<UMessageItemInfo>( ContainedItem ) )
+			else if ( Cast<UMessageItemInfo>( TargetContainedItem ) )
 			{
 				return true;
 			}
@@ -453,8 +459,6 @@ bool ABot::AlreadyOwnsSuchKey( UKeyItemInfo* Key )
 {
 	for ( UItemInfo* ExistingItem : Inventory->GetItems() )
 	{
-		if ( ItemsToDeliver.Contains( ExistingItem ) ) { continue; }
-
 		if ( Key->IsEquivalentTo( ExistingItem ) ) { return true; }
 	}
 
