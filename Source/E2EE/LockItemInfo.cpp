@@ -49,3 +49,13 @@ FText ULockItemInfo::Describe()
 
 	return FText::Format( NSLOCTEXT( "", "", "Lock '{ID}'" ), Args );
 }
+
+bool ULockItemInfo::IsEquivalentTo( UItemInfo* OtherItem )
+{
+	if ( ULockItemInfo* OtherLock = Cast<ULockItemInfo>( OtherItem ) )
+	{
+		return LockId == OtherLock->GetLockId();
+	}
+
+	return false;
+}

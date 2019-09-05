@@ -49,3 +49,13 @@ FText UKeyItemInfo::Describe()
 
 	return FText::Format( NSLOCTEXT( "", "", "Key '{ID}'" ), Args );
 }
+
+bool UKeyItemInfo::IsEquivalentTo( UItemInfo* OtherItem )
+{
+	if ( UKeyItemInfo* OtherKey = Cast<UKeyItemInfo>( OtherItem ) )
+	{
+		return KeyId == OtherKey->GetKeyId();
+	}
+
+	return false;
+}

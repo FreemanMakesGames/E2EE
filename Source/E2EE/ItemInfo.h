@@ -60,6 +60,9 @@ public:
 	UFUNCTION( BlueprintCallable )
 	virtual FText Describe() PURE_VIRTUAL( , return NSLOCTEXT( "", "", "Invalid description!" ); );
 
+	UFUNCTION( BlueprintCallable )
+	virtual bool IsEquivalentTo( UItemInfo* OtherItem ) PURE_VIRTUAL( , return false; );
+
 public:
 
 	UFUNCTION( BlueprintCallable )

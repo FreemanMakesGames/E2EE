@@ -21,5 +21,7 @@ public:
 	virtual UMessageItemInfo* Duplicate() override;
 
 	virtual FText Describe() override;
+
+	virtual bool IsEquivalentTo( UItemInfo* OtherItem ) override;
 	
 };

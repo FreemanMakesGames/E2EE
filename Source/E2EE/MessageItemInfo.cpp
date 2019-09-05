@@ -32,3 +32,10 @@ FText UMessageItemInfo::Describe()
 {
 	return NSLOCTEXT( "", "", "The Message" );
 }
+
+bool UMessageItemInfo::IsEquivalentTo( UItemInfo* OtherItem )
+{
+	if ( Cast<UMessageItemInfo>( OtherItem ) ) { return true; }
+
+	return false;
+}

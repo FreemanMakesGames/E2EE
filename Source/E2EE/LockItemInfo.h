@@ -33,5 +33,7 @@ public:
 	virtual ULockItemInfo* Duplicate() override;
 
 	virtual FText Describe() override;
+
+	virtual bool IsEquivalentTo( UItemInfo* OtherItem ) override;
 	
 };

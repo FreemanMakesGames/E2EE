@@ -411,27 +411,43 @@ void ABot::ExamineItems()
 	MissionStatus = EBotMissionStatus::ExaminationComplete;
 }
 
-bool ABot::ShouldDuplicate( UItemInfo* Item )
+bool ABot::ShouldDuplicate( UItemInfo* TargetItem )
 {
-	if ( Cast<UKeyItemInfo>( Item ) )
+	if ( UKeyItemInfo* TargetKey = Cast<UKeyItemInfo>( TargetItem ) )
 	{
-		return true;
+		return !AlreadyOwnsSuchKey( TargetKey );
 	}
-	else if ( Cast<UMessageItemInfo>( Item ) )
-	{
-		return true;
-	}
-	else if ( UContainerItemInfo* Container = Cast<UContainerItemInfo>( Item ) )
+	else if ( UContainerItemInfo* Container = Cast<UContainerItemInfo>( TargetItem ) )
 	{
 		if ( Container->IsOccupied() )
 		{
 			UItemInfo* ContainedItem = Container->GetContainedItem();
 
-			if ( Cast<UKeyItemInfo>( ContainedItem ) || Cast<UMessageItemInfo>( ContainedItem ) )
+			if ( UKeyItemInfo* ContainedKey = Cast<UKeyItemInfo>( ContainedItem ) )
+			{
+				return !AlreadyOwnsSuchKey( ContainedKey );
+			}
+			else if ( Cast<UMessageItemInfo>( ContainedItem ) )
 			{
 				return true;
 			}
 		}
+	}
+	else if ( Cast<UMessageItemInfo>( TargetItem ) )
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool ABot::AlreadyOwnsSuchKey( UKeyItemInfo* Key )
+{
+	for ( UItemInfo* ExistingItem : Inventory->GetItems() )
+	{
+		if ( ItemsToDeliver.Contains( ExistingItem ) ) { continue; }
+
+		if ( Key->IsEquivalentTo( ExistingItem ) ) { return true; }
 	}
 
 	return false;

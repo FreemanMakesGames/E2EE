@@ -132,6 +132,8 @@ protected:
 
 	bool ShouldDuplicate( UItemInfo* Item );
 
+	bool AlreadyOwnsSuchKey( UKeyItemInfo* Key );
+
 protected:
 
 	UPROPERTY( BlueprintReadOnly )

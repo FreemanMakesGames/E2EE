@@ -34,4 +34,6 @@ public:
 
 	virtual FText Describe() override;
 
+	virtual bool IsEquivalentTo( UItemInfo* OtherItem ) override;
+
 };

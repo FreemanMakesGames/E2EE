@@ -94,6 +94,23 @@ FText UContainerItemInfo::Describe()
 	return FText::Format( NSLOCTEXT( "", "", "A container.\nContent: {ContainedItemStatus}\n{LockStatus}" ), FinalArgs );
 }
 
+bool UContainerItemInfo::IsEquivalentTo( UItemInfo* OtherItem )
+{
+	if ( UContainerItemInfo* OtherContainer = Cast<UContainerItemInfo>( OtherItem ) )
+	{
+		if ( IsLocked() && OtherContainer->IsLocked() && GetLockId() == OtherContainer->GetLockId() )
+		{
+			return ContainedItem->IsEquivalentTo( OtherContainer->GetContainedItem() );
+		}
+		else if ( !IsLocked() && !OtherContainer->IsLocked() )
+		{
+			return ContainedItem->IsEquivalentTo( OtherContainer->GetContainedItem() );
+		}
+	}
+
+	return false;
+}
+
 void UContainerItemInfo::ContainItem( UItemInfo* TargetItem )
 {
 	ContainedItem = TargetItem;
