@@ -31,7 +31,7 @@ UItemInfo* UContainerItemInfo::GetContainedItem()
 	return ContainedItem;
 }
 
-int UContainerItemInfo::GetLockId()
+FString UContainerItemInfo::GetLockId()
 {
 	return CurrentLock->GetLockId();
 }
@@ -68,7 +68,7 @@ FText UContainerItemInfo::Describe()
 	FText LockStatus;
 	if ( IsLocked() )
 	{
-		LockStatusArgs.Add( "Lock ID", GetLockId() );
+		LockStatusArgs.Add( "Lock ID", FText::FromString( GetLockId() ) );
 
 		LockStatus = FText::Format( NSLOCTEXT( "", "", "Locked by Lock '{Lock ID}'" ), LockStatusArgs );
 	}

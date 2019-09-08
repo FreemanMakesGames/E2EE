@@ -19,14 +19,14 @@ public:
 public:
 
 	UFUNCTION( BlueprintCallable )
-	int GetKeyId();
+	FString GetKeyId();
 
 	UFUNCTION( BlueprintCallable )
-	void SetKeyId( int InKeyId );
+	void SetKeyId( FString InKeyId );
 
 protected:
 
-	int KeyId;
+	FString KeyId;
 
 public:
 

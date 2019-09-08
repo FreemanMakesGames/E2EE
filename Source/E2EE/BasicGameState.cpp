@@ -13,10 +13,10 @@ void ABasicGameState::BeginPlay()
 
 void ABasicGameState::SetIdForKeyPair( ULockItemInfo* InLock, UKeyItemInfo* InKey )
 {
-	InLock->SetLockId( NextUsableKeyPairId );
-	InKey->SetKeyId( NextUsableKeyPairId );
-
-	IncrementUsableKeyPairId();
+// 	InLock->SetLockId( NextUsableKeyPairId );
+// 	InKey->SetKeyId( NextUsableKeyPairId );
+// 
+// 	IncrementUsableKeyPairId();
 }
 
 void ABasicGameState::IncrementUsableKeyPairId()

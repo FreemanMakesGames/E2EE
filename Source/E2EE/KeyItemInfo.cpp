@@ -21,12 +21,12 @@ UKeyItemInfo::UKeyItemInfo()
 	ItemTypeId = 1;
 }
 
-int UKeyItemInfo::GetKeyId()
+FString UKeyItemInfo::GetKeyId()
 {
 	return KeyId;
 }
 
-void UKeyItemInfo::SetKeyId( int InKeyId )
+void UKeyItemInfo::SetKeyId( FString InKeyId )
 {
 	KeyId = InKeyId;
 }
@@ -45,7 +45,7 @@ UKeyItemInfo* UKeyItemInfo::Duplicate()
 FText UKeyItemInfo::Describe()
 {
 	FFormatNamedArguments Args;
-	Args.Add( "ID", KeyId );
+	Args.Add( "ID", FText::FromString( KeyId ) );
 
 	return FText::Format( NSLOCTEXT( "", "", "Key '{ID}'" ), Args );
 }

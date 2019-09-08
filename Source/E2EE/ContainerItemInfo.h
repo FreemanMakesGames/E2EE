@@ -47,7 +47,7 @@ public:
 	UItemInfo* GetContainedItem();
 
 	UFUNCTION( BlueprintCallable )
-	int GetLockId();
+	FString GetLockId();
 
 	UFUNCTION( BlueprintCallable )
 	ULockItemInfo* GetLock();

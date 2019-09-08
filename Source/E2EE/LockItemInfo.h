@@ -19,14 +19,14 @@ public:
 public:
 
 	UFUNCTION( BlueprintCallable )
-	int GetLockId();
+	FString GetLockId();
 
 	UFUNCTION( BlueprintCallable )
-	void SetLockId( int InLockId );
+	void SetLockId( FString InLockId );
 
 protected:
 
-	int LockId;
+	FString LockId;
 
 public:
 

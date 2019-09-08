@@ -92,8 +92,8 @@ void UInventory::OpenItem( UItemInfo* TargetItem )
 		if ( Container->IsLocked() )
 		{
 			FFormatNamedArguments Args;
-			Args.Add( "Lock ID", Container->GetLockId() );
-			PlayerController->DisplayNotification( FText::Format( NSLOCTEXT( "", "", "This container is locked by lock #{Lock ID}" ), Args ) );
+			Args.Add( "Lock ID", FText::FromString( Container->GetLockId() ) );
+			PlayerController->DisplayNotification( FText::Format( NSLOCTEXT( "", "", "This container is locked by lock '{Lock ID}'" ), Args ) );
 
 			return;
 		}

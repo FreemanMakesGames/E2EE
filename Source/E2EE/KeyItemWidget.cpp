@@ -12,7 +12,7 @@ void UKeyItemWidget::SetItemInfo( UItemInfo* InItemInfo )
 	KeyItemInfo = Cast<UKeyItemInfo>( InItemInfo );
 	if ( KeyItemInfo )
 	{
-		FText Text = FText::FromString( FString::FromInt( KeyItemInfo->GetKeyId() ) );
+		FText Text = FText::FromString( KeyItemInfo->GetKeyId() );
 
 		TextBlock_KeyId->SetText( Text );
 	}

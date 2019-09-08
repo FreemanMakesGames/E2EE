@@ -12,7 +12,7 @@ void ULockItemWidget::SetItemInfo( UItemInfo* InItemInfo )
 	LockItemInfo = Cast<ULockItemInfo>( InItemInfo );
 	if ( LockItemInfo )
 	{
-		FText Text = FText::FromString( FString::FromInt( LockItemInfo->GetLockId() ) );
+		FText Text = FText::FromString( LockItemInfo->GetLockId() );
 
 		TextBlock_LockId->SetText( Text );
 	}

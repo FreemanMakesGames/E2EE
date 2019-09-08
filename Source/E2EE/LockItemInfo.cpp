@@ -21,12 +21,12 @@ ULockItemInfo::ULockItemInfo()
 	ItemTypeId = 0;
 }
 
-int ULockItemInfo::GetLockId()
+FString ULockItemInfo::GetLockId()
 {
 	return LockId;
 }
 
-void ULockItemInfo::SetLockId( int InLockId )
+void ULockItemInfo::SetLockId( FString InLockId )
 {
 	LockId = InLockId;
 }
@@ -45,7 +45,7 @@ ULockItemInfo* ULockItemInfo::Duplicate()
 FText ULockItemInfo::Describe()
 {
 	FFormatNamedArguments Args;
-	Args.Add( "ID", LockId );
+	Args.Add( "ID", FText::FromString( LockId ) );
 
 	return FText::Format( NSLOCTEXT( "", "", "Lock '{ID}'" ), Args );
 }

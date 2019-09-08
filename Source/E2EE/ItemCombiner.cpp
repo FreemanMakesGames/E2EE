@@ -86,8 +86,8 @@ FItemCombinationResult UItemCombiner::LockContainer( TArray<UItemInfo*> SourceIt
 		if ( Container->IsLocked() )
 		{
 			FFormatNamedArguments Args;
-			Args.Add( "Lock ID", Container->GetLockId() );
-			PlayerController->DisplayNotification( FText::Format( NSLOCTEXT( "", "", "The container is already locked by lock #{Lock ID}!" ), Args ) );
+			Args.Add( "Lock ID", FText::FromString( Container->GetLockId() ) );
+			PlayerController->DisplayNotification( FText::Format( NSLOCTEXT( "", "", "The container is already locked by lock '{Lock ID}'!" ), Args ) );
 
 			return Result; // Empty unsuccessful result
 		}
@@ -123,15 +123,15 @@ FItemCombinationResult UItemCombiner::UnlockContainer( TArray<UItemInfo*> Source
 			return Result; // Empty unsuccessful result
 		}
 
-		int LockId = Container->GetLockId();
-		int KeyId = Key->GetKeyId();
+		FString LockId = Container->GetLockId();
+		FString KeyId = Key->GetKeyId();
 
 		if ( LockId != KeyId )
 		{
 			FFormatNamedArguments Args;
-			Args.Add( "Lock ID", LockId );
-			Args.Add( "Key ID", KeyId );
-			PlayerController->DisplayNotification( FText::Format( NSLOCTEXT( "", "", "The container is locked with lock #{Lock ID}, but the key is #{Key ID}." ), Args ) );
+			Args.Add( "Lock ID", FText::FromString( LockId ) );
+			Args.Add( "Key ID", FText::FromString( KeyId ) );
+			PlayerController->DisplayNotification( FText::Format( NSLOCTEXT( "", "", "The container is locked with lock '{Lock ID}', but the key is '{Key ID}'." ), Args ) );
 
 			return Result; // Empty unsuccessful result
 		}
@@ -173,8 +173,8 @@ FItemCombinationResult UItemCombiner::ContainItem( TArray<UItemInfo*> SourceItem
 		if ( Container->IsLocked() )
 		{
 			FFormatNamedArguments Args;
-			Args.Add( "Lock ID", Container->GetLockId() );
-			PlayerController->DisplayNotification( FText::Format( NSLOCTEXT( "", "", "The container is locked by lock #{Lock ID}" ), Args ) );
+			Args.Add( "Lock ID", FText::FromString( Container->GetLockId() ) );
+			PlayerController->DisplayNotification( FText::Format( NSLOCTEXT( "", "", "The container is locked by lock '{Lock ID}'" ), Args ) );
 
 			return Result; // Empty unsuccessful result
 		}
