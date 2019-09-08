@@ -76,7 +76,14 @@ void ABot::SetCurrentWaypoint( AWaypoint* TheWaypoint )
 #pragma region Capsule event handlers
 void ABot::OnCapsuleClicked( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed )
 {
-	Summon();
+	if ( ButtonPressed == EKeys::LeftMouseButton )
+	{
+		Summon();
+	}
+	else if ( ButtonPressed == EKeys::RightMouseButton )
+	{
+		InventoryMenu->ShowInventory();
+	}
 }
 
 void ABot::HandleOnCapsuleBeginOverlap( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult )
@@ -290,6 +297,12 @@ void ABot::HandleOnInventoryMenuProceed()
 
 		break;
 
+	case EBotMissionStatus::Idle:
+
+		InventoryMenu->HideInventory();
+
+		break;
+
 	default:
 
 		ensureAlwaysMsgf( false, TEXT( "What leads us here?" ) );
@@ -302,8 +315,7 @@ void ABot::Summon()
 	UDevUtilities::PrintInfo( "Messenger is being summoned." );
 
 	// Don't move if there's no active character.
-	ABasicCharacter* ActiveCharacter = PlayerController->GetActiveCharacter();
-	if ( ActiveCharacter )
+	if ( ABasicCharacter* ActiveCharacter = PlayerController->GetActiveCharacter() )
 	{
 		if ( ActiveCharacter->GetUsername() == "Alice" )
 		{

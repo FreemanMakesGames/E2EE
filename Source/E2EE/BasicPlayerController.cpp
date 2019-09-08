@@ -11,7 +11,10 @@
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "Blueprint/UserWidget.h"
 
-ABasicPlayerController::ABasicPlayerController() {}
+ABasicPlayerController::ABasicPlayerController( const FObjectInitializer& ObjectInitializer ) : Super( ObjectInitializer )
+{
+	ClickEventKeys.Add( EKeys::RightMouseButton );
+}
 
 void ABasicPlayerController::SetupInputComponent()
 {
@@ -67,9 +70,7 @@ void ABasicPlayerController::ServerSubmitCharacterInteractionRequest_Implementat
 {
 	if ( Role == ROLE_Authority )
 	{
-		AMPGameMode* MPGameMode = GetWorld()->GetAuthGameMode<AMPGameMode>();
-
-		if ( MPGameMode )
+		if ( AMPGameMode* MPGameMode = GetWorld()->GetAuthGameMode<AMPGameMode>() ) // If multiplayer
 		{
 			MPGameMode->ProcessCharacterInteractionRequest( this, TargetCharacter );
 		}
@@ -110,17 +111,4 @@ void ABasicPlayerController::ClientReceiveCharacterInteractionResult_Implementat
 	{
 
 	}
-}
-
-void ABasicPlayerController::ShowActiveCharacterInventoryMenu()
-{
-	if ( ActiveCharacter )
-	{
-		ActiveCharacter->ShowInventory();
-	}
-}
-
-void ABasicPlayerController::ShowBotInventory( UInventory* BotInventory )
-{
-
 }

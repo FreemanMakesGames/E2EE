@@ -184,12 +184,14 @@ FString ABasicCharacter::GetUsername()
 }
 #pragma endregion
 
-void ABasicCharacter::ShowInventory()
-{
-	InventoryMenu->ShowInventory();
-}
-
 void ABasicCharacter::HandleOnCapsuleClicked( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed )
 {
-	GetWorld()->GetFirstPlayerController<ABasicPlayerController>()->ServerSubmitCharacterInteractionRequest( this );
+	if ( ButtonPressed == EKeys::LeftMouseButton )
+	{
+		GetWorld()->GetFirstPlayerController<ABasicPlayerController>()->ServerSubmitCharacterInteractionRequest( this );
+	}
+	else if ( ButtonPressed == EKeys::RightMouseButton )
+	{
+		InventoryMenu->ShowInventory();
+	}
 }

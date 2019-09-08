@@ -19,7 +19,7 @@ class E2EE_API ABasicPlayerController : public APlayerController
 
 public:
 
-	ABasicPlayerController();
+	ABasicPlayerController( const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get() );
 
 protected:
 
@@ -55,12 +55,6 @@ public:
 
 	UFUNCTION( Client, Reliable )
 	void ClientReceiveCharacterInteractionResult( bool bSuccessful, ABasicCharacter* TargetCharacter );
-
-	UFUNCTION( BlueprintCallable )
-	void ShowActiveCharacterInventoryMenu();
-
-	UFUNCTION( BlueprintCallable )
-	void ShowBotInventory( UInventory* BotInventory );
 
 	UFUNCTION( BlueprintImplementableEvent, BlueprintCallable )
 	void DisplayNotification( const FText& NotificationText );

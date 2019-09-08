@@ -120,9 +120,6 @@ protected:
 
 public:
 
-	UFUNCTION( BlueprintCallable )
-	void ShowInventory();
-
 	UFUNCTION( BlueprintImplementableEvent, BlueprintCallable )
 	void ReadItem( UItemInfo* ItemToRead );
 
