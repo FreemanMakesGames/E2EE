@@ -101,9 +101,11 @@ void UInventoryMenu::HandleOnItemClickerClicked( UItemClicker* ClickedItemClicke
 
 void UInventoryMenu::HandleOnClickerAdditionHighlightFinished( UItemClicker* HighlightedClicker )
 {
-	OnAdditionHighlightCompleted.Broadcast();
-
 	HighlightedClicker->OnAdditionHighlightFinished.RemoveDynamic( this, &UInventoryMenu::HandleOnClickerAdditionHighlightFinished );
+
+	EnableInput();
+	
+	OnAdditionHighlightCompleted.Broadcast();
 }
 
 void UInventoryMenu::HandleOnButtonHideInventoryMenuClicked()
@@ -113,6 +115,10 @@ void UInventoryMenu::HandleOnButtonHideInventoryMenuClicked()
 
 void UInventoryMenu::HandleOnItemAdded( UItemInfo* ItemAdded )
 {
+	// Highlight animation will play, either now, or after inventory menu is shown.
+	// So disable input now. Input will be re-enabled after highlight is finished.
+	DisableInput();
+
 	UItemClicker* NewItemClicker = AddNewItemClicker( ItemAdded );
 
 	if ( IsInViewport() )
@@ -139,4 +145,14 @@ void UInventoryMenu::HandleOnItemRemoved( UItemInfo* ItemRemoved )
 	}
 
 	// FIXME: Does ItemToItemClicker need to remove the ItemClicker?
+}
+
+void UInventoryMenu::EnableInput()
+{
+	SetVisibility( ESlateVisibility::Visible );
+}
+
+void UInventoryMenu::DisableInput()
+{
+	SetVisibility( ESlateVisibility::HitTestInvisible );
 }

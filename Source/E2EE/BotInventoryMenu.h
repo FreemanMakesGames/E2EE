@@ -63,6 +63,8 @@ protected:
 
 protected:
 
+	virtual void HandleOnItemClickerClicked( UItemClicker* ClickedItemClicker ) override;
+
 	UFUNCTION()
 	void HandleOnPreDuplicationHighlightCompleted( UItemClicker* HighlightedClicker );
 
@@ -71,6 +73,9 @@ protected:
 
 	UFUNCTION()
 	void HandleOnContainerUnlockHighlightCompleted( UItemClicker* HighlightedClicker );
+
+	UFUNCTION()
+	void HandleOnDeliveryItemClickerAdditionHighlightDone( UItemClicker* HighlightedClicker );
 
 	UFUNCTION()
 	void HandleOnButtonProceedClicked();

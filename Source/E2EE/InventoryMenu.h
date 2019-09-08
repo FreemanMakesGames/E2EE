@@ -86,6 +86,14 @@ protected:
 
 protected:
 
+	UFUNCTION( BlueprintCallable )
+	virtual void EnableInput();
+
+	UFUNCTION( BlueprintCallable )
+	virtual void DisableInput();
+
+protected:
+
 	UPROPERTY( BlueprintReadOnly )
 	TMap<UItemInfo*, UItemClicker*> ItemToItemClicker;
 

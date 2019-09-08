@@ -17,6 +17,8 @@ void UBotInventoryMenu::NativeOnInitialized()
 
 void UBotInventoryMenu::SetupItemClickersForDelivery( TArray<UItemInfo*> ItemsToDeliver )
 {
+	DisableInput();
+
 	for ( UItemInfo* Item : ItemsToDeliver )
 	{
 		UItemClicker* ItemClicker = CreateWidget<UItemClicker>( this, ItemClickerClass );
@@ -24,6 +26,7 @@ void UBotInventoryMenu::SetupItemClickersForDelivery( TArray<UItemInfo*> ItemsTo
 		ItemClicker->SetItemInfo( Item );
 
 		ItemClicker->OnClicked.AddDynamic( this, &UBotInventoryMenu::HandleOnItemClickerClicked );
+		ItemClicker->OnAdditionHighlightFinished.AddDynamic( this, &UBotInventoryMenu::HandleOnDeliveryItemClickerAdditionHighlightDone );
 
 		WrapBox_ItemClickersForDelivery->AddChildWrapBox( ItemClicker );
 
@@ -45,6 +48,8 @@ void UBotInventoryMenu::ClearItemClickersForDelivery( TArray<UItemInfo*> ItemsTo
 
 void UBotInventoryMenu::PreDuplicationHighlight( TArray<UItemInfo*> ItemsToDuplicate )
 {
+	DisableInput();
+
 	for ( int i = 0; i < ItemsToDuplicate.Num(); i++ )
 	{
 		if ( UItemClicker** pItemClicker = ItemToItemClicker.Find( ItemsToDuplicate[i] ) )
@@ -65,6 +70,8 @@ void UBotInventoryMenu::PreDuplicationHighlight( TArray<UItemInfo*> ItemsToDupli
 
 void UBotInventoryMenu::ContainerOpenHighlight( UContainerItemInfo* Container )
 {
+	DisableInput();
+
 	if ( UItemClicker** pItemClicker = ItemToItemClicker.Find( Container ) )
 	{
 		( *pItemClicker )->OnContainerOpenHighlightFinished.AddDynamic( this, &UBotInventoryMenu::HandleOnContainerOpenHighlightCompleted );
@@ -76,6 +83,8 @@ void UBotInventoryMenu::ContainerOpenHighlight( UContainerItemInfo* Container )
 
 void UBotInventoryMenu::ContainerUnlockHighlight( UKeyItemInfo* KeyItem, UContainerItemInfo* Container )
 {
+	DisableInput();
+
 	UItemClicker** pKeyItemClicker = ItemToItemClicker.Find( KeyItem );
 	UItemClicker** pContainerItemClicker = ItemToItemClicker.Find( Container );
 
@@ -90,6 +99,16 @@ void UBotInventoryMenu::ContainerUnlockHighlight( UKeyItemInfo* KeyItem, UContai
 	else { ensureAlways( false ); }
 }
 
+void UBotInventoryMenu::HandleOnItemClickerClicked( UItemClicker* ClickedItemClicker )
+{
+	Super::HandleOnItemClickerClicked( ClickedItemClicker );
+
+	if ( LastClickedClicker ) LastClickedClicker->Unhighlight();
+	ClickedItemClicker->HighlightForClicking();
+
+	LastClickedClicker = ClickedItemClicker;
+}
+
 void UBotInventoryMenu::HandleOnPreDuplicationHighlightCompleted( UItemClicker* HighlightedClicker )
 {
 	HighlightedClicker->OnAdditionHighlightFinished.RemoveDynamic( this, &UBotInventoryMenu::HandleOnPreDuplicationHighlightCompleted );
@@ -100,7 +119,7 @@ void UBotInventoryMenu::HandleOnPreDuplicationHighlightCompleted( UItemClicker* 
 void UBotInventoryMenu::HandleOnContainerOpenHighlightCompleted( UItemClicker* HighlightedClicker )
 {
 	HighlightedClicker->OnContainerOpenHighlightFinished.RemoveDynamic( this, &UBotInventoryMenu::HandleOnContainerOpenHighlightCompleted );
-	
+
 	OnContainerOpenHighlightCompleted.Broadcast( Cast<UContainerItemInfo>( HighlightedClicker->GetItemInfo() ) );
 }
 
@@ -109,6 +128,13 @@ void UBotInventoryMenu::HandleOnContainerUnlockHighlightCompleted( UItemClicker*
 	HighlightedClicker->OnContainerUnlockHighlightFinished.RemoveDynamic( this, &UBotInventoryMenu::HandleOnContainerUnlockHighlightCompleted );
 
 	OnContainerUnlockHighlightCompleted.Broadcast();
+}
+
+void UBotInventoryMenu::HandleOnDeliveryItemClickerAdditionHighlightDone( UItemClicker* HighlightedClicker )
+{
+	HighlightedClicker->OnAdditionHighlightFinished.RemoveDynamic( this, &UBotInventoryMenu::HandleOnDeliveryItemClickerAdditionHighlightDone );
+
+	EnableInput();
 }
 
 void UBotInventoryMenu::HandleOnButtonProceedClicked()
