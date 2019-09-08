@@ -39,6 +39,9 @@ protected:
 	UWrapBox* WrapBox_ItemClickers;
 
 	UPROPERTY( meta = ( BindWidget ) )
+	UTextBlock* TextBlock_Title;
+
+	UPROPERTY( meta = ( BindWidget ) )
 	UTextBlock* TextBlock_Description;
 
 	UPROPERTY( meta = ( BindWidget ) )
@@ -51,6 +54,9 @@ public:
 
 	UFUNCTION( BlueprintCallable )
 	void SetupInventory( UInventory* InInventory );
+
+	UFUNCTION( BlueprintCallable )
+	void SetupTitle( FString InTitle );
 
 	UFUNCTION( BlueprintCallable )
 	void ShowInventory();

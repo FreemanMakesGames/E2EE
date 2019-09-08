@@ -52,6 +52,11 @@ void UInventoryMenu::SetupInventory( UInventory* InInventory )
 	}
 }
 
+void UInventoryMenu::SetupTitle( FString InTitle )
+{
+	TextBlock_Title->SetText( FText::FromString( InTitle ) );
+}
+
 void UInventoryMenu::ShowInventory()
 {
 	AddToViewport();

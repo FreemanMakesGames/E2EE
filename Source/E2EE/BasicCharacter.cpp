@@ -149,6 +149,15 @@ void ABasicCharacter::BeginPlay()
 		InventoryMenu = CreateWidget<UPlayerInventoryMenu>( GetWorld()->GetFirstPlayerController(), InventoryMenuClass );
 
 		InventoryMenu->SetupInventory( Inventory );
+
+		if ( !Username.IsEmpty() )
+		{
+			InventoryMenu->SetupTitle( Username + "'s Inventory" );
+		}
+		else
+		{
+			InventoryMenu->SetupTitle( "" );
+		}
 	}
 	else
 	{
