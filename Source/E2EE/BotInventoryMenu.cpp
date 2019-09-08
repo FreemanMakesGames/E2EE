@@ -139,6 +139,10 @@ void UBotInventoryMenu::HandleOnDeliveryItemClickerAdditionHighlightDone( UItemC
 
 void UBotInventoryMenu::HandleOnButtonProceedClicked()
 {
+	ClearDescription();
+
+	if ( LastClickedClicker ) { LastClickedClicker->Unhighlight(); }
+
 	OnProceed.Broadcast();
 }
 
