@@ -27,7 +27,7 @@ void AMPGameMode::ProcessCharacterInteractionRequest( ABasicPlayerController* Pl
 {
 	if ( ( PlayerCtrl == AliceAndBobCtrl && TargetCharacter->GetTeam() == ETeam::AliceAndBob ) || ( PlayerCtrl == MessengerCtrl && TargetCharacter->GetTeam() == ETeam::Messenger ) )
 	{
-		PlayerCtrl->Possess( TargetCharacter );
+		//PlayerCtrl->Possess( TargetCharacter );
 
 		PlayerCtrl->ClientReceiveCharacterInteractionResult( true, TargetCharacter );
 	}

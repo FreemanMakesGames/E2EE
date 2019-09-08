@@ -75,7 +75,7 @@ void ABasicPlayerController::ServerSubmitCharacterInteractionRequest_Implementat
 		}
 		else
 		{
-			Possess( TargetCharacter );
+			//Possess( TargetCharacter );
 
 			ClientReceiveCharacterInteractionResult( true, TargetCharacter );
 		}
