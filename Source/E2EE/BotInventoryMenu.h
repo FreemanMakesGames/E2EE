@@ -79,5 +79,9 @@ protected:
 
 	UFUNCTION()
 	void HandleOnButtonProceedClicked();
+
+protected:
+
+	virtual void ToggleInput( bool Enabled ) override;
 	
 };

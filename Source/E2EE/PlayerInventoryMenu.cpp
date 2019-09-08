@@ -84,3 +84,10 @@ void UPlayerInventoryMenu::HandleOnItemMenuButtonForCombinationClicked( UItemInf
 	bIsCombining = true;
 }
 #pragma endregion
+
+void UPlayerInventoryMenu::ToggleInput( bool Enabled )
+{
+	Super::ToggleInput( Enabled );
+
+	Button_HideInventoryMenu->SetIsEnabled( Enabled );
+}

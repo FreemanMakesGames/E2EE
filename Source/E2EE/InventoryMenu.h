@@ -87,10 +87,7 @@ protected:
 protected:
 
 	UFUNCTION( BlueprintCallable )
-	virtual void EnableInput();
-
-	UFUNCTION( BlueprintCallable )
-	virtual void DisableInput();
+	virtual void ToggleInput( bool Enabled );
 
 protected:
 

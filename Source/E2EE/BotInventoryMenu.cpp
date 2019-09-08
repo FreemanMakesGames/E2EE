@@ -17,7 +17,7 @@ void UBotInventoryMenu::NativeOnInitialized()
 
 void UBotInventoryMenu::SetupItemClickersForDelivery( TArray<UItemInfo*> ItemsToDeliver )
 {
-	DisableInput();
+	ToggleInput( false );
 
 	for ( UItemInfo* Item : ItemsToDeliver )
 	{
@@ -48,7 +48,7 @@ void UBotInventoryMenu::ClearItemClickersForDelivery( TArray<UItemInfo*> ItemsTo
 
 void UBotInventoryMenu::PreDuplicationHighlight( TArray<UItemInfo*> ItemsToDuplicate )
 {
-	DisableInput();
+	ToggleInput( false );
 
 	for ( int i = 0; i < ItemsToDuplicate.Num(); i++ )
 	{
@@ -70,7 +70,7 @@ void UBotInventoryMenu::PreDuplicationHighlight( TArray<UItemInfo*> ItemsToDupli
 
 void UBotInventoryMenu::ContainerOpenHighlight( UContainerItemInfo* Container )
 {
-	DisableInput();
+	ToggleInput( false );
 
 	if ( UItemClicker** pItemClicker = ItemToItemClicker.Find( Container ) )
 	{
@@ -83,7 +83,7 @@ void UBotInventoryMenu::ContainerOpenHighlight( UContainerItemInfo* Container )
 
 void UBotInventoryMenu::ContainerUnlockHighlight( UKeyItemInfo* KeyItem, UContainerItemInfo* Container )
 {
-	DisableInput();
+	ToggleInput( false );
 
 	UItemClicker** pKeyItemClicker = ItemToItemClicker.Find( KeyItem );
 	UItemClicker** pContainerItemClicker = ItemToItemClicker.Find( Container );
@@ -134,10 +134,17 @@ void UBotInventoryMenu::HandleOnDeliveryItemClickerAdditionHighlightDone( UItemC
 {
 	HighlightedClicker->OnAdditionHighlightFinished.RemoveDynamic( this, &UBotInventoryMenu::HandleOnDeliveryItemClickerAdditionHighlightDone );
 
-	EnableInput();
+	ToggleInput( true );
 }
 
 void UBotInventoryMenu::HandleOnButtonProceedClicked()
 {
 	OnProceed.Broadcast();
+}
+
+void UBotInventoryMenu::ToggleInput( bool Enabled )
+{
+	Super::ToggleInput( Enabled );
+
+	Button_Proceed->SetIsEnabled( Enabled );
 }

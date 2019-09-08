@@ -40,4 +40,6 @@ protected:
 	void HandleOnItemMenuButtonForCombinationClicked( UItemInfo* TargetItem );
 #pragma endregion
 	
+	virtual void ToggleInput( bool Enabled ) override;
+
 };
