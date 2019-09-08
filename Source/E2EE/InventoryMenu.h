@@ -56,7 +56,7 @@ public:
 	void ShowInventory();
 
 	UFUNCTION( BlueprintCallable )
-	virtual void HideInventory();
+	void HideInventory();
 
 public:
 
@@ -88,6 +88,9 @@ protected:
 
 	UFUNCTION( BlueprintCallable )
 	virtual void ToggleInput( bool Enabled );
+
+	UFUNCTION( BlueprintCallable )
+	void ClearDescription();
 
 protected:
 

@@ -38,7 +38,7 @@ void UPlayerInventoryMenu::HandleOnItemClickerClicked( UItemClicker* ClickedItem
 		if ( LastClickedClicker ) LastClickedClicker->Unhighlight();
 		if ( ClickedItemClicker ) ClickedItemClicker->Unhighlight();
 
-		TextBlock_Description->SetText( NSLOCTEXT( "", "", "" ) );
+		ClearDescription();
 	}
 	else
 	{
@@ -57,11 +57,15 @@ void UPlayerInventoryMenu::HandleOnItemClickerClicked( UItemClicker* ClickedItem
 void UPlayerInventoryMenu::HandleOnItemMenuButtonDestroyClicked( UItemInfo* TargetItem )
 {
 	Inventory->RemoveItem( TargetItem );
+
+	ClearDescription();
 }
 
 void UPlayerInventoryMenu::HandleOnItemMenuButtonDropClicked( UItemInfo* TargetItem )
 {
 	Inventory->DropItem( TargetItem );
+
+	ClearDescription();
 }
 
 void UPlayerInventoryMenu::HandleOnItemMenuButtonDuplicateClicked( UItemInfo* TargetItem )
@@ -72,6 +76,8 @@ void UPlayerInventoryMenu::HandleOnItemMenuButtonDuplicateClicked( UItemInfo* Ta
 void UPlayerInventoryMenu::HandleOnItemMenuButtonOpenClicked( UItemInfo* TargetItem )
 {
 	Inventory->OpenItem( TargetItem );
+
+	ClearDescription();
 }
 
 void UPlayerInventoryMenu::HandleOnItemMenuButtonReadClicked( UItemInfo* TargetItem )

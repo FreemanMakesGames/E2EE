@@ -67,6 +67,8 @@ void UInventoryMenu::HideInventory()
 {
 	bIsCombining = false;
 
+	ClearDescription();
+
 	if ( ItemMenu->IsInViewport() )
 	{
 		ItemMenu->RemoveFromParent();
@@ -157,4 +159,9 @@ void UInventoryMenu::ToggleInput( bool Enabled )
 	{
 		SetVisibility( ESlateVisibility::HitTestInvisible );
 	}
+}
+
+void UInventoryMenu::ClearDescription()
+{
+	TextBlock_Description->SetText( NSLOCTEXT( "", "", "" ) );
 }
