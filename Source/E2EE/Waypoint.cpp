@@ -18,13 +18,8 @@ AWaypoint::AWaypoint()
 
 	// Setup DefaultItemDropOff.
 
-	DefaultItemDropOff = CreateDefaultSubobject<USceneComponent>( TEXT( "Default Item Drop Off" ) );
-	DefaultItemDropOff->SetupAttachment( RootComponent );
-}
-
-FVector AWaypoint::GetDefaultItemDropOffLocation()
-{
-	return DefaultItemDropOff->GetComponentLocation();
+	DropItemComponent = CreateDefaultSubobject<UDropItemComponent>( TEXT( "Drop Item" ) );
+	DropItemComponent->SetupAttachment( RootComponent );
 }
 
 TArray<ACharacter*> AWaypoint::GetOccupants()
@@ -35,6 +30,11 @@ TArray<ACharacter*> AWaypoint::GetOccupants()
 TArray<AItem*> AWaypoint::GetDroppedItems()
 {
 	return DroppedItems;
+}
+
+void AWaypoint::DropMultipleItems( TArray<UItemInfo*> ItemsToDrop )
+{
+	DropItemComponent->DropMultipleItems( ItemsToDrop );
 }
 
 void AWaypoint::HandleOnBoxBeginOverlap( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult )

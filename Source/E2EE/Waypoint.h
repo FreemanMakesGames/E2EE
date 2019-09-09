@@ -21,9 +21,6 @@ public:
 public:
 
 	UFUNCTION( BlueprintPure )
-	FVector GetDefaultItemDropOffLocation();
-
-	UFUNCTION( BlueprintPure )
 	TArray<ACharacter*> GetOccupants();
 
 	UFUNCTION( BlueprintCallable )
@@ -35,13 +32,18 @@ protected:
 	UBoxComponent* TriggerBox;
 
 	UPROPERTY( VisibleInstanceOnly )
-	USceneComponent* DefaultItemDropOff;
+	UDropItemComponent* DropItemComponent;
 
 	UPROPERTY( VisibleInstanceOnly )
 	TArray<ACharacter*> Occupants;
 
 	UPROPERTY( VisibleInstanceOnly )
 	TArray<AItem*> DroppedItems;
+
+public:
+
+	UFUNCTION( BlueprintCallable )
+	void DropMultipleItems( TArray<UItemInfo*> ItemsToDrop );
 
 protected:
 

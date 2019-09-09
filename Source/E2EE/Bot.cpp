@@ -157,7 +157,7 @@ void ABot::HandleOnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::
 				{
 					// TODO: Extract method.
 
-					DropItemComponent->DropMultipleItems( ItemsToDeliver );
+					CurrentWaypoint->DropMultipleItems( ItemsToDeliver );
 
 					InventoryMenu->ClearItemClickersForDelivery( ItemsToDeliver );
 

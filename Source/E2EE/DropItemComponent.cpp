@@ -43,8 +43,6 @@ bool UDropItemComponent::ServerDropItem_Validate( UItemInfo* ItemToDrop )
 
 void UDropItemComponent::DropMultipleItems( TArray<UItemInfo*> ItemsToDrop )
 {
-	FTransform SpawnTransform = GetComponentTransform();
-
 	for ( int i = 0; i < ItemsToDrop.Num(); i++ )
 	{
 		if ( !ItemsToDrop[i] )
@@ -53,6 +51,7 @@ void UDropItemComponent::DropMultipleItems( TArray<UItemInfo*> ItemsToDrop )
 			return;
 		}
 
+		FTransform SpawnTransform = GetComponentTransform();
 		SpawnTransform.SetLocation( SpawnTransform.GetLocation() + FVector( 0, 0, SpawnCollisionPreventionStep * i ) );
 
 		ItemsToDrop[i]->SpawnItem( SpawnTransform );
