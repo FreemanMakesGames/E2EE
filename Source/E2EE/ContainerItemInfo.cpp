@@ -98,13 +98,15 @@ bool UContainerItemInfo::IsEquivalentTo( UItemInfo* OtherItem )
 {
 	if ( UContainerItemInfo* OtherContainer = Cast<UContainerItemInfo>( OtherItem ) )
 	{
-		if ( IsLocked() && OtherContainer->IsLocked() && GetLockId() == OtherContainer->GetLockId() )
+		bool BothLocked = IsLocked() && OtherContainer->IsLocked();
+		bool BothUnlocked = !IsLocked() && !OtherContainer->IsLocked();
+
+		// If both have same lock
+		if ( ( BothLocked && GetLockId() == OtherContainer->GetLockId() ) || BothUnlocked )
 		{
-			return ContainedItem->IsEquivalentTo( OtherContainer->GetContainedItem() );
-		}
-		else if ( !IsLocked() && !OtherContainer->IsLocked() )
-		{
-			return ContainedItem->IsEquivalentTo( OtherContainer->GetContainedItem() );
+			if ( !IsOccupied() && !OtherContainer->IsOccupied() ) { return true; }
+			else if ( IsOccupied() && OtherContainer->IsOccupied() ) { return ContainedItem->IsEquivalentTo( OtherContainer->GetContainedItem() ); }
+			else { return false; }
 		}
 	}
 
