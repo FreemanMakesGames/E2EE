@@ -74,10 +74,7 @@ void UInventoryMenu::HideInventory()
 
 	ClearDescription();
 
-	if ( ItemMenu->IsInViewport() )
-	{
-		ItemMenu->RemoveFromParent();
-	}
+	ItemMenu->Reset();
 
 	RemoveFromParent();
 }

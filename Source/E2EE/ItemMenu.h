@@ -96,6 +96,8 @@ public:
 	UFUNCTION()
 	void Display( UItemInfo* Item );
 
+	void Reset();
+
 protected:
 
 #pragma region Button event handlers

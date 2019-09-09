@@ -59,6 +59,13 @@ void UItemMenu::Display( UItemInfo* Item )
 	}
 }
 
+void UItemMenu::Reset()
+{
+	CurrentItem = nullptr;
+
+	VerticalBox_Buttons->ClearChildren();
+}
+
 #pragma region Button event handlers
 void UItemMenu::HandleOnButtonDestroyClicked()
 {
