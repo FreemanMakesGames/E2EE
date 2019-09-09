@@ -156,10 +156,8 @@ void ABot::HandleOnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::
 				else if ( MissionStatus == EBotMissionStatus::DeliveringItems )
 				{
 					// TODO: Extract method.
-					for ( UItemInfo* Item : ItemsToDeliver )
-					{
-						DropItemComponent->ServerDropItem( Item );
-					}
+
+					DropItemComponent->DropMultipleItems( ItemsToDeliver );
 
 					InventoryMenu->ClearItemClickersForDelivery( ItemsToDeliver );
 

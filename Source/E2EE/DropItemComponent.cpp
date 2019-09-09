@@ -27,7 +27,13 @@ void UDropItemComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAc
 
 void UDropItemComponent::ServerDropItem_Implementation( UItemInfo* ItemToDrop )
 {
-	MulticastDropItem( ItemToDrop );
+	if ( !ItemToDrop )
+	{
+		ensureAlwaysMsgf( false, TEXT( "Server is dropping a null AItem!" ) );
+		return;
+	}
+
+	ItemToDrop->SpawnItem( GetComponentTransform() );
 }
 
 bool UDropItemComponent::ServerDropItem_Validate( UItemInfo* ItemToDrop )
@@ -35,13 +41,20 @@ bool UDropItemComponent::ServerDropItem_Validate( UItemInfo* ItemToDrop )
 	return true;
 }
 
-void UDropItemComponent::MulticastDropItem_Implementation( UItemInfo* ItemToDrop )
+void UDropItemComponent::DropMultipleItems( TArray<UItemInfo*> ItemsToDrop )
 {
-	if ( !ItemToDrop )
-	{
-		UE_LOG( LogTemp, Error, TEXT( "Server is dropping a null AItem!" ) );
-		return;
-	}
+	FTransform SpawnTransform = GetComponentTransform();
 
-	ItemToDrop->SpawnItem( GetComponentTransform() );
+	for ( int i = 0; i < ItemsToDrop.Num(); i++ )
+	{
+		if ( !ItemsToDrop[i] )
+		{
+			ensureAlwaysMsgf( false, TEXT( "Server is dropping a null AItem!" ) );
+			return;
+		}
+
+		SpawnTransform.SetLocation( SpawnTransform.GetLocation() + FVector( 0, 0, SpawnCollisionPreventionStep * i ) );
+
+		ItemsToDrop[i]->SpawnItem( SpawnTransform );
+	}
 }
