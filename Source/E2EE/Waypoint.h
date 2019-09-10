@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -8,6 +6,7 @@
 
 class UBoxComponent;
 class AItem;
+class UDropItemComponent;
 
 UCLASS()
 class E2EE_API AWaypoint : public ATargetPoint

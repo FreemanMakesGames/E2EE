@@ -2,6 +2,7 @@
 
 #include "Bot.h"
 
+#include "BotGameMode.h"
 #include "BasicPlayerController.h"
 #include "BasicCharacter.h"
 #include "Waypoint.h"
@@ -365,18 +366,15 @@ void ABot::ExamineItems()
 {
 	UDevUtilities::PrintInfo( "Examination starts." );
 
-	TArray<UItemInfo*> ItemsToExamine;
 	for ( UItemInfo* Item : Inventory->GetItems() )
 	{
-		// Don't touch the delivery.
-		if ( ItemsToDeliver.Contains( Item ) ) { continue; }
+		if ( UMessageItemInfo* Message = Cast<UMessageItemInfo>( Item ) )
+		{
+			//GetWorld()->GetAuthGameMode<ABotGameMode>()->ReadMessage( this ); // Assume ABotGameMode has to exist if Bot exists.
 
-		ItemsToExamine.Add( Item );
-	}
-
-	for ( UItemInfo* ItemToExamine : ItemsToExamine )
-	{
-		if ( UContainerItemInfo* Container = Cast<UContainerItemInfo>( ItemToExamine ) )
+			Inventory->ReadItem( Item );
+		}
+		else if ( UContainerItemInfo* Container = Cast<UContainerItemInfo>( Item ) )
 		{
 			if ( !Container->IsLocked() )
 			{
@@ -398,7 +396,7 @@ void ABot::ExamineItems()
 			// A locked container
 			else
 			{
-				for ( UItemInfo* SecondaryItem : ItemsToExamine )
+				for ( UItemInfo* SecondaryItem : Inventory->GetItems() )
 				{
 					if ( UKeyItemInfo* KeyItem = Cast<UKeyItemInfo>( SecondaryItem ) )
 					{

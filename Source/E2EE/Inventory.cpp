@@ -3,6 +3,7 @@
 #include "ContainerItemInfo.h"
 #include "ItemCombiner.h"
 #include "DropItemComponent.h"
+#include "BotGameMode.h"
 #include "BasicCharacter.h"
 #include "BasicPlayerController.h"
 #include "DevUtilities.h"
@@ -115,14 +116,9 @@ void UInventory::OpenItem( UItemInfo* TargetItem )
 
 void UInventory::ReadItem( UItemInfo* ItemToRead )
 {
-	ABasicCharacter* Owner = Cast<ABasicCharacter>( GetOwner() );
-	if ( Owner )
+	if ( ABotGameMode* BotGameMode = GetWorld()->GetAuthGameMode<ABotGameMode>() )
 	{
-		Owner->ReadItem( ItemToRead );
-	}
-	else
-	{
-		ensureAlwaysMsgf( false, TEXT( "Inventory not owned by characters isn't implemented." ) );
+		BotGameMode->ReadMessage( GetOwner() );
 	}
 }
 
