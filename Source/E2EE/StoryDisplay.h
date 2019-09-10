@@ -44,6 +44,9 @@ public:
 	UFUNCTION( BlueprintCallable )
 	void PresentStoryFromFile( FString FileName );
 
+	UFUNCTION( BlueprintImplementableEvent, BlueprintCallable )
+	void FadeToBlack();
+
 protected:
 
 	/**
