@@ -78,8 +78,12 @@ DerivedDataCache/*
 ### Custom ###
 
 Content/StarterContent
+
 Content/ToolShedVOL1
-Content/Textures
 ToolShed_VOL1.png
 
+# General textures that aren't painted onto models.
+Content/Textures
+
+# ?
 enc_temp_folder/*
