@@ -1,11 +1,12 @@
 Hello, welcome to Private Communication!
+You are invited to solve a puzzle:
 Alice and Bob are friends. They talk to each other often.
-But they live continents away, and have to do so through a Messenger in the middle.
-Messenger always does his job. But unfortunately, he likes reading other people's private words.
-Sometimes, he even modifies the message, and impersonates others!
-This time, Alice needs to get a secret message into Bob's hand.
-They can't let Messenger have access to it!
+But they live continents away, so a Messenger delivers their messages.
+Messenger is good at his job. But unfortunately, he always saves a copy of each message.
+He has access to everyone's private conversations!
+Alice and Bob think it's time to end Messenger's eavesdropping.
 Can you help them communicate in a private and secure manner?
 The tools you have are: Lock, Key, and Container.
-In addition to Destroying and Dropping items, everyone in this world can also "Duplicate" items.
+Right-click for inventories, left-click for interactions.
+Esc for pause menu.
 That's all you need to know. Good luck!

@@ -1,1 +1,1 @@
-You lost.
+Messenger has intercepted the secret message! You lost.

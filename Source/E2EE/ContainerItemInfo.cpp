@@ -70,7 +70,7 @@ FText UContainerItemInfo::Describe()
 	{
 		LockStatusArgs.Add( "Lock ID", FText::FromString( GetLockId() ) );
 
-		LockStatus = FText::Format( NSLOCTEXT( "", "", "Locked by Lock '{Lock ID}'" ), LockStatusArgs );
+		LockStatus = FText::Format( NSLOCTEXT( "", "", "Locked by lock '{Lock ID}'" ), LockStatusArgs );
 	}
 	else
 	{

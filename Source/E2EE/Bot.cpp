@@ -187,13 +187,13 @@ void ABot::HandleOnMoveCompleted( FAIRequestID RequestID, EPathFollowingResult::
 
 					InventoryMenu->PreDuplicationHighlight( ItemsToDuplicate );
 
-					PlayerController->DisplayNotification( NSLOCTEXT( "", "", "Messenger is duplicating delivery items." ) );
+					PlayerController->DisplayNotification( NSLOCTEXT( "", "", "Messenger is saving copies of the delivery." ) );
 
 					MissionStatus = EBotMissionStatus::DuplicatingItems;
 				}
 				else
 				{
-					PlayerController->DisplayNotification( NSLOCTEXT( "", "", "Messenger duplicates nothing." ) );
+					PlayerController->DisplayNotification( NSLOCTEXT( "", "", "Messenger finds nothing worthwhile to save copies from." ) );
 
 					MissionStatus = EBotMissionStatus::ExaminingItems;
 				}

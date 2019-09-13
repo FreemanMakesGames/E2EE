@@ -1,1 +1,2 @@
-You win.
+Bob receives the message, while Messenger fails to intercept it.
+You win!
