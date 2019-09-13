@@ -32,9 +32,7 @@ void UStoryDisplay::PresentStoryFromFile( FString FileName )
 	}
 	else
 	{
-		// FIXME: Maybe we should still bring up the display?
-		UE_LOG( LogTemp, Error, TEXT( "UStoryDisplay: TextSequence is empty upon PresentStoryFromFile!" ) );
-		return;
+		ensureMsgf( false, TEXT( "UStoryDisplay: TextSequence is empty upon PresentStoryFromFile!" ) );
 	}
 
 	AddToViewport();
