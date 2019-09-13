@@ -13,7 +13,7 @@
 
 UPickupComponent::UPickupComponent()
 {
-	PickupRange = 3000.0f;
+	PickupRange = 200;
 }
 
 void UPickupComponent::BeginPlay()
@@ -36,16 +36,22 @@ void UPickupComponent::BeginPlay()
 
 void UPickupComponent::ServerPickUp_Implementation( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed )
 {
-	// Get ActiveCharacter and ActiveInventory.
 	ABasicCharacter* ActiveCharacter = Cast<ABasicPlayerController>( GetWorld()->GetFirstPlayerController() )->GetActiveCharacter();
+
 	if ( !ActiveCharacter ) { return; }
+
 	UInventory* ActiveInventory = ActiveCharacter->GetInventory();
 
 	// Check if ActiveCharacter is within PickupRange.
 	float Distance = FVector::Distance( ActiveCharacter->GetActorLocation(), GetOwner()->GetActorLocation() );
 	if ( Distance > PickupRange )
 	{
-		// TODO: Notify the player that the character is too far.
+		FFormatNamedArguments Args;
+		Args.Add( "OwnerName", FText::FromString( ActiveCharacter->GetUsername() ) );
+		FText TooFarNotification = FText::Format( NSLOCTEXT( "PickupComponent", "TooFar", "{OwnerName} is too far from the item." ), Args );
+
+		Cast<ABasicPlayerController>( GetWorld()->GetFirstPlayerController() )->DisplayNotification( TooFarNotification );
+
 		return;
 	}
 
