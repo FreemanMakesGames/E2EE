@@ -1,0 +1,309 @@
+﻿# Native English translation.
+# Copyright 1998-2019 Epic Games, Inc. All Rights Reserved.
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: Native\n"
+"POT-Creation-Date: 2019-09-13 17:01\n"
+"PO-Revision-Date: 2019-09-13 17:01\n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. Key:	00D006B3417F4A0E346A43AADC55F370
+#. SourceLocation:	/Game/UI/InventorySystem/WBP_ItemMenu.WBP_ItemMenu_C:WidgetTree.TextBlock_Read.Text
+#: /Game/UI/InventorySystem/WBP_ItemMenu.WBP_ItemMenu_C:WidgetTree.TextBlock_Read.Text
+msgctxt ",00D006B3417F4A0E346A43AADC55F370"
+msgid "Read"
+msgstr "Read"
+
+#. Key:	05168C6D4AAC680608D4C9BAD81517DD
+#. SourceLocation:	/Game/UI/Menus/WBP_OnlineGameMenu.WBP_OnlineGameMenu_C:WidgetTree.TextBlock_HostServer.Text
+#: /Game/UI/Menus/WBP_OnlineGameMenu.WBP_OnlineGameMenu_C:WidgetTree.TextBlock_HostServer.Text
+msgctxt ",05168C6D4AAC680608D4C9BAD81517DD"
+msgid "Host Server"
+msgstr "Host Server"
+
+#. Key:	057CE5B241F14CE3B4AAC9801A26F7E0
+#. SourceLocation:	/Game/UI/WBP_HowToPlay.WBP_HowToPlay_C:WidgetTree.TextBlock_HowToPlay.Text
+#: /Game/UI/WBP_HowToPlay.WBP_HowToPlay_C:WidgetTree.TextBlock_HowToPlay.Text
+msgctxt ",057CE5B241F14CE3B4AAC9801A26F7E0"
+msgid "Right-click to open anyone's inventory.\r\n                 \r\nLeft-click on Alice or Bob to target one of them.\r\n\r\nLeft-click on Messenger and they will collect items from the target character.\r\n\r\nGet the message item from Alice to Bob, without Messenger being able to access and read it!"
+msgstr "Right-click to open anyone's inventory.\r\n                 \r\nLeft-click on Alice or Bob to target one of them.\r\n\r\nLeft-click on Messenger and they will collect items from the target character.\r\n\r\nGet the message item from Alice to Bob, without Messenger being able to access and read it!"
+
+#. Key:	0E6ED6154AB1529473E85CA057CD6BB3
+#. SourceLocation:	/Game/UI/Menus/WBP_WorkTableMenu.WBP_WorkTableMenu_C:WidgetTree.Text_MakeContainer.Text
+#: /Game/UI/Menus/WBP_WorkTableMenu.WBP_WorkTableMenu_C:WidgetTree.Text_MakeContainer.Text
+msgctxt ",0E6ED6154AB1529473E85CA057CD6BB3"
+msgid "Make Container"
+msgstr "Make Container"
+
+#. Key:	103AE69A41395C171D1F8DB95999FDBB
+#. SourceLocation:	/Game/UI/WBP_PauseMenu.WBP_PauseMenu_C:WidgetTree.TextBlock_Restart.Text
+#: /Game/UI/WBP_PauseMenu.WBP_PauseMenu_C:WidgetTree.TextBlock_Restart.Text
+msgctxt ",103AE69A41395C171D1F8DB95999FDBB"
+msgid "Restart"
+msgstr "Restart"
+
+#. Key:	28C157C64BB8BE8A3C11289ED0C57EBE
+#. SourceLocation:	/Game/UI/Menus/WBP_HomeMenu.WBP_HomeMenu_C:WidgetTree.TextBlock_Bot.Text
+#: /Game/UI/Menus/WBP_HomeMenu.WBP_HomeMenu_C:WidgetTree.TextBlock_Bot.Text
+msgctxt ",28C157C64BB8BE8A3C11289ED0C57EBE"
+msgid "Play With Bot"
+msgstr "Play With Bot"
+
+#. Key:	2C5267BC4827E07479151589A770DD05
+#. SourceLocation:	/Game/UI/Menus/WBP_TeamSelectionMenu.WBP_TeamSelectionMenu_C:WidgetTree.TextBlock_AliceBob.Text
+#: /Game/UI/Menus/WBP_TeamSelectionMenu.WBP_TeamSelectionMenu_C:WidgetTree.TextBlock_AliceBob.Text
+msgctxt ",2C5267BC4827E07479151589A770DD05"
+msgid "Alice and Bob"
+msgstr "Alice and Bob"
+
+#. Key:	2E4AAC2242A0F8C7D5B27E8167AA6B64
+#. SourceLocation:	/Game/UI/WBP_Notification.WBP_Notification_C:WidgetTree.Text_Notification.Text
+#: /Game/UI/WBP_Notification.WBP_Notification_C:WidgetTree.Text_Notification.Text
+msgctxt ",2E4AAC2242A0F8C7D5B27E8167AA6B64"
+msgid "Notification"
+msgstr "Notification"
+
+#. Key:	2E91D2934365CCD01A85E7B42E4ED3C8
+#. SourceLocation:	/Game/UI/InventorySystem/WBP_ItemMenu.WBP_ItemMenu_C:WidgetTree.TextBlock_Drop.Text
+#: /Game/UI/InventorySystem/WBP_ItemMenu.WBP_ItemMenu_C:WidgetTree.TextBlock_Drop.Text
+msgctxt ",2E91D2934365CCD01A85E7B42E4ED3C8"
+msgid "Drop"
+msgstr "Drop"
+
+#. Key:	3B56B6AF411E49C7D59032B4B9A2A2E9
+#. SourceLocation:	/Game/UI/InventorySystem/WBP_BotInventoryMenu.WBP_BotInventoryMenu_C:WidgetTree.TextBlock_Delivery.Text
+#: /Game/UI/InventorySystem/WBP_BotInventoryMenu.WBP_BotInventoryMenu_C:WidgetTree.TextBlock_Delivery.Text
+msgctxt ",3B56B6AF411E49C7D59032B4B9A2A2E9"
+msgid "Delivery"
+msgstr "Delivery"
+
+#. Key:	40F9D11242031619FC10B3A1053D2083
+#. SourceLocation:	/Game/UI/Menus/WBP_TeamSelectionMenu.WBP_TeamSelectionMenu_C:WidgetTree.TextBlock_Messenger.Text
+#: /Game/UI/Menus/WBP_TeamSelectionMenu.WBP_TeamSelectionMenu_C:WidgetTree.TextBlock_Messenger.Text
+msgctxt ",40F9D11242031619FC10B3A1053D2083"
+msgid "Messenger"
+msgstr "Messenger"
+
+#. Key:	4546A69E4D5A18E9989393816BC1C541
+#. SourceLocation:	/Game/UI/Menus/WBP_HomeMenu.WBP_HomeMenu_C:WidgetTree.TextBlock_LocalMP.Text
+#: /Game/UI/Menus/WBP_HomeMenu.WBP_HomeMenu_C:WidgetTree.TextBlock_LocalMP.Text
+msgctxt ",4546A69E4D5A18E9989393816BC1C541"
+msgid "Local Multiplayer"
+msgstr "Local Multiplayer"
+
+#. Key:	4F5D7BB6494320A8DDA1168C0BF26B48
+#. SourceLocation:	/Game/UI/WBP_EscForPauseMenu.WBP_EscForPauseMenu_C:WidgetTree.TextBlock_EscForPauseMenu.Text
+#: /Game/UI/WBP_EscForPauseMenu.WBP_EscForPauseMenu_C:WidgetTree.TextBlock_EscForPauseMenu.Text
+msgctxt ",4F5D7BB6494320A8DDA1168C0BF26B48"
+msgid "Esc For Pause Menu"
+msgstr "Esc For Pause Menu"
+
+#. Key:	4FF63E4F4CC0E16FE12E659E4A152B7D
+#. SourceLocation:	/Game/UI/InventorySystem/WBP_BotInventoryMenu.WBP_BotInventoryMenu_C:WidgetTree.TextBlock_HideInventoryMenu.Text
+#: /Game/UI/InventorySystem/WBP_BotInventoryMenu.WBP_BotInventoryMenu_C:WidgetTree.TextBlock_HideInventoryMenu.Text
+msgctxt ",4FF63E4F4CC0E16FE12E659E4A152B7D"
+msgid "Exit"
+msgstr "Exit"
+
+#. Key:	54A83A414B1E6669619500878F2BE676
+#. SourceLocation:	/Game/UI/WBP_HowToPlay.WBP_HowToPlay_C:WidgetTree.TextBlock_Controls.Text
+#: /Game/UI/WBP_HowToPlay.WBP_HowToPlay_C:WidgetTree.TextBlock_Controls.Text
+msgctxt ",54A83A414B1E6669619500878F2BE676"
+msgid "Controls:"
+msgstr "Controls:"
+
+#. Key:	596C8CED4B835643CC1B9ABD352E8B5F
+#. SourceLocation:	/Game/UI/InventorySystem/WBP_ItemMenu.WBP_ItemMenu_C:WidgetTree.TextBlock_Destroy.Text
+#: /Game/UI/InventorySystem/WBP_ItemMenu.WBP_ItemMenu_C:WidgetTree.TextBlock_Destroy.Text
+msgctxt ",596C8CED4B835643CC1B9ABD352E8B5F"
+msgid "Destroy"
+msgstr "Destroy"
+
+#. Key:	623C28CC4D446C37D6E45B891D41D639
+#. SourceLocation:	/Game/UI/Menus/WBP_TeamSelectionMenu.WBP_TeamSelectionMenu_C:ExecuteUbergraph_WBP_TeamSelectionMenu [Script Bytecode]
+#: /Game/UI/Menus/WBP_TeamSelectionMenu.WBP_TeamSelectionMenu_C:ExecuteUbergraph_WBP_TeamSelectionMenu [Script Bytecode]
+msgctxt ",623C28CC4D446C37D6E45B891D41D639"
+msgid "This team is already selected by the other player!"
+msgstr "This team is already selected by the other player!"
+
+#. Key:	67B585A449B3AAF3F7AAB6BEBE947230
+#. SourceLocation:	/Game/UI/WBP_HowToPlay.WBP_HowToPlay_C:WidgetTree.TextBlock_Goal.Text
+#: /Game/UI/WBP_HowToPlay.WBP_HowToPlay_C:WidgetTree.TextBlock_Goal.Text
+msgctxt ",67B585A449B3AAF3F7AAB6BEBE947230"
+msgid "Goal:"
+msgstr "Goal:"
+
+#. Key:	70608D30475843F8FC92E0BFBDDFBC1D
+#. SourceLocation:	/Game/UI/InventorySystem/WBP_ItemMenu.WBP_ItemMenu_C:WidgetTree.TextBlock_Lock.Text
+#: /Game/UI/InventorySystem/WBP_ItemMenu.WBP_ItemMenu_C:WidgetTree.TextBlock_Lock.Text
+msgctxt ",70608D30475843F8FC92E0BFBDDFBC1D"
+msgid "Lock"
+msgstr "Lock"
+
+#. Key:	74D2F28F4EDBB118010FB2940489189A
+#. SourceLocation:	/Game/UI/InventorySystem/WBP_ItemMenu.WBP_ItemMenu_C:WidgetTree.TextBlock_Unlock.Text
+#: /Game/UI/InventorySystem/WBP_ItemMenu.WBP_ItemMenu_C:WidgetTree.TextBlock_Unlock.Text
+msgctxt ",74D2F28F4EDBB118010FB2940489189A"
+msgid "Unlock"
+msgstr "Unlock"
+
+#. Key:	74D38EE04C788139E8B54CBB82478F63
+#. SourceLocation:	/Game/UI/InventorySystem/WBP_PlayerInventoryMenu.WBP_PlayerInventoryMenu_C:WidgetTree.TextBlock_Title.Text
+#: /Game/UI/InventorySystem/WBP_PlayerInventoryMenu.WBP_PlayerInventoryMenu_C:WidgetTree.TextBlock_Title.Text
+msgctxt ",74D38EE04C788139E8B54CBB82478F63"
+msgid "Name's Inventory"
+msgstr "Name's Inventory"
+
+#. Key:	7B11B6AA4BDDE51D48136F83FB4A9CEC
+#. SourceLocation:	/Game/UI/Menus/WBP_HomeMenu.WBP_HomeMenu_C:WidgetTree.TextBlock_PrivateCommunication.Text
+#: /Game/UI/Menus/WBP_HomeMenu.WBP_HomeMenu_C:WidgetTree.TextBlock_PrivateCommunication.Text
+msgctxt ",7B11B6AA4BDDE51D48136F83FB4A9CEC"
+msgid "Private Communication"
+msgstr "Private Communication"
+
+#. Key:	82757D054389FD920B4360B69D479991
+#. SourceLocation:	/Game/UI/WBP_StoryDisplay.WBP_StoryDisplay_C:WidgetTree.TextBlock_Proceed.Text
+#: /Game/UI/WBP_StoryDisplay.WBP_StoryDisplay_C:WidgetTree.TextBlock_Proceed.Text
+msgctxt ",82757D054389FD920B4360B69D479991"
+msgid "Proceed"
+msgstr "Proceed"
+
+#. Key:	83EEC028487FE2AC7552358A9B368A9D
+#. SourceLocation:	/Game/UI/InventorySystem/WBP_BotInventoryMenu.WBP_BotInventoryMenu_C:WidgetTree.TextBlock_Title.Text
+#: /Game/UI/InventorySystem/WBP_BotInventoryMenu.WBP_BotInventoryMenu_C:WidgetTree.TextBlock_Title.Text
+msgctxt ",83EEC028487FE2AC7552358A9B368A9D"
+msgid "Messenger's Inventory"
+msgstr "Messenger's Inventory"
+
+#. Key:	8E614DA24F6E48C9756B968652E8D82A
+#. SourceLocation:	/Game/UI/InventorySystem/ItemWidgets/WBP_Lock.WBP_Lock_C:WidgetTree.TextBlock_LockId.Text
+#: /Game/UI/InventorySystem/ItemWidgets/WBP_Lock.WBP_Lock_C:WidgetTree.TextBlock_LockId.Text
+msgctxt ",8E614DA24F6E48C9756B968652E8D82A"
+msgid "#ID"
+msgstr "#ID"
+
+#. Key:	9C5EA1CF4838AB62DEB243B92C38C07F
+#. SourceLocation:	/Game/UI/Menus/WBP_OnlineGameMenu.WBP_OnlineGameMenu_C:WidgetTree.TextBlock_OnlineGame.Text
+#: /Game/UI/Menus/WBP_OnlineGameMenu.WBP_OnlineGameMenu_C:WidgetTree.TextBlock_OnlineGame.Text
+msgctxt ",9C5EA1CF4838AB62DEB243B92C38C07F"
+msgid "Online Game"
+msgstr "Online Game"
+
+#. Key:	9F2C018A46435D00D1D5DF833BB42D87
+#. SourceLocation:	/Game/UI/WBP_PauseMenu.WBP_PauseMenu_C:WidgetTree.TextBlock_Exit.Text
+#: /Game/UI/WBP_PauseMenu.WBP_PauseMenu_C:WidgetTree.TextBlock_Exit.Text
+msgctxt ",9F2C018A46435D00D1D5DF833BB42D87"
+msgid "Exit"
+msgstr "Exit"
+
+#. Key:	A1FB04844BD94922A4A55EA1DF246E1F
+#. SourceLocation:	/Game/UI/WBP_StoryDisplay.WBP_StoryDisplay_C:WidgetTree.TextBlock_Next.Text
+#: /Game/UI/WBP_StoryDisplay.WBP_StoryDisplay_C:WidgetTree.TextBlock_Next.Text
+msgctxt ",A1FB04844BD94922A4A55EA1DF246E1F"
+msgid "->"
+msgstr "->"
+
+#. Key:	A51AC2784021CE788F4FA694DFFE4AC0
+#. SourceLocation:	/Game/UI/WBP_HowToPlay.WBP_HowToPlay_C:WidgetTree.TextBlock_Back.Text
+#: /Game/UI/WBP_HowToPlay.WBP_HowToPlay_C:WidgetTree.TextBlock_Back.Text
+msgctxt ",A51AC2784021CE788F4FA694DFFE4AC0"
+msgid "<-"
+msgstr "<-"
+
+#. Key:	AAD5693C4D1C040C4498D0AA87A3422E
+#. SourceLocation:	/Game/UI/Menus/WBP_WorkTableMenu.WBP_WorkTableMenu_C:WidgetTree.Text_MakeKeyPair.Text
+#: /Game/UI/Menus/WBP_WorkTableMenu.WBP_WorkTableMenu_C:WidgetTree.Text_MakeKeyPair.Text
+msgctxt ",AAD5693C4D1C040C4498D0AA87A3422E"
+msgid "Make Key Pair"
+msgstr "Make Key Pair"
+
+#. Key:	AB65AB6040DD009C67B2A6B7B96F58CB
+#. SourceLocation:	/Game/UI/InventorySystem/WBP_ItemMenu.WBP_ItemMenu_C:WidgetTree.TextBlock_Open.Text
+#: /Game/UI/InventorySystem/WBP_ItemMenu.WBP_ItemMenu_C:WidgetTree.TextBlock_Open.Text
+msgctxt ",AB65AB6040DD009C67B2A6B7B96F58CB"
+msgid "Open"
+msgstr "Open"
+
+#. Key:	B4AB4DFA47B92DB03F29379BD2E68F00
+#. SourceLocation:	/Game/UI/Menus/WBP_HomeMenu.WBP_HomeMenu_C:WidgetTree.TextBlock_OnlineMP.Text
+#: /Game/UI/Menus/WBP_HomeMenu.WBP_HomeMenu_C:WidgetTree.TextBlock_OnlineMP.Text
+msgctxt ",B4AB4DFA47B92DB03F29379BD2E68F00"
+msgid "Online Multiplayer"
+msgstr "Online Multiplayer"
+
+#. Key:	BC4BFBBC421065AB80F918BC20DEA432
+#. SourceLocation:	/Game/UI/InventorySystem/WBP_BotInventoryMenu.WBP_BotInventoryMenu_C:WidgetTree.TextBlock_Proceed.Text
+#: /Game/UI/InventorySystem/WBP_BotInventoryMenu.WBP_BotInventoryMenu_C:WidgetTree.TextBlock_Proceed.Text
+msgctxt ",BC4BFBBC421065AB80F918BC20DEA432"
+msgid "Proceed"
+msgstr "Proceed"
+
+#. Key:	BEF6077B41C24EFAFAA6CCBD6EB5A72A
+#. SourceLocation:	/Game/UI/InventorySystem/ItemWidgets/WBP_Key.WBP_Key_C:WidgetTree.TextBlock_KeyId.Text
+#: /Game/UI/InventorySystem/ItemWidgets/WBP_Key.WBP_Key_C:WidgetTree.TextBlock_KeyId.Text
+msgctxt ",BEF6077B41C24EFAFAA6CCBD6EB5A72A"
+msgid "#ID"
+msgstr "#ID"
+
+#. Key:	BF7B14064CFC50B1DF2DC5973A0D2309
+#. SourceLocation:	/Game/UI/InventorySystem/WBP_ItemMenu.WBP_ItemMenu_C:WidgetTree.TextBlock_Duplicate.Text
+#: /Game/UI/InventorySystem/WBP_ItemMenu.WBP_ItemMenu_C:WidgetTree.TextBlock_Duplicate.Text
+msgctxt ",BF7B14064CFC50B1DF2DC5973A0D2309"
+msgid "Duplicate"
+msgstr "Duplicate"
+
+#. Key:	CC61F0DF49BAE3FBB6020383F42A8BF6
+#. SourceLocation:	/Game/UI/WBP_PauseMenu.WBP_PauseMenu_C:WidgetTree.TextBlock_HowToPlay.Text
+#: /Game/UI/WBP_PauseMenu.WBP_PauseMenu_C:WidgetTree.TextBlock_HowToPlay.Text
+msgctxt ",CC61F0DF49BAE3FBB6020383F42A8BF6"
+msgid "How To Play?"
+msgstr "How To Play?"
+
+#. Key:	CDAC9B5B413B0558042BC7B7DF837BF5
+#. SourceLocation:	/Game/UI/Menus/WBP_OnlineGameMenu.WBP_OnlineGameMenu_C:WidgetTree.TextBlock_JoinServer.Text
+#: /Game/UI/Menus/WBP_OnlineGameMenu.WBP_OnlineGameMenu_C:WidgetTree.TextBlock_JoinServer.Text
+msgctxt ",CDAC9B5B413B0558042BC7B7DF837BF5"
+msgid "Join Server"
+msgstr "Join Server"
+
+#. Key:	D411CBD1428057CABA3DA68AD97E77DC
+#. SourceLocation:	/Game/UI/WBP_PauseMenu.WBP_PauseMenu_C:WidgetTree.TextBlock_Resume.Text
+#: /Game/UI/WBP_PauseMenu.WBP_PauseMenu_C:WidgetTree.TextBlock_Resume.Text
+msgctxt ",D411CBD1428057CABA3DA68AD97E77DC"
+msgid "Resume"
+msgstr "Resume"
+
+#. Key:	DF80F96E49AF7CA8246C2B91B76E0A4D
+#. SourceLocation:	/Game/UI/InventorySystem/WBP_BotInventoryMenu.WBP_BotInventoryMenu_C:WidgetTree.TextBlock_Inventory.Text
+#: /Game/UI/InventorySystem/WBP_BotInventoryMenu.WBP_BotInventoryMenu_C:WidgetTree.TextBlock_Inventory.Text
+msgctxt ",DF80F96E49AF7CA8246C2B91B76E0A4D"
+msgid "Inventory"
+msgstr "Inventory"
+
+#. Key:	E6FC656E47F6D84D8F270D82931EF8C2
+#. SourceLocation:	/Game/UI/InventorySystem/WBP_PlayerInventoryMenu.WBP_PlayerInventoryMenu_C:WidgetTree.TextBlock_HideInventoryMenu.Text
+#: /Game/UI/InventorySystem/WBP_PlayerInventoryMenu.WBP_PlayerInventoryMenu_C:WidgetTree.TextBlock_HideInventoryMenu.Text
+msgctxt ",E6FC656E47F6D84D8F270D82931EF8C2"
+msgid "Exit"
+msgstr "Exit"
+
+#. Key:	E9AB1B334A0D00FC6A6D2B8EC569397C
+#. SourceLocation:	/Game/UI/Menus/WBP_TeamSelectionMenu.WBP_TeamSelectionMenu_C:WidgetTree.TextBlock_CharacterSelection.Text
+#: /Game/UI/Menus/WBP_TeamSelectionMenu.WBP_TeamSelectionMenu_C:WidgetTree.TextBlock_CharacterSelection.Text
+msgctxt ",E9AB1B334A0D00FC6A6D2B8EC569397C"
+msgid "Character Selection"
+msgstr "Character Selection"
+
+#. Key:	ECF617984D46FEA199612AB4DCF2A4C7
+#. SourceLocation:	/Game/UI/InventorySystem/WBP_ItemMenu.WBP_ItemMenu_C:WidgetTree.TextBlock_Contain.Text
+#: /Game/UI/InventorySystem/WBP_ItemMenu.WBP_ItemMenu_C:WidgetTree.TextBlock_Contain.Text
+msgctxt ",ECF617984D46FEA199612AB4DCF2A4C7"
+msgid "Contain"
+msgstr "Contain"
+
