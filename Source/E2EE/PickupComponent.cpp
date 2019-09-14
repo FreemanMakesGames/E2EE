@@ -13,7 +13,7 @@
 
 UPickupComponent::UPickupComponent()
 {
-	PickupRange = 200;
+	PickupRange = 300;
 }
 
 void UPickupComponent::BeginPlay()
