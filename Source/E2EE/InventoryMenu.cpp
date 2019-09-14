@@ -61,6 +61,8 @@ void UInventoryMenu::ShowInventory()
 {
 	AddToViewport();
 
+	GetWorld()->GetFirstPlayerController()->SetInputMode( FInputModeUIOnly() );
+
 	for ( UItemClicker* ItemClicker : ClickersPendingForHighlightForAddition )
 	{
 		ItemClicker->HighlightForItemAddition();
@@ -70,6 +72,8 @@ void UInventoryMenu::ShowInventory()
 
 void UInventoryMenu::HideInventory()
 {
+	GetWorld()->GetFirstPlayerController()->SetInputMode( FInputModeGameAndUI() );
+
 	bIsCombining = false;
 
 	ClearDescription();
