@@ -11,6 +11,7 @@
 #include "Components/Button.h"
 #include "Components/NamedSlot.h"
 #include "Components/TextBlock.h"
+#include "Components/Image.h"
 
 void UInventoryMenu::NativeOnInitialized()
 {
@@ -146,24 +147,28 @@ void UInventoryMenu::HandleOnItemRemoved( UItemInfo* ItemRemoved )
 	if ( pItemClicker )
 	{
 		(*pItemClicker)->RemoveFromParent();
+
+		ItemToItemClicker.Remove( ItemRemoved );
 	}
 	else
 	{
 		ensureAlwaysMsgf( false, TEXT( "UInventoryMenu hears an Item removal event, but no UItemClicker matches the removed item!" ) );
 	}
-
-	// FIXME: Does ItemToItemClicker need to remove the ItemClicker?
 }
 
 void UInventoryMenu::ToggleInput( bool Enabled )
 {
 	if ( Enabled )
 	{
-		SetVisibility( ESlateVisibility::Visible );
+		//SetVisibility( ESlateVisibility::Visible );
+
+		Image_BlockInput->SetVisibility( ESlateVisibility::Hidden );
 	}
 	else
 	{
-		SetVisibility( ESlateVisibility::HitTestInvisible );
+		//SetVisibility( ESlateVisibility::HitTestInvisible );
+
+		Image_BlockInput->SetVisibility( ESlateVisibility::Visible );
 	}
 }
 

@@ -12,6 +12,7 @@ class UWrapBox;
 class UButton;
 class UItemMenu;
 class UTextBlock;
+class UImage;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE( FOnAdditionHighlightCompleted );
 
@@ -46,6 +47,9 @@ protected:
 
 	UPROPERTY( meta = ( BindWidget ) )
 	UButton* Button_HideInventoryMenu;
+
+	UPROPERTY( meta = (BindWidget) )
+	UImage* Image_BlockInput;
 
 	UPROPERTY()
 	UInventory* Inventory;
