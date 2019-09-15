@@ -8,10 +8,14 @@
 #include "GameFramework/Character.h"
 #include "Bot.generated.h"
 
-class AAIController;
+class ABasicCharacter;
 class UInventory;
 class UBotInventoryMenu;
 class UDropItemComponent;
+class UItemInfo;
+class UKeyItemInfo;
+
+class AAIController;
 
 UENUM( BlueprintType )
 enum class EBotMissionStatus : uint8
@@ -67,6 +71,12 @@ protected:
 	TSubclassOf<UBotInventoryMenu> InventoryMenuClass;
 
 	UPROPERTY( EditInstanceOnly, BlueprintReadOnly )
+	ABasicCharacter* Alice;
+
+	UPROPERTY( EditInstanceOnly, BlueprintReadOnly )
+	ABasicCharacter* Bob;
+
+	UPROPERTY( EditInstanceOnly, BlueprintReadOnly )
 	AWaypoint* Waypoint_Alice;
 
 	UPROPERTY( EditInstanceOnly, BlueprintReadOnly )
@@ -88,6 +98,10 @@ protected:
 
 	UPROPERTY( BlueprintReadOnly, VisibleAnywhere )
 	UDropItemComponent* DropItemComponent;
+
+public:
+
+	void Summon( ABasicCharacter* Summoner );
 
 protected:
 
@@ -121,9 +135,6 @@ protected:
 	void HandleOnInventoryMenuProceed();
 
 protected:
-
-	UFUNCTION( BlueprintCallable )
-	void Summon();
 
 	/** @return Whether Bot actually starts moving based on other conditions */
 	UFUNCTION( BlueprintCallable )

@@ -54,7 +54,7 @@ void ABot::BeginPlay()
 		InventoryMenu->SetupInventory( Inventory );
 		InventoryMenu->OnProceed.AddDynamic( this, &ABot::HandleOnInventoryMenuProceed );
 	}
-	else { UDevUtilities::PrintError( "ABot's InventoryMenuClass isn't set!" ); return; }
+	else { ensureAlways( false ); return; }
 }
 
 #pragma region Getters and setters
@@ -79,7 +79,7 @@ void ABot::OnCapsuleClicked( UPrimitiveComponent* TouchedComponent, FKey ButtonP
 {
 	if ( ButtonPressed == EKeys::LeftMouseButton )
 	{
-		Summon();
+		
 	}
 	else if ( ButtonPressed == EKeys::RightMouseButton )
 	{
@@ -309,35 +309,23 @@ void ABot::HandleOnInventoryMenuProceed()
 	}
 }
 
-void ABot::Summon()
+void ABot::Summon( ABasicCharacter* Summoner )
 {
 	UDevUtilities::PrintInfo( "Messenger is being summoned." );
 
-	// Don't move if there's no active character.
-	if ( ABasicCharacter* ActiveCharacter = PlayerController->GetActiveCharacter() )
+	if ( Summoner == Alice )
 	{
-		if ( ActiveCharacter->GetUsername() == "Alice" )
-		{
-			TargetWaypoints.Add( Waypoint_Alice );
-		}
-		else if ( ActiveCharacter->GetUsername() == "Bob" )
-		{
-			TargetWaypoints.Add( Waypoint_Bob );
-		}
-		else
-		{ 
-			UDevUtilities::PrintError( "Messenger: Active character's name is an unexpected string." ); return;
-		}
-
-		MissionStatus = EBotMissionStatus::Summoned;
-
-		StartMove();
+		TargetWaypoints.Add( Waypoint_Alice );
 	}
-	else
+	else if ( Summoner == Bob )
 	{
-		PlayerController->DisplayNotification( NSLOCTEXT( "", "", "Select Alice/Bob before you summon the messenger." ) );
-		return;
+		TargetWaypoints.Add( Waypoint_Bob );
 	}
+	else { ensureAlways( false ); return; }
+
+	MissionStatus = EBotMissionStatus::Summoned;
+
+	StartMove();
 }
 
 bool ABot::StartMove()

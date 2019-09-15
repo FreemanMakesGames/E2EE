@@ -47,7 +47,7 @@ void UPickupComponent::ServerPickUp_Implementation( UPrimitiveComponent* Touched
 	if ( Distance > PickupRange )
 	{
 		FFormatNamedArguments Args;
-		Args.Add( "OwnerName", FText::FromString( ActiveCharacter->GetUsername() ) );
+		Args.Add( "OwnerName", ActiveCharacter->GetUsername() );
 		FText TooFarNotification = FText::Format( NSLOCTEXT( "PickupComponent", "TooFar", "{OwnerName} is too far from the item." ), Args );
 
 		Cast<ABasicPlayerController>( GetWorld()->GetFirstPlayerController() )->DisplayNotification( TooFarNotification );

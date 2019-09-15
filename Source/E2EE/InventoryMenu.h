@@ -60,7 +60,7 @@ public:
 	void SetupInventory( UInventory* InInventory );
 
 	UFUNCTION( BlueprintCallable )
-	void SetupTitle( FString InTitle );
+	void SetupTitle( FText InTitle );
 
 	UFUNCTION( BlueprintCallable )
 	void ShowInventory();

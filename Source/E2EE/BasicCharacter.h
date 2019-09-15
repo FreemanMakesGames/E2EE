@@ -8,14 +8,19 @@
 #include "GameFramework/Character.h"
 #include "BasicCharacter.generated.h"
 
-class AItem;
 class UInventory;
 class UPlayerInventoryMenu;
-class UUserWidget;
+class AItem;
+class ABot;
 class UHighlightComponent;
 class UDropItemComponent;
-class ACameraActor;
 class AWaypoint;
+class ABasicPlayerController;
+class UCharacterMenu;
+
+class UUserWidget;
+class UWidgetComponent;
+class ACameraActor;
 
 UCLASS(config=Game)
 class ABasicCharacter : public ACharacter
@@ -75,11 +80,6 @@ protected:
 
 	virtual void BeginPlay() override;
 
-public:
-
-	UPROPERTY( EditInstanceOnly, BlueprintReadOnly )
-	ACameraActor* Camera;
-
 #pragma region Getters and setters
 public:
 
@@ -90,13 +90,13 @@ public:
 	ETeam GetTeam();
 
 	UFUNCTION( BlueprintCallable )
-	AWaypoint* GetCurrentWaypoint();
+	AWaypoint* GetAssignedWaypoint();
 
 	UFUNCTION( BlueprintCallable )
-	void SetCurrentWaypoint( AWaypoint* TheWaypoint );
+	void SetAssignedWaypoint( AWaypoint* InWaypoint );
 
 	UFUNCTION( BlueprintCallable )
-	FString GetUsername();
+	FText GetUsername();
 #pragma endregion
 
 protected:
@@ -105,10 +105,19 @@ protected:
 	TSubclassOf<UPlayerInventoryMenu> InventoryMenuClass;
 
 	UPROPERTY( EditDefaultsOnly )
-	ETeam Team;
+	TSubclassOf<UCharacterMenu> CharacterMenuClass;
 
 	UPROPERTY( EditInstanceOnly )
-	FString Username;
+	AWaypoint* AssignedWaypoint;
+
+	UPROPERTY( EditInstanceOnly )
+	ABot* Bot;
+
+	UPROPERTY( EditInstanceOnly )
+	FText Username;
+
+	UPROPERTY( EditDefaultsOnly )
+	ETeam Team;
 
 protected:
 
@@ -118,7 +127,22 @@ protected:
 	UPROPERTY( BlueprintReadOnly )
 	UPlayerInventoryMenu* InventoryMenu;
 
+	UPROPERTY( VisibleAnywhere, BlueprintReadOnly )
+	UWidgetComponent* CharacterMenuComponent;
+
+	UPROPERTY( EditInstanceOnly, BlueprintReadOnly )
+	ACameraActor* Camera_Focus;
+
+	UPROPERTY( EditInstanceOnly, BlueprintReadOnly )
+	ACameraActor* Camera_Overview;
+
 public:
+
+	// TODO: Can these be friend functions?
+	void ShowInventory();
+	void PickUpItems();
+	void SendItems();
+	void Unfocus();
 
 	UFUNCTION( BlueprintImplementableEvent, BlueprintCallable )
 	void ReadItem( UItemInfo* ItemToRead );
@@ -133,8 +157,7 @@ protected:
 
 protected:
 
-	UPROPERTY( VisibleInstanceOnly )
-	AWaypoint* CurrentWaypoint;
+	ABasicPlayerController* PlayerController;
 
 };
 

@@ -9,11 +9,13 @@
 #include "Item.h"
 #include "HighlightComponent.h"
 #include "Waypoint.h"
+#include "CharacterMenu.h"
+#include "Bot.h"
 #include "DevUtilities.h"
 
 #include "Engine/World.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
-#include "Camera/CameraComponent.h"
+#include "Camera/CameraActor.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -23,6 +25,7 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "Runtime/UMG/Public/Blueprint/UserWidget.h"
 #include "Components/PrimitiveComponent.h"
+#include "Components/WidgetComponent.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AE2EECharacter
@@ -51,6 +54,9 @@ ABasicCharacter::ABasicCharacter()
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 
 	Inventory = CreateDefaultSubobject<UInventory>( TEXT( "Inventory" ) );
+
+	CharacterMenuComponent = CreateDefaultSubobject<UWidgetComponent>( TEXT( "Character Menu Component" ) );
+	CharacterMenuComponent->SetupAttachment( RootComponent );
 }
 
 #pragma region Unreal Engine default input setup
@@ -141,29 +147,37 @@ void ABasicCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+	PlayerController = Cast<ABasicPlayerController>( GetWorld()->GetFirstPlayerController() );
+
 	GetCapsuleComponent()->OnClicked.AddDynamic( this, &ABasicCharacter::HandleOnCapsuleClicked );
 
 	// Create InventoryMenu.
 	if ( InventoryMenuClass )
 	{
-		InventoryMenu = CreateWidget<UPlayerInventoryMenu>( GetWorld()->GetFirstPlayerController(), InventoryMenuClass );
+		InventoryMenu = CreateWidget<UPlayerInventoryMenu>( PlayerController, InventoryMenuClass );
 
 		InventoryMenu->SetupInventory( Inventory );
 
 		if ( !Username.IsEmpty() )
 		{
-			InventoryMenu->SetupTitle( Username + "'s Inventory" );
+			InventoryMenu->SetupTitle( FText::Format( NSLOCTEXT( "InventoryMenu", "InventoryMenuTitle", "{0}'s Inventory" ), Username ) );
 		}
 		else
 		{
-			InventoryMenu->SetupTitle( "" );
+			InventoryMenu->SetupTitle( NSLOCTEXT( "InventoryMenu", "EmptyInventoryMenuTitle", "" ) );
 		}
 	}
-	else
+	else { ensureAlways( false ); return; }
+
+	// Create CharacterMenu.
+	if ( CharacterMenuClass )
 	{
-		UDevUtilities::PrintError( "ABasicCharacter's InventoryMenuClass isn't set!" );
-		return;
+		UCharacterMenu* CharacterMenu = CreateWidget<UCharacterMenu>( PlayerController, CharacterMenuClass );
+		CharacterMenu->SetOwnerCharacter( this );
+		CharacterMenuComponent->SetWidget( CharacterMenu );
+		CharacterMenuComponent->SetVisibility( false );
 	}
+	else { ensureAlways( false ); return; }
 }
 
 #pragma region Getters and setters
@@ -177,30 +191,71 @@ ETeam ABasicCharacter::GetTeam()
 	return Team;
 }
 
-AWaypoint* ABasicCharacter::GetCurrentWaypoint()
+AWaypoint* ABasicCharacter::GetAssignedWaypoint()
 {
-	return CurrentWaypoint;
+	return AssignedWaypoint;
 }
 
-void ABasicCharacter::SetCurrentWaypoint( AWaypoint* TheWaypoint )
+void ABasicCharacter::SetAssignedWaypoint( AWaypoint* InWaypoint )
 {
-	CurrentWaypoint = TheWaypoint;
+	AssignedWaypoint = InWaypoint;
 }
 
-FString ABasicCharacter::GetUsername()
+FText ABasicCharacter::GetUsername()
 {
 	return Username;
 }
 #pragma endregion
 
+void ABasicCharacter::ShowInventory()
+{
+	InventoryMenu->ShowInventory();
+}
+
+void ABasicCharacter::PickUpItems()
+{
+	if ( !AssignedWaypoint ) { ensureAlways( false ); return; }
+
+	TArray<AItem*> DroppedItems = AssignedWaypoint->GetDroppedItems();
+	if ( DroppedItems.Num() > 0 )
+	{
+		for ( AItem* Item : DroppedItems )
+		{
+			Inventory->AddItem( Item->GetItemInfo() );
+
+			Item->Destroy();
+		}
+
+		FText Notification = FText::Format( NSLOCTEXT( "CharacterMenu", "PickUpSucceed", "{0} has picked up the items." ), Username );
+		PlayerController->DisplayNotification( Notification );
+	}
+	else
+	{
+		PlayerController->DisplayNotification( NSLOCTEXT( "CharacterMenu", "PickUpFailure", "There's nothing to pick up." ) );
+	}
+}
+
+void ABasicCharacter::SendItems()
+{
+	if ( !Bot ) { ensureAlways( false ); return; }
+
+	Bot->Summon( this );
+}
+
+void ABasicCharacter::Unfocus()
+{
+	ensure( CharacterMenuComponent );
+
+	CharacterMenuComponent->SetVisibility( false );
+
+	PlayerController->SetViewTargetWithBlend( Camera_Overview, 0.5f, EViewTargetBlendFunction::VTBlend_Cubic );
+}
+
 void ABasicCharacter::HandleOnCapsuleClicked( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed )
 {
-	if ( ButtonPressed == EKeys::LeftMouseButton )
-	{
-		GetWorld()->GetFirstPlayerController<ABasicPlayerController>()->ServerSubmitCharacterInteractionRequest( this );
-	}
-	else if ( ButtonPressed == EKeys::RightMouseButton )
-	{
-		InventoryMenu->ShowInventory();
-	}
+	if ( !Camera_Focus ) { ensureAlways( false ); return; }
+
+	PlayerController->SetViewTargetWithBlend( Camera_Focus, 0.5f, EViewTargetBlendFunction::VTBlend_Cubic );
+
+	CharacterMenuComponent->SetVisibility( true );
 }

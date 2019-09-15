@@ -53,9 +53,9 @@ void UInventoryMenu::SetupInventory( UInventory* InInventory )
 	}
 }
 
-void UInventoryMenu::SetupTitle( FString InTitle )
+void UInventoryMenu::SetupTitle( FText InTitle )
 {
-	TextBlock_Title->SetText( FText::FromString( InTitle ) );
+	TextBlock_Title->SetText( InTitle );
 }
 
 void UInventoryMenu::ShowInventory()

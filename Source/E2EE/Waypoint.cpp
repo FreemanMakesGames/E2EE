@@ -43,11 +43,7 @@ void AWaypoint::HandleOnBoxBeginOverlap( UPrimitiveComponent* OverlappedComponen
 	{
 		Occupants.Add( Occupant );
 
-		if ( Cast<ABasicCharacter>( Occupant ) )
-		{
-			Cast<ABasicCharacter>( Occupant )->SetCurrentWaypoint( this );
-		}
-		else if ( Cast<ABot>( Occupant ) )
+		if ( Cast<ABot>( Occupant ) )
 		{
 			Cast<ABot>( Occupant )->SetCurrentWaypoint( this );
 		}
@@ -66,7 +62,7 @@ void AWaypoint::HandleOnBoxEndOverlap( UPrimitiveComponent* OverlappedComponent,
 
 		if ( Cast<ABasicCharacter>( Occupant ) )
 		{
-			Cast<ABasicCharacter>( Occupant )->SetCurrentWaypoint( nullptr );
+			Cast<ABasicCharacter>( Occupant )->SetAssignedWaypoint( nullptr );
 		}
 		else if ( Cast<ABot>( Occupant ) )
 		{
