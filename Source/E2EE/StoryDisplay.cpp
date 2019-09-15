@@ -13,6 +13,7 @@ UStoryDisplay::UStoryDisplay( const FObjectInitializer& ObjectInitializer ) : Su
 void UStoryDisplay::NativeOnInitialized()
 {
 	Button_Next->OnClicked.AddDynamic( this, &UStoryDisplay::HandleOnButtonNextClicked );
+	Button_Previous->OnClicked.AddDynamic( this, &UStoryDisplay::HandleOnButtonPreviousClicked );
 	Button_Proceed->OnClicked.AddDynamic( this, &UStoryDisplay::HandleOnButtonProceedClicked );
 
 	Button_Proceed->SetVisibility( ESlateVisibility::Hidden );
@@ -43,9 +44,21 @@ void UStoryDisplay::HandleOnButtonNextClicked()
 	if ( NextTextToShow <= TextSequence.Num() - 1 )
 	{
 		ShowText( NextTextToShow );
-	}
 
-	NextTextToShow++;
+		NextTextToShow++;
+	}
+}
+
+void UStoryDisplay::HandleOnButtonPreviousClicked()
+{
+	int PreviousTextToShow = NextTextToShow - 2;
+
+	if ( PreviousTextToShow >= 0 )
+	{
+		ShowText( PreviousTextToShow );
+
+		NextTextToShow--;
+	}
 }
 
 void UStoryDisplay::HandleOnButtonProceedClicked()

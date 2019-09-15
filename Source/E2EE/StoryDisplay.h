@@ -37,6 +37,9 @@ protected:
 	UButton* Button_Next;
 
 	UPROPERTY( meta = ( BindWidget ), BlueprintReadOnly )
+	UButton* Button_Previous;
+
+	UPROPERTY( meta = ( BindWidget ), BlueprintReadOnly )
 	UButton* Button_Proceed;
 
 public:
@@ -64,7 +67,12 @@ protected:
 	void HandleOnButtonNextClicked();
 
 	UFUNCTION()
+	void HandleOnButtonPreviousClicked();
+
+	UFUNCTION()
 	void HandleOnButtonProceedClicked();
+
+protected:
 
 	UFUNCTION( BlueprintImplementableEvent )
 	void ShowText( int IndexInSequence );
