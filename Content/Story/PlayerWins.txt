@@ -1,2 +1,10 @@
 Bob receives the message, while Messenger fails to intercept it.
 You win!
+What you just solved, is not only the problem of private communication between the fictional Alice and Bob.
+People in real-life can be benefited just the same!
+In fact, this solution is a backbone concept behind what's called "end-to-end encryption", widely used among our online activities.
+It is there when we visit a website, do online banking, or retrieve a health report.
+The "Messenger", i.e. the Internet Service Providers like Comcast, AT&T, Verizon, can only deliver the messages, but not peek the contents.
+Neither can government agencies, or cyber criminals.
+Isn't it beautiful?
+Thanks for playing this informational game. See you next time!
