@@ -130,6 +130,9 @@ protected:
 	UPROPERTY( VisibleAnywhere, BlueprintReadOnly )
 	UWidgetComponent* CharacterMenuComponent;
 
+	UPROPERTY( BlueprintReadOnly )
+	UCharacterMenu* CharacterMenu;
+
 	UPROPERTY( EditInstanceOnly, BlueprintReadOnly )
 	ACameraActor* Camera_Focus;
 

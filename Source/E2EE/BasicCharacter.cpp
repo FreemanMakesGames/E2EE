@@ -172,10 +172,10 @@ void ABasicCharacter::BeginPlay()
 	// Create CharacterMenu.
 	if ( CharacterMenuClass )
 	{
-		UCharacterMenu* CharacterMenu = CreateWidget<UCharacterMenu>( PlayerController, CharacterMenuClass );
+		CharacterMenu = CreateWidget<UCharacterMenu>( PlayerController, CharacterMenuClass );
 		CharacterMenu->SetOwnerCharacter( this );
 		CharacterMenuComponent->SetWidget( CharacterMenu );
-		CharacterMenuComponent->SetVisibility( false );
+		CharacterMenu->SetVisibility( ESlateVisibility::Hidden );
 	}
 	else { ensureAlways( false ); return; }
 }
@@ -239,14 +239,22 @@ void ABasicCharacter::SendItems()
 {
 	if ( !Bot ) { ensureAlways( false ); return; }
 
-	Bot->Summon( this );
+	if ( AssignedWaypoint->GetDroppedItems().Num() > 0 )
+	{
+		Unfocus();
+
+		Bot->Summon( this );
+	}
+	else
+	{
+		FText Notification = FText::Format( NSLOCTEXT( "BasicCharacter", "SendItemsFailure", "{0} has to drop some items before sending them." ), Username );
+		PlayerController->DisplayNotification( Notification );
+	}
 }
 
 void ABasicCharacter::Unfocus()
 {
-	ensure( CharacterMenuComponent );
-
-	CharacterMenuComponent->SetVisibility( false );
+	CharacterMenu->Hide();
 
 	PlayerController->SetViewTargetWithBlend( Camera_Overview, 0.5f, EViewTargetBlendFunction::VTBlend_Cubic );
 }
@@ -257,5 +265,5 @@ void ABasicCharacter::HandleOnCapsuleClicked( UPrimitiveComponent* TouchedCompon
 
 	PlayerController->SetViewTargetWithBlend( Camera_Focus, 0.5f, EViewTargetBlendFunction::VTBlend_Cubic );
 
-	CharacterMenuComponent->SetVisibility( true );
+	CharacterMenu->Show();
 }

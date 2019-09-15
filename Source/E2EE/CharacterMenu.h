@@ -38,6 +38,14 @@ protected:
 	UPROPERTY( meta = ( BindWidget ) )
 	UButton* Button_Back;
 
+public:
+
+	UFUNCTION( BlueprintImplementableEvent )
+	void Show();
+
+	UFUNCTION( BlueprintImplementableEvent )
+	void Hide();
+
 protected:
 
 	UFUNCTION( BlueprintCallable )
