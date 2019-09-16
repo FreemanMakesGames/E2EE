@@ -12,6 +12,8 @@ UStoryDisplay::UStoryDisplay( const FObjectInitializer& ObjectInitializer ) : Su
 
 void UStoryDisplay::NativeOnInitialized()
 {
+	Super::NativeOnInitialized();
+
 	Button_Next->OnClicked.AddDynamic( this, &UStoryDisplay::HandleOnButtonNextClicked );
 	Button_Previous->OnClicked.AddDynamic( this, &UStoryDisplay::HandleOnButtonPreviousClicked );
 	Button_Proceed->OnClicked.AddDynamic( this, &UStoryDisplay::HandleOnButtonProceedClicked );

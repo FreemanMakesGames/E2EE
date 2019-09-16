@@ -21,6 +21,8 @@ public:
 
 	UStoryDisplay( const FObjectInitializer& ObjectInitializer );
 
+protected:
+
 	virtual void NativeOnInitialized() override;
 
 public:

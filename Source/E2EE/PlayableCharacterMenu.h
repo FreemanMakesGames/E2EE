@@ -2,7 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "CharacterMenu.generated.h"
+#include "PlayableCharacterMenu.generated.h"
 
 class ABasicCharacter;
 
@@ -12,7 +12,7 @@ class UButton;
  * 
  */
 UCLASS()
-class E2EE_API UCharacterMenu : public UUserWidget
+class E2EE_API UPlayableCharacterMenu : public UUserWidget
 {
 	GENERATED_BODY()
 
@@ -48,16 +48,16 @@ public:
 
 protected:
 
-	UFUNCTION( BlueprintCallable )
+	UFUNCTION()
 	void HandleOnButtonViewInventoryClicked();
 
-	UFUNCTION( BlueprintCallable )
+	UFUNCTION()
 	void HandleOnButtonPickUpItemsClicked();
 
-	UFUNCTION( BlueprintCallable )
+	UFUNCTION()
 	void HandleOnButtonSendItemsClicked();
 
-	UFUNCTION( BlueprintCallable )
+	UFUNCTION()
 	void HandleOnButtonBackClicked();
 
 protected:

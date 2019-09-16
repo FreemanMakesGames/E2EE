@@ -16,7 +16,7 @@ class UHighlightComponent;
 class UDropItemComponent;
 class AWaypoint;
 class ABasicPlayerController;
-class UCharacterMenu;
+class UPlayableCharacterMenu;
 
 class UUserWidget;
 class UWidgetComponent;
@@ -105,7 +105,7 @@ protected:
 	TSubclassOf<UPlayerInventoryMenu> InventoryMenuClass;
 
 	UPROPERTY( EditDefaultsOnly )
-	TSubclassOf<UCharacterMenu> CharacterMenuClass;
+	TSubclassOf<UPlayableCharacterMenu> PlayableCharacterMenuClass;
 
 	UPROPERTY( EditInstanceOnly )
 	AWaypoint* AssignedWaypoint;
@@ -128,10 +128,10 @@ protected:
 	UPlayerInventoryMenu* InventoryMenu;
 
 	UPROPERTY( VisibleAnywhere, BlueprintReadOnly )
-	UWidgetComponent* CharacterMenuComponent;
+	UWidgetComponent* PlayableCharacterMenuComponent;
 
 	UPROPERTY( BlueprintReadOnly )
-	UCharacterMenu* CharacterMenu;
+	UPlayableCharacterMenu* PlayableCharacterMenu;
 
 	UPROPERTY( EditInstanceOnly, BlueprintReadOnly )
 	ACameraActor* Camera_Focus;

@@ -12,6 +12,8 @@ UItemMenu::UItemMenu( const FObjectInitializer& ObjectInitializer ) : Super( Obj
 
 void UItemMenu::NativeOnInitialized()
 {
+	Super::NativeOnInitialized();
+
 	// Bind UButton events.
 	Button_Destroy->OnClicked.AddDynamic( this, &UItemMenu::HandleOnButtonDestroyClicked );
 	Button_Drop->OnClicked.AddDynamic( this, &UItemMenu::HandleOnButtonDropClicked );

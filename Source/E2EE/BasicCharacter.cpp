@@ -9,7 +9,7 @@
 #include "Item.h"
 #include "HighlightComponent.h"
 #include "Waypoint.h"
-#include "CharacterMenu.h"
+#include "PlayableCharacterMenu.h"
 #include "Bot.h"
 #include "DevUtilities.h"
 
@@ -55,8 +55,8 @@ ABasicCharacter::ABasicCharacter()
 
 	Inventory = CreateDefaultSubobject<UInventory>( TEXT( "Inventory" ) );
 
-	CharacterMenuComponent = CreateDefaultSubobject<UWidgetComponent>( TEXT( "Character Menu Component" ) );
-	CharacterMenuComponent->SetupAttachment( RootComponent );
+	PlayableCharacterMenuComponent = CreateDefaultSubobject<UWidgetComponent>( TEXT( "Playable Character Menu Component" ) );
+	PlayableCharacterMenuComponent->SetupAttachment( RootComponent );
 }
 
 #pragma region Unreal Engine default input setup
@@ -170,12 +170,12 @@ void ABasicCharacter::BeginPlay()
 	else { ensureAlways( false ); return; }
 
 	// Create CharacterMenu.
-	if ( CharacterMenuClass )
+	if ( PlayableCharacterMenuClass )
 	{
-		CharacterMenu = CreateWidget<UCharacterMenu>( PlayerController, CharacterMenuClass );
-		CharacterMenu->SetOwnerCharacter( this );
-		CharacterMenuComponent->SetWidget( CharacterMenu );
-		CharacterMenu->SetVisibility( ESlateVisibility::Hidden );
+		PlayableCharacterMenu = CreateWidget<UPlayableCharacterMenu>( PlayerController, PlayableCharacterMenuClass );
+		PlayableCharacterMenu->SetOwnerCharacter( this );
+		PlayableCharacterMenuComponent->SetWidget( PlayableCharacterMenu );
+		PlayableCharacterMenu->SetVisibility( ESlateVisibility::Hidden );
 	}
 	else { ensureAlways( false ); return; }
 }
@@ -226,12 +226,12 @@ void ABasicCharacter::PickUpItems()
 			Item->Destroy();
 		}
 
-		FText Notification = FText::Format( NSLOCTEXT( "CharacterMenu", "PickUpSucceed", "{0} has picked up the items." ), Username );
+		FText Notification = FText::Format( NSLOCTEXT( "BasicCharacter", "PickUpSucceed", "{0} has picked up the items." ), Username );
 		PlayerController->DisplayNotification( Notification );
 	}
 	else
 	{
-		PlayerController->DisplayNotification( NSLOCTEXT( "CharacterMenu", "PickUpFailure", "There's nothing to pick up." ) );
+		PlayerController->DisplayNotification( NSLOCTEXT( "BasicCharacter", "PickUpFailure", "There's nothing to pick up." ) );
 	}
 }
 
@@ -254,7 +254,7 @@ void ABasicCharacter::SendItems()
 
 void ABasicCharacter::Unfocus()
 {
-	CharacterMenu->Hide();
+	PlayableCharacterMenu->Hide();
 
 	PlayerController->SetViewTargetWithBlend( Camera_Overview, 0.5f, EViewTargetBlendFunction::VTBlend_Cubic );
 }
@@ -265,5 +265,5 @@ void ABasicCharacter::HandleOnCapsuleClicked( UPrimitiveComponent* TouchedCompon
 
 	PlayerController->SetViewTargetWithBlend( Camera_Focus, 0.5f, EViewTargetBlendFunction::VTBlend_Cubic );
 
-	CharacterMenu->Show();
+	PlayableCharacterMenu->Show();
 }
