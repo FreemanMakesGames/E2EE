@@ -8,6 +8,8 @@ void UHighlightComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
+	// FIXME: This setup seems to be unnecessary.
+
 	if ( !TargetPrimitiveComponent )
 	{
 		TargetPrimitiveComponent = GetOwner()->FindComponentByClass<UPrimitiveComponent>();

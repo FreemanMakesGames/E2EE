@@ -20,18 +20,20 @@ void UPickupComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	OwnerItem = Cast<AItem>( GetOwner() );
-	if ( !OwnerItem )
-	{
-		UDevUtilities::PrintError( TEXT( "PickupComponent is added to a non-Item!" ) );
-		return;
-	}
+	// Pickup is disabled in this game.
 
-	UPrimitiveComponent* OwnerPrimitiveComponent = GetOwner()->FindComponentByClass<UPrimitiveComponent>();
-	if ( OwnerPrimitiveComponent )
-	{
-		OwnerPrimitiveComponent->OnClicked.AddDynamic( this, &UPickupComponent::ServerPickUp );
-	}
+// 	OwnerItem = Cast<AItem>( GetOwner() );
+// 	if ( !OwnerItem )
+// 	{
+// 		UDevUtilities::PrintError( TEXT( "PickupComponent is added to a non-Item!" ) );
+// 		return;
+// 	}
+// 
+// 	UPrimitiveComponent* OwnerPrimitiveComponent = GetOwner()->FindComponentByClass<UPrimitiveComponent>();
+// 	if ( OwnerPrimitiveComponent )
+// 	{
+// 		OwnerPrimitiveComponent->OnClicked.AddDynamic( this, &UPickupComponent::ServerPickUp );
+// 	}
 }
 
 void UPickupComponent::ServerPickUp_Implementation( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed )
