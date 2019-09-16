@@ -28,10 +28,11 @@ void UPlayerInventoryMenu::HandleOnItemClickerClicked( UItemClicker* ClickedItem
 
 	if ( bIsCombining )
 	{
+		Cast<ABasicPlayerController>( GetWorld()->GetFirstPlayerController() )->HideNotification( true );
+
 		TArray<UItemInfo*> CombiningItems;
 		CombiningItems.Add( FirstItemForCombination );
 		CombiningItems.Add( TargetItem );
-
 		Inventory->CombineItems( CombiningItems );
 
 		bIsCombining = false;
@@ -90,7 +91,7 @@ void UPlayerInventoryMenu::HandleOnItemMenuButtonForCombinationClicked( UItemInf
 {
 	bIsCombining = true;
 
-	Cast<ABasicPlayerController>( GetWorld()->GetFirstPlayerController() )->DisplayNotification( NSLOCTEXT( "PlayerInventoryMenu", "CombiningItem", "Select a secondary item." ) );
+	Cast<ABasicPlayerController>( GetWorld()->GetFirstPlayerController() )->DisplayNotification( NSLOCTEXT( "PlayerInventoryMenu", "CombiningItem", "Select a secondary item." ), true );
 }
 #pragma endregion
 

@@ -4,6 +4,7 @@
 #include "BasicCharacter.h"
 #include "InventoryMenu.h"
 #include "Inventory.h"
+#include "Notification.h"
 #include "DevUtilities.h"
 
 #include "Engine/World.h"
@@ -32,6 +33,11 @@ void ABasicPlayerController::BeginPlay()
 	bShowMouseCursor = true;
 	bEnableClickEvents = true;
 	bEnableMouseOverEvents = true;
+
+	// Create notification widget.
+	if ( !NotificationClass ) { ensureAlways( false ); return; }
+	Notification = CreateWidget<UNotification>( this, NotificationClass );
+	Notification->AddToViewport();
 }
 
 ABasicCharacter* ABasicPlayerController::GetActiveCharacter() 
@@ -111,4 +117,14 @@ void ABasicPlayerController::ClientReceiveCharacterInteractionResult_Implementat
 	{
 
 	}
+}
+
+void ABasicPlayerController::DisplayNotification( const FText& NotificationText, bool StayInView )
+{
+	Notification->DisplayNotification( NotificationText, StayInView );
+}
+
+void ABasicPlayerController::HideNotification( bool SuddenHide )
+{
+	Notification->HideNotification( SuddenHide );
 }

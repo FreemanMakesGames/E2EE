@@ -9,6 +9,7 @@
 class ABasicCharacter;
 class UInventoryMenu;
 class UInventory;
+class UNotification;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnTeamSelectionResultReceived, bool, bSuccessful );
 
@@ -39,8 +40,12 @@ public:
 
 protected:
 
-	UPROPERTY( VisibleAnywhere, BlueprintReadOnly )
-	ABasicCharacter* ActiveCharacter;
+	UPROPERTY( EditDefaultsOnly )
+	TSubclassOf<UNotification> NotificationClass;
+
+protected:
+
+	UNotification* Notification;
 
 public:
 
@@ -56,7 +61,15 @@ public:
 	UFUNCTION( Client, Reliable )
 	void ClientReceiveCharacterInteractionResult( bool bSuccessful, ABasicCharacter* TargetCharacter );
 
-	UFUNCTION( BlueprintImplementableEvent, BlueprintCallable )
-	void DisplayNotification( const FText& NotificationText );
+	UFUNCTION( BlueprintCallable )
+	void DisplayNotification( const FText& NotificationText, bool StayInView = false );
+
+	UFUNCTION( BlueprintCallable )
+	void HideNotification( bool SuddenHide = false );
+
+protected:
+
+	UPROPERTY( VisibleAnywhere, BlueprintReadOnly )
+	ABasicCharacter* ActiveCharacter;
 
 };
