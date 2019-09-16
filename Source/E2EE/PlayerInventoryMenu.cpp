@@ -3,6 +3,7 @@
 #include "Inventory.h"
 #include "ItemClicker.h"
 #include "ItemMenu.h"
+#include "BasicPlayerController.h"
 
 #include "Components/TextBlock.h"
 
@@ -88,6 +89,8 @@ void UPlayerInventoryMenu::HandleOnItemMenuButtonReadClicked( UItemInfo* TargetI
 void UPlayerInventoryMenu::HandleOnItemMenuButtonForCombinationClicked( UItemInfo* TargetItem )
 {
 	bIsCombining = true;
+
+	Cast<ABasicPlayerController>( GetWorld()->GetFirstPlayerController() )->DisplayNotification( NSLOCTEXT( "PlayerInventoryMenu", "CombiningItem", "Select a secondary item." ) );
 }
 #pragma endregion
 
