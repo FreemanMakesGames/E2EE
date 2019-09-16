@@ -77,14 +77,7 @@ void ABot::SetCurrentWaypoint( AWaypoint* TheWaypoint )
 #pragma region Capsule event handlers
 void ABot::OnCapsuleClicked( UPrimitiveComponent* TouchedComponent, FKey ButtonPressed )
 {
-	if ( ButtonPressed == EKeys::LeftMouseButton )
-	{
-		
-	}
-	else if ( ButtonPressed == EKeys::RightMouseButton )
-	{
-		InventoryMenu->ShowInventory();
-	}
+	InventoryMenu->ShowInventory();
 }
 
 void ABot::HandleOnCapsuleBeginOverlap( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult )
