@@ -1,10 +1,13 @@
 Bob receives the message, while Messenger fails to intercept it.
 You win!
-What you just solved, is not only the problem of private communication between the fictional Alice and Bob.
-People in real-life can be benefited just the same!
-The solution of sharing the lock in public, while keeping the key in private, is a backbone concept behind what's called "end-to-end encryption", widely used among our online activities.
-It is there when we visit a website, do online banking, or retrieve a health report.
-The "Messenger", i.e. the Internet Service Providers like Comcast, AT&T, Verizon, can only deliver the messages, but not peek the contents.
-Neither can government agencies, or cyber criminals.
-Isn't it beautiful?
-Thanks for playing this informational game. See you next time!
+This game comes from the idea of what's called "asymmetric encryption", which is widely used for secure communication online.
+In asymmetric encryption, everyone has a pair of "public key" ( the in-game lock ), and "private key" ( the in-game key ).
+A user shares her public key online, so anyone can encrypt ( lock ) a message with her public key, and send her the encrypted messaege.
+Having received the encrypted message, the user can then decrypt ( unlock ) it with her private key.
+However, the catch here is that, in real world, a user's private key is never shared with anyone.
+Giving other people access to one's private key is a catastrophe.
+But for this game, it can be beaten in a way where Alice sends Bob her private key ( key 'A' ), in a container locked by Bob's public key ( lock 'B' ).
+It isn't discovered until the project is almost finished.
+So... This game is really a flawed educational/informational game.
+I still hope it's worth your time!
+Thanks for playing, and see you in my next ( likely flawed ) project!

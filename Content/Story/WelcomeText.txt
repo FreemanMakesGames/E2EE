@@ -7,6 +7,6 @@ He has access to everyone's private conversations!
 Alice and Bob think it's time to end Messenger's eavesdropping.
 Can you help them communicate in a private and secure manner?
 The tools you have are: Lock, Key, and Container.
-Right-click for inventories, left-click for interactions.
-Esc for pause menu.
+Click on characters to interact with them.
+You can always press ESC for pause menu, if you are stuck.
 That's all you need to know. Good luck!
