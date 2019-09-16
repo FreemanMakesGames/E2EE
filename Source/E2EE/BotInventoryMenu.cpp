@@ -99,6 +99,13 @@ void UBotInventoryMenu::ContainerUnlockHighlight( UKeyItemInfo* KeyItem, UContai
 	else { ensureAlways( false ); }
 }
 
+void UBotInventoryMenu::HideInventory()
+{
+	ClearDescription();
+
+	RemoveFromParent();
+}
+
 void UBotInventoryMenu::HandleOnItemClickerClicked( UItemClicker* ClickedItemClicker )
 {
 	Super::HandleOnItemClickerClicked( ClickedItemClicker );

@@ -5,6 +5,7 @@
 #include "ItemMenu.h"
 #include "BasicPlayerController.h"
 
+#include "Components/Button.h"
 #include "Components/TextBlock.h"
 
 void UPlayerInventoryMenu::NativeOnInitialized()
@@ -18,6 +19,23 @@ void UPlayerInventoryMenu::NativeOnInitialized()
 	ItemMenu->OnButtonOpenClicked.AddDynamic( this, &UPlayerInventoryMenu::HandleOnItemMenuButtonOpenClicked );
 	ItemMenu->OnButtonReadClicked.AddDynamic( this, &UPlayerInventoryMenu::HandleOnItemMenuButtonReadClicked );
 	ItemMenu->OnButtonForCombinationClicked.AddDynamic( this, &UPlayerInventoryMenu::HandleOnItemMenuButtonForCombinationClicked );
+
+	Button_Close->OnClicked.AddDynamic( this, &UPlayerInventoryMenu::HandleOnButtonCloseClicked );
+
+	PlayerController = Cast<ABasicPlayerController>( GetWorld()->GetFirstPlayerController() );
+}
+
+void UPlayerInventoryMenu::HideInventory()
+{
+	bIsCombining = false;
+
+	ClearDescription();
+
+	ItemMenu->Reset();
+
+	PlayerController->HideNotification( true );
+
+	RemoveFromParent();
 }
 
 void UPlayerInventoryMenu::HandleOnItemClickerClicked( UItemClicker* ClickedItemClicker )
@@ -28,7 +46,7 @@ void UPlayerInventoryMenu::HandleOnItemClickerClicked( UItemClicker* ClickedItem
 
 	if ( bIsCombining )
 	{
-		Cast<ABasicPlayerController>( GetWorld()->GetFirstPlayerController() )->HideNotification( true );
+		PlayerController->HideNotification( true );
 
 		TArray<UItemInfo*> CombiningItems;
 		CombiningItems.Add( FirstItemForCombination );
@@ -91,13 +109,18 @@ void UPlayerInventoryMenu::HandleOnItemMenuButtonForCombinationClicked( UItemInf
 {
 	bIsCombining = true;
 
-	Cast<ABasicPlayerController>( GetWorld()->GetFirstPlayerController() )->DisplayNotification( NSLOCTEXT( "PlayerInventoryMenu", "CombiningItem", "Select a secondary item." ), true );
+	PlayerController->DisplayNotification( NSLOCTEXT( "PlayerInventoryMenu", "CombiningItem", "Select a secondary item." ), true );
 }
 #pragma endregion
+
+void UPlayerInventoryMenu::HandleOnButtonCloseClicked()
+{
+	HideInventory();
+}
 
 void UPlayerInventoryMenu::ToggleInput( bool Enabled )
 {
 	Super::ToggleInput( Enabled );
 
-	Button_HideInventoryMenu->SetIsEnabled( Enabled );
+	Button_Close->SetIsEnabled( Enabled );
 }

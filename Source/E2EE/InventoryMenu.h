@@ -34,9 +34,6 @@ protected:
 	TSubclassOf<UItemClicker> ItemClickerClass;
 
 	UPROPERTY( meta = ( BindWidget ) )
-	UItemMenu* ItemMenu;
-
-	UPROPERTY( meta = ( BindWidget ) )
 	UWrapBox* WrapBox_ItemClickers;
 
 	UPROPERTY( meta = ( BindWidget ) )
@@ -44,9 +41,6 @@ protected:
 
 	UPROPERTY( meta = ( BindWidget ) )
 	UTextBlock* TextBlock_Description;
-
-	UPROPERTY( meta = ( BindWidget ) )
-	UButton* Button_HideInventoryMenu;
 
 	UPROPERTY( meta = (BindWidget) )
 	UImage* Image_BlockInput;
@@ -65,8 +59,8 @@ public:
 	UFUNCTION( BlueprintCallable )
 	void ShowInventory();
 
-	UFUNCTION( BlueprintCallable )
-	void HideInventory();
+	UFUNCTION()
+	virtual void HideInventory() PURE_VIRTUAL( , );
 
 public:
 
@@ -106,12 +100,6 @@ protected:
 
 	UPROPERTY( BlueprintReadOnly )
 	TMap<UItemInfo*, UItemClicker*> ItemToItemClicker;
-
-	UPROPERTY( VisibleAnywhere )
-	UItemInfo* FirstItemForCombination;
-
-	UPROPERTY( BlueprintReadOnly, VisibleAnywhere )
-	bool bIsCombining;
 
 	UPROPERTY( BlueprintReadOnly, VisibleAnywhere )
 	UItemClicker* LastClickedClicker;

@@ -22,8 +22,6 @@ void UInventoryMenu::NativeOnInitialized()
 		UDevUtilities::PrintError( "InventoryMenu's ItemClickerClass isn't assigned!" );
 		return;
 	}
-
-	Button_HideInventoryMenu->OnClicked.AddDynamic( this, &UInventoryMenu::HandleOnButtonHideInventoryMenuClicked );
 }
 
 /**
@@ -67,17 +65,6 @@ void UInventoryMenu::ShowInventory()
 		ItemClicker->HighlightForItemAddition();
 	}
 	ClickersPendingForHighlightForAddition.Empty();
-}
-
-void UInventoryMenu::HideInventory()
-{
-	bIsCombining = false;
-
-	ClearDescription();
-
-	ItemMenu->Reset();
-
-	RemoveFromParent();
 }
 
 /**

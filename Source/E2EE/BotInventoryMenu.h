@@ -53,13 +53,17 @@ public:
 	UPROPERTY( BlueprintAssignable )
 	FOnContainerUnlockHighlightCompleted OnContainerUnlockHighlightCompleted;
 
-	UPROPERTY( BlueprintAssignable )
-	FOnProceed OnProceed;
+	virtual void HideInventory() override;
 
 protected:
 
 	UPROPERTY( meta = ( BindWidget ) )
 	UButton* Button_Proceed;
+
+public:
+
+	UPROPERTY( BlueprintAssignable )
+	FOnProceed OnProceed;
 
 protected:
 

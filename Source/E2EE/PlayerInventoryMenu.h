@@ -4,6 +4,11 @@
 #include "InventoryMenu.h"
 #include "PlayerInventoryMenu.generated.h"
 
+class ABasicPlayerController;
+class UItemClicker;
+
+class UButton;
+
 /**
  * 
  */
@@ -15,6 +20,18 @@ class E2EE_API UPlayerInventoryMenu : public UInventoryMenu
 protected:
 
 	virtual void NativeOnInitialized() override;
+
+protected:
+
+	UPROPERTY( meta = (BindWidget) )
+	UItemMenu* ItemMenu;
+
+	UPROPERTY( meta = ( BindWidget ) )
+	UButton* Button_Close;
+
+public:
+
+	virtual void HideInventory() override;
 
 protected:
 
@@ -39,7 +56,20 @@ protected:
 	UFUNCTION()
 	void HandleOnItemMenuButtonForCombinationClicked( UItemInfo* TargetItem );
 #pragma endregion
-	
+
+	UFUNCTION()
+	void HandleOnButtonCloseClicked();
+
+protected:
+
 	virtual void ToggleInput( bool Enabled ) override;
+
+protected:
+
+	ABasicPlayerController* PlayerController;
+
+	bool bIsCombining;
+
+	UItemInfo* FirstItemForCombination;
 
 };
